@@ -500,6 +500,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
             alertConfig.color === 'orange' ? 'border-orange-400' :
             alertConfig.color === 'yellow' ? 'border-yellow-400' :
             alertConfig.color === 'blue' ? 'border-blue-400' :
+            alertConfig.color === 'purple' ? 'border-purple-400' :
             'border-green-400'}
         `}>
           
