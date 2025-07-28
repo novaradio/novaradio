@@ -777,7 +777,7 @@ async def get_ai_modules_overview(current_user: User = Depends(get_current_user)
 async def obtener_resumen_estadistico(current_user: dict = Depends(get_current_user)):
     """Obtiene resumen estadístico de actividad en redes sociales"""
     try:
-        estadisticas = centro_estadistico.obtener_estadisticas_completas()
+        estadisticas = await centro_estadistico.obtener_estadisticas_completas()
         return {
             "success": True,
             "data": estadisticas["estadisticas_generales"],
@@ -791,7 +791,7 @@ async def obtener_resumen_estadistico(current_user: dict = Depends(get_current_u
 async def obtener_estadisticas_completas(current_user: dict = Depends(get_current_user)):
     """Obtiene todas las estadísticas del centro estadístico"""
     try:
-        estadisticas = centro_estadistico.obtener_estadisticas_completas()
+        estadisticas = await centro_estadistico.obtener_estadisticas_completas()
         return {
             "success": True,
             "data": estadisticas,
@@ -805,7 +805,7 @@ async def obtener_estadisticas_completas(current_user: dict = Depends(get_curren
 async def obtener_estadisticas_redes(current_user: dict = Depends(get_current_user)):
     """Obtiene estadísticas específicas por red social"""
     try:
-        estadisticas_redes = centro_estadistico.generar_estadisticas_por_red()
+        estadisticas_redes = await centro_estadistico.generar_estadisticas_por_red()
         return {
             "success": True,
             "data": estadisticas_redes,
