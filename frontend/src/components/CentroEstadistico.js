@@ -261,7 +261,15 @@ const CentroEstadistico = () => {
             {estadisticas.estadisticas_por_red.map((red, index) => (
               <div key={index} className="dami-card">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-white">{red.red_social}</h3>
+                  <div className="flex items-center space-x-3">
+                    <h3 className="text-xl font-semibold text-white">{red.red_social}</h3>
+                    {red.datos_reales && (
+                      <div className="flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-green-400 text-xs font-semibold">DATOS REALES</span>
+                      </div>
+                    )}
+                  </div>
                   <div className={`px-3 py-1 rounded text-sm ${
                     red.tendencia === 'creciente' ? 'bg-green-600' :
                     red.tendencia === 'decreciente' ? 'bg-red-600' : 'bg-gray-600'
@@ -305,6 +313,11 @@ const CentroEstadistico = () => {
                   <div className="mb-2">
                     <strong>Audiencia:</strong> {red.audiencia_principal}
                   </div>
+                  {red.ultima_actualizacion && (
+                    <div className="mb-2 text-xs">
+                      <strong>Actualizado:</strong> {new Date(red.ultima_actualizacion).toLocaleString('es-AR')}
+                    </div>
+                  )}
                   <div>
                     <strong>Hashtags trending:</strong>
                     <div className="flex flex-wrap gap-1 mt-1">
@@ -316,6 +329,12 @@ const CentroEstadistico = () => {
                     </div>
                   </div>
                 </div>
+                
+                {!red.datos_reales && (
+                  <div className="mt-3 p-2 bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded text-xs text-yellow-400">
+                    ⚠️ Datos simulados - API no disponible aún
+                  </div>
+                )}
               </div>
             ))}
           </div>
