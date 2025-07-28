@@ -24,7 +24,7 @@ const SystemInfo = () => {
           <h1 className="text-3xl font-bold text-white">🧠 Sistema DAMI - Arquitectura Completa</h1>
         </div>
         <p className="text-gray-400">
-          Centro de Inteligencia Política Digital - Documentación del Sistema
+          Centro de Monitoreo Inteligente DAMI - Documentación del Sistema
         </p>
       </div>
 
