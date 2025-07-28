@@ -92,15 +92,42 @@ const DAMIBOT = ({ user, realTimeData }) => {
   }, [realTimeData]);
 
   useEffect(() => {
-    // Generar alertas contextuales aleatorias (simulación)
+    // Generar alertas contextuales inteligentes
     const contextualTimeout = setInterval(() => {
-      if (Math.random() > 0.7) { // 30% probabilidad cada 60 segundos
-        generateContextualAlert();
+      // Generar alertas basadas en contexto y tiempo
+      const contextualAlerts = DAMIBOTTriggers.generateContextualAlerts({
+        currentTime: new Date(),
+        userActivity: 'active'
+      }, user);
+      
+      if (contextualAlerts.length > 0 && Math.random() > 0.6) { // 40% probabilidad
+        const selectedAlert = contextualAlerts[Math.floor(Math.random() * contextualAlerts.length)];
+        showContextualAlert(selectedAlert);
       }
-    }, 60000);
+      
+      // Alertas automáticas por horario
+      const now = new Date();
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      
+      // Briefing matutino (8:00 AM)
+      if (hour === 8 && minute === 0) {
+        showMorningBriefing();
+      }
+      
+      // Resumen vespertino (6:00 PM)
+      if (hour === 18 && minute === 0) {
+        showEveningSummary();
+      }
+      
+      // Alerta de monitoreo nocturno (10:00 PM)
+      if (hour === 22 && minute === 0) {
+        showNightMonitoringAlert();
+      }
+    }, 60000); // Cada minuto
 
     return () => clearInterval(contextualTimeout);
-  }, []);
+  }, [user]);
 
   const showWelcomeAlert = () => {
     const welcomeAlert = {
