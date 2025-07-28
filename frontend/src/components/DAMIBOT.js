@@ -77,12 +77,17 @@ const DAMIBOT = ({ user, realTimeData }) => {
   }, [user]);
 
   useEffect(() => {
-    // Monitorear datos en tiempo real
+    // Análisis inteligente de datos en tiempo real
     if (realTimeData && realTimeData.posts.length > 0) {
-      const latestPost = realTimeData.posts[0];
-      if (latestPost.alert_level === 'critical' || latestPost.alert_level === 'high') {
-        showSocialActivityAlert(latestPost);
-      }
+      const triggers = DAMIBOTTriggers.shouldTriggerAlert({ 
+        newPosts: realTimeData.posts.slice(0, 3) // Últimos 3 posts
+      }, user);
+      
+      triggers.forEach(trigger => {
+        if (trigger.type === 'CRITICAL_SOCIAL_POST' || trigger.type === 'HIGH_SOCIAL_ACTIVITY') {
+          showIntelligentAlert(trigger);
+        }
+      });
     }
   }, [realTimeData]);
 
