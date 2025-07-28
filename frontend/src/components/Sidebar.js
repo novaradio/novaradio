@@ -31,6 +31,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'Situación actual y acciones'
     },
     { 
+      id: 'mapa-territorial', 
+      label: 'Mapa Territorial', 
+      icon: MapPin, 
+      path: '/dashboard/mapa-territorial',
+      description: '78 municipios en tiempo real'
+    },
+    { 
       id: 'dashboard', 
       label: 'Dashboard', 
       icon: LayoutDashboard, 
