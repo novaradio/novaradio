@@ -245,7 +245,7 @@ class CentroEstadisticoBackend:
         return sorted(analisis, key=lambda x: x["menciones"], reverse=True)
 
     def generar_tendencias_temporales(self) -> Dict[str, List[Dict[str, Any]]]:
-        """Genera datos de tendencias en los últimos 7 días"""
+        """Genera datos de tendencias en los últimos 7 días (MANTENER MÉTODO EXISTENTE)"""
         fechas = [(datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(6, -1, -1)]
         
         tendencias = {
