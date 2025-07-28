@@ -342,7 +342,7 @@ class CentroEstadisticoBackend:
         return random.choice(["Bajo", "Medio", "Alto"])
 
     def _generar_hashtags_trending(self) -> List[str]:
-        """Genera hashtags trending relacionados"""
+        """Genera hashtags trending relacionados (MANTENER MÉTODO EXISTENTE)"""
         hashtags_base = [
             "#FrenteRenovador", "#ConcordiaSocial", "#MisionesAvanza",
             "#DesarrolloSocial", "#CambioPositivo", "#UnidosPorMisiones",
