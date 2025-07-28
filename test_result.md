@@ -189,6 +189,18 @@ backend:
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY: Instagram Basic API integration fully functional. All 4 Instagram-specific tests passed (16/16 total tests passed). Key findings: 1) Instagram data properly integrated in Centro Estadístico resumen with 45 posts contributing to 872 total mentions. 2) Instagram appears correctly in social networks breakdown with 73.3% positive sentiment and 18-34 años demographic. 3) Three-platform weighted engagement calculation working (Twitter: 25%, Facebook: 35%, Instagram: 40%) with metadata showing all integrations active. 4) Instagram visual content metrics validated with typical high positive sentiment for visual platform. Backend shows real Instagram data integration alongside Twitter and Facebook APIs."
 
+  - task: "Mapa de Misiones - Real-time Integration with 3 APIs"
+    implemented: true
+    working: false
+    file: "frontend/src/components/MapaMisiones.js, backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "✅ IMPLEMENTED: Mapa de Misiones updated with real-time data integration. Created /api/mapa-territorial/actividad endpoint that aggregates Twitter, Facebook, and Instagram data. Updated MapaMisiones.js to fetch real social media data instead of simulated data. Added weighted sentiment analysis (Instagram: 40%, Facebook: 35%, Twitter: 25%) and territorial activity determination based on real engagement metrics. Frontend updated with fallback mechanisms and comprehensive error handling."
+
 frontend:
   - task: "Create AI modules frontend interfaces"
     implemented: true
