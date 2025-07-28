@@ -28,6 +28,8 @@ from ai_modules.autonomous_agent_light import dami_autonomous_agent
 from ai_modules.predictive_analysis_light import advanced_predictive_analytics
 from ai_modules.emotional_intelligence_light import emotional_intelligence_system
 from ai_modules.centro_comando_backend import situacion_analyzer, monitoreo_tiempo_real
+from ai_modules.centro_estadistico_backend import centro_estadistico
+from ai_modules.informe_diario_backend import informe_diario
 
 # Load environment variables
 load_dotenv()
