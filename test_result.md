@@ -288,7 +288,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Mapa de Misiones territorial activity endpoint testing completed successfully"
+    - "Mapa de Misiones - Real-time Integration with 3 APIs"
+    - "Implement WebSockets for real-time updates"
+    - "Develop Push Notifications system"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
