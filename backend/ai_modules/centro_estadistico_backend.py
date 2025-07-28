@@ -90,12 +90,15 @@ class CentroEstadisticoBackend:
         }
 
     async def generar_estadisticas_por_red(self) -> List[Dict[str, Any]]:
-        """Genera estadísticas detalladas por red social (TWITTER CON DATOS REALES)"""
+        """Genera estadísticas detalladas por red social (TWITTER Y FACEBOOK CON DATOS REALES)"""
         estadisticas = []
         
-        # Get real Twitter data
+        # Get real data from both platforms
         twitter_data = await self._get_twitter_data()
         twitter_summary = twitter_data.get('summary', {})
+        
+        facebook_data = await self._get_facebook_data()
+        facebook_summary = facebook_data.get('summary', {})
         
         for red in self.redes_sociales:
             if red == "Twitter/X":
@@ -121,6 +124,31 @@ class CentroEstadisticoBackend:
                     "datos_reales": True,
                     "ultima_actualizacion": twitter_summary.get('timestamp', datetime.now().isoformat())
                 })
+            
+            elif red == "Facebook":
+                # Use REAL Facebook data
+                menciones_total = facebook_summary.get('total_posts', 0)
+                positivas = facebook_summary.get('positive_posts', 0)
+                negativas = facebook_summary.get('negative_posts', 0)
+                neutrales = facebook_summary.get('neutral_posts', 0)
+                engagement_rate = facebook_summary.get('engagement_rate', 0)
+                
+                estadisticas.append({
+                    "red_social": red,
+                    "menciones_total": menciones_total,
+                    "menciones_positivas": positivas,
+                    "menciones_negativas": negativas,
+                    "menciones_neutrales": neutrales,
+                    "porcentaje_positivo": round((positivas / menciones_total) * 100, 1) if menciones_total > 0 else 0,
+                    "porcentaje_negativo": round((negativas / menciones_total) * 100, 1) if menciones_total > 0 else 0,
+                    "tendencia": self._calcular_tendencia_facebook(facebook_summary),
+                    "hashtags_trending": self._generar_hashtags_facebook(),
+                    "horario_pico": "19:00-21:00",  # Facebook typical peak hours
+                    "audiencia_principal": "30-50 años",  # Facebook demographic
+                    "datos_reales": True,
+                    "ultima_actualizacion": facebook_summary.get('timestamp', datetime.now().isoformat())
+                })
+            
             else:
                 # Simulated data for other platforms (until we integrate their APIs)
                 menciones_total = random.randint(80, 600)
