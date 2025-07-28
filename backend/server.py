@@ -554,7 +554,7 @@ async def websocket_endpoint(websocket: WebSocket):
 @api_router.post("/ai/deepfake-detection")
 async def analyze_deepfake_content(
     request: dict,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user)
 ):
     """Analizar contenido para detectar deepfakes y desinformación"""
     try:
@@ -571,7 +571,7 @@ async def analyze_deepfake_content(
         
         return {
             "analysis_result": result,
-            "user": current_user["username"],
+            "user": current_user.username,
             "timestamp": datetime.utcnow().isoformat()
         }
         
@@ -580,7 +580,7 @@ async def analyze_deepfake_content(
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/ai/deepfake-detection/stats")
-async def get_deepfake_stats(current_user: dict = Depends(get_current_user)):
+async def get_deepfake_stats(current_user: User = Depends(get_current_user)):
     """Obtener estadísticas de verificación de contenido"""
     try:
         stats = await content_verification_service.get_verification_stats()
@@ -590,11 +590,11 @@ async def get_deepfake_stats(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/ai/autonomous-agent/start")
-async def start_autonomous_agent(current_user: dict = Depends(get_current_user)):
+async def start_autonomous_agent(current_user: User = Depends(get_current_user)):
     """Iniciar el agente autónomo DAMI-GPT"""
     try:
         # Solo administradores pueden iniciar el agente autónomo
-        if current_user["role"] != "Administrator":
+        if current_user.role != UserRole.ADMINISTRATOR:
             raise HTTPException(status_code=403, detail="Solo administradores pueden iniciar el agente autónomo")
         
         result = await dami_autonomous_agent.start_autonomous_monitoring()
@@ -607,7 +607,7 @@ async def start_autonomous_agent(current_user: dict = Depends(get_current_user))
 @api_router.post("/ai/autonomous-agent/analyze")
 async def analyze_situation_autonomous(
     request: dict,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user)
 ):
     """Analizar situación con el agente autónomo"""
     try:
@@ -633,7 +633,7 @@ async def analyze_situation_autonomous(
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/ai/autonomous-agent/status")
-async def get_autonomous_agent_status(current_user: dict = Depends(get_current_user)):
+async def get_autonomous_agent_status(current_user: User = Depends(get_current_user)):
     """Obtener estado del agente autónomo"""
     try:
         status = dami_autonomous_agent.get_agent_status()
@@ -643,10 +643,10 @@ async def get_autonomous_agent_status(current_user: dict = Depends(get_current_u
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/ai/autonomous-agent/stop")
-async def stop_autonomous_agent(current_user: dict = Depends(get_current_user)):
+async def stop_autonomous_agent(current_user: User = Depends(get_current_user)):
     """Detener el agente autónomo"""
     try:
-        if current_user["role"] != "Administrator":
+        if current_user.role != UserRole.ADMINISTRATOR:
             raise HTTPException(status_code=403, detail="Solo administradores pueden detener el agente")
         
         result = await dami_autonomous_agent.stop_monitoring()
@@ -657,7 +657,7 @@ async def stop_autonomous_agent(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/ai/predictive-analysis")
-async def run_predictive_analysis(current_user: dict = Depends(get_current_user)):
+async def run_predictive_analysis(current_user: User = Depends(get_current_user)):
     """Ejecutar análisis predictivo completo"""
     try:
         # Recopilar datos del sistema
@@ -680,7 +680,7 @@ async def run_predictive_analysis(current_user: dict = Depends(get_current_user)
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/ai/predictive-analysis/status")
-async def get_predictive_analytics_status(current_user: dict = Depends(get_current_user)):
+async def get_predictive_analytics_status(current_user: User = Depends(get_current_user)):
     """Obtener estado del sistema de análisis predictivo"""
     try:
         status = advanced_predictive_analytics.get_analytics_status()
@@ -690,7 +690,7 @@ async def get_predictive_analytics_status(current_user: dict = Depends(get_curre
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/ai/emotional-intelligence")
-async def run_emotional_analysis(current_user: dict = Depends(get_current_user)):
+async def run_emotional_analysis(current_user: User = Depends(get_current_user)):
     """Ejecutar análisis emocional y psicológico completo"""
     try:
         # Recopilar datos para análisis emocional
@@ -711,7 +711,7 @@ async def run_emotional_analysis(current_user: dict = Depends(get_current_user))
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/ai/emotional-intelligence/status")
-async def get_emotional_intelligence_status(current_user: dict = Depends(get_current_user)):
+async def get_emotional_intelligence_status(current_user: User = Depends(get_current_user)):
     """Obtener estado del sistema de inteligencia emocional"""
     try:
         status = emotional_intelligence_system.get_system_status()
@@ -721,7 +721,7 @@ async def get_emotional_intelligence_status(current_user: dict = Depends(get_cur
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/ai/modules/overview")
-async def get_ai_modules_overview(current_user: dict = Depends(get_current_user)):
+async def get_ai_modules_overview(current_user: User = Depends(get_current_user)):
     """Obtener resumen de todos los módulos IA"""
     try:
         # Obtener estado de todos los módulos
