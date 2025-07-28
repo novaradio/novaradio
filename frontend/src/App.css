@@ -1,38 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
 .App {
-    text-align: center;
+  min-height: 100vh;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+::-webkit-scrollbar-thumb {
+  background: #00ffc8;
+  border-radius: 4px;
 }
 
-.App-link {
-    color: #61dafb;
+::-webkit-scrollbar-thumb:hover {
+  background: #00cc9f;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* DAMI specific styles */
+.dami-card {
+  @apply bg-gray-800 border border-gray-700 rounded-lg p-6 hover:border-green-400 transition-colors duration-200;
+}
+
+.dami-button {
+  @apply bg-green-400 text-black px-6 py-2 rounded-lg font-semibold hover:bg-green-300 transition-colors duration-200;
+}
+
+.dami-button-secondary {
+  @apply bg-gray-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 border border-gray-600 transition-colors duration-200;
+}
+
+.dami-input {
+  @apply bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none;
+}
+
+.status-roja {
+  @apply bg-red-500 text-white;
+}
+
+.status-naranja {
+  @apply bg-orange-500 text-white;
+}
+
+.status-amarilla {
+  @apply bg-yellow-500 text-black;
+}
+
+.status-verde {
+  @apply bg-green-500 text-black;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pulse-green {
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 200, 0.7); }
+  50% { box-shadow: 0 0 0 10px rgba(0, 255, 200, 0); }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 2px solid #1a1a1a;
+  border-top: 2px solid #00ffc8;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

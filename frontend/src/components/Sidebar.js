@@ -1,0 +1,189 @@
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  LayoutDashboard, 
+  Radar, 
+  MapPin, 
+  Radio, 
+  AlertTriangle, 
+  LogOut,
+  Brain,
+  Shield,
+  User
+} from 'lucide-react';
+
+const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { 
+      id: 'dashboard', 
+      label: 'Dashboard', 
+      icon: LayoutDashboard, 
+      path: '/dashboard',
+      description: 'Resumen general'
+    },
+    { 
+      id: 'radar', 
+      label: 'Radar', 
+      icon: Radar, 
+      path: '/dashboard/radar',
+      description: 'Actores políticos'
+    },
+    { 
+      id: 'mapa', 
+      label: 'Mapa de Calor', 
+      icon: MapPin, 
+      path: '/dashboard/mapa',
+      description: 'Territorial'
+    },
+    { 
+      id: 'feed', 
+      label: 'Sr. X Feed', 
+      icon: Radio, 
+      path: '/dashboard/feed',
+      description: 'Monitoreo social'
+    },
+    { 
+      id: 'alertas', 
+      label: 'IA y Alertas', 
+      icon: AlertTriangle, 
+      path: '/dashboard/alertas',
+      description: 'Recomendaciones'
+    }
+  ];
+
+  const handleLogout = () => {
+    onLogout();
+    navigate('/login');
+  };
+
+  const getRoleIcon = (role) => {
+    switch (role) {
+      case 'administrator':
+        return <Shield className="w-4 h-4" />;
+      case 'analyst':
+        return <Brain className="w-4 h-4" />;
+      case 'operator':
+        return <User className="w-4 h-4" />;
+      default:
+        return <User className="w-4 h-4" />;
+    }
+  };
+
+  const getRoleLabel = (role) => {
+    switch (role) {
+      case 'administrator':
+        return 'Administrador';
+      case 'analyst':
+        return 'Analista';
+      case 'operator':
+        return 'Operador';
+      default:
+        return 'Usuario';
+    }
+  };
+
+  return (
+    <>
+      {/* Sidebar */}
+      <div className={`
+        fixed top-0 left-0 h-full bg-gray-800 border-r border-gray-700 z-30
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        w-64 lg:translate-x-0
+      `}>
+        {/* Header */}
+        <div className="p-6 border-b border-gray-700">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Brain className="w-8 h-8 text-green-400 mr-2" />
+              <div>
+                <h2 className="text-lg font-bold text-green-400">DAMI</h2>
+                <p className="text-xs text-gray-400">Intelligence</p>
+              </div>
+            </div>
+            <button
+              onClick={onToggle}
+              className="lg:hidden text-gray-400 hover:text-green-400"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        {/* User Info */}
+        <div className="p-4 border-b border-gray-700">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center text-black font-bold">
+              {user?.username?.charAt(0).toUpperCase()}
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-white">{user?.username}</p>
+              <div className="flex items-center text-xs text-gray-400">
+                {getRoleIcon(user?.role)}
+                <span className="ml-1">{getRoleLabel(user?.role)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Menu */}
+        <nav className="flex-1 p-4">
+          <ul className="space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPath === item.path || 
+                             (item.path === '/dashboard' && currentPath === '/dashboard/');
+              
+              return (
+                <li key={item.id}>
+                  <Link
+                    to={item.path}
+                    className={`
+                      flex items-center p-3 rounded-lg transition-colors duration-200
+                      ${isActive 
+                        ? 'bg-green-400 text-black' 
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-green-400'
+                      }
+                    `}
+                  >
+                    <Icon className="w-5 h-5 mr-3" />
+                    <div className="flex-1">
+                      <div className="font-medium">{item.label}</div>
+                      <div className={`text-xs ${isActive ? 'text-gray-700' : 'text-gray-500'}`}>
+                        {item.description}
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-gray-700">
+          <button
+            onClick={handleLogout}
+            className="flex items-center p-3 w-full text-left text-gray-300 hover:bg-red-600 hover:text-white rounded-lg transition-colors duration-200"
+          >
+            <LogOut className="w-5 h-5 mr-3" />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+        
+        {/* System Status */}
+        <div className="p-4 text-center">
+          <div className="flex items-center justify-center text-xs text-gray-500">
+            <div className="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-green"></div>
+            Sistema Activo
+          </div>
+          <p className="text-xs text-gray-600 mt-1">DAMI v1.0.0</p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Sidebar;
