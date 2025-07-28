@@ -203,6 +203,56 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
                 </li>
               );
             })}
+
+            {/* AI Modules Section */}
+            <li className="pt-4">
+              <div className="mb-2">
+                <button
+                  onClick={() => setAiModulesExpanded(!aiModulesExpanded)}
+                  className="flex items-center w-full p-2 text-gray-400 hover:text-green-400 transition-colors duration-200"
+                >
+                  {aiModulesExpanded ? (
+                    <ChevronDown className="w-4 h-4 mr-2" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4 mr-2" />
+                  )}
+                  <Brain className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">Módulos IA Avanzada</span>
+                </button>
+              </div>
+              
+              {aiModulesExpanded && (
+                <ul className="space-y-1 ml-4 border-l border-gray-700 pl-4">
+                  {aiModules.map((module) => {
+                    const ModuleIcon = module.icon;
+                    const isActive = currentPath === module.path;
+                    
+                    return (
+                      <li key={module.id}>
+                        <Link
+                          to={module.path}
+                          className={`
+                            flex items-center p-2 rounded-lg transition-colors duration-200 text-sm
+                            ${isActive 
+                              ? 'bg-green-400 text-black' 
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-green-400'
+                            }
+                          `}
+                        >
+                          <ModuleIcon className="w-4 h-4 mr-2" />
+                          <div className="flex-1">
+                            <div className="font-medium">{module.label}</div>
+                            <div className={`text-xs ${isActive ? 'text-gray-700' : 'text-gray-500'}`}>
+                              {module.description}
+                            </div>
+                          </div>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </li>
           </ul>
         </nav>
 
