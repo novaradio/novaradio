@@ -175,7 +175,7 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
         {/* Navigation Menu */}
         <nav className="flex-1 p-4">
           <ul className="space-y-2">
-            {menuItems.map((item) => {
+            {navigationItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentPath === item.path || 
                              (item.path === '/dashboard' && currentPath === '/dashboard/');
