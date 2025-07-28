@@ -267,9 +267,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test Centro Estadístico frontend component functionality"
-    - "Test Informe Diario frontend component functionality"
-    - "Verify navigation and integration between new components"
+    - "Day 3 - Instagram Basic API Integration"
+    - "Test Centro Estadístico with Instagram data integration"
+    - "Verify Instagram metrics in API responses"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
