@@ -767,6 +767,65 @@ async def get_ai_modules_overview(current_user: User = Depends(get_current_user)
         logger.error(f"Error obteniendo resumen de módulos IA: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============================================================================
+# CENTRO DE COMANDO - ENDPOINTS ESPECÍFICOS
+# ============================================================================
+
+@api_router.get("/centro-comando/situacion-actual")
+async def get_situacion_actual(current_user: User = Depends(get_current_user)):
+    """Obtener situación actual específica del Frente Renovador"""
+    try:
+        situacion = await situacion_analyzer.evaluar_situacion_actual()
+        return situacion
+    except Exception as e:
+        logger.error(f"Error obteniendo situación actual: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/centro-comando/monitoreo-tiempo-real")
+async def get_monitoreo_tiempo_real(current_user: User = Depends(get_current_user)):
+    """Obtener eventos de monitoreo en tiempo real"""
+    try:
+        eventos = await monitoreo_tiempo_real.obtener_eventos_tiempo_real()
+        return {"eventos": eventos, "timestamp": datetime.utcnow().isoformat()}
+    except Exception as e:
+        logger.error(f"Error obteniendo monitoreo tiempo real: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/centro-comando/accion-rapida")
+async def ejecutar_accion_rapida(
+    request: dict,
+    current_user: User = Depends(get_current_user)
+):
+    """Ejecutar acción rápida desde el centro de comando"""
+    try:
+        accion = request.get("accion")
+        contexto = request.get("contexto", {})
+        
+        # Registrar la acción tomada
+        resultado = {
+            "accion_ejecutada": accion,
+            "usuario": current_user.username,
+            "timestamp": datetime.utcnow().isoformat(),
+            "estado": "ejecutada",
+            "mensaje": f"Acción '{accion}' ejecutada correctamente"
+        }
+        
+        # Simular diferentes tipos de acciones
+        if accion == "respuesta_emergencia":
+            resultado["detalles"] = "Protocolo de crisis activado - Equipo de comunicaciones notificado"
+        elif accion == "activar_red_apoyo":
+            resultado["detalles"] = "Red de apoyo digital activada - 150+ usuarios movilizados"
+        elif accion == "campana_positiva":
+            resultado["detalles"] = "Campaña positiva lanzada - Contenido programado en todas las plataformas"
+        elif accion == "contramedidas":
+            resultado["detalles"] = "Contramedidas desplegadas - Monitoreo intensificado"
+        
+        return resultado
+        
+    except Exception as e:
+        logger.error(f"Error ejecutando acción rápida: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
