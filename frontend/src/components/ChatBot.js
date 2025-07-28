@@ -76,7 +76,7 @@ Como ADMINISTRADOR puedes:
 • Análisis de riesgo político y social`;
 
       case 'analyst':
-        return `¡Saludos! Soy DAMI Bot, especializado en análisis político profundo. Como analista, puedo proporcionarte insights detallados y correlaciones de datos complejas.${baseExplanation}
+        return `¡Saludos! Soy DAMI Bot, especializado en análisis inteligente profundo. Como analista, puedo proporcionarte insights detallados y correlaciones de datos complejas.${baseExplanation}
 
 Como ANALISTA puedes acceder a:
 • Interpretación avanzada de datos políticos
