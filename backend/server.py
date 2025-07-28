@@ -694,8 +694,8 @@ async def run_emotional_analysis(current_user: User = Depends(get_current_user))
     """Ejecutar análisis emocional y psicológico completo"""
     try:
         # Recopilar datos para análisis emocional
-        actors = list(db.actors.find({}, {"_id": 0}))
-        social_posts = list(db.feed.find({}).sort("timestamp", -1).limit(50))
+        actors = await db.political_actors.find({}, {"_id": 0}).to_list(1000)
+        social_posts = await db.feed.find({}).sort("timestamp", -1).limit(50).to_list(50)
         
         analysis_data = {
             "political_actors": actors,
