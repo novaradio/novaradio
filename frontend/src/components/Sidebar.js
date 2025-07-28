@@ -15,7 +15,10 @@ import {
   Heart,
   ChevronDown,
   ChevronRight,
-  Eye
+  Eye,
+  Command,
+  BarChart3,
+  FileText
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
