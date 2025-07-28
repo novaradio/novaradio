@@ -1085,6 +1085,18 @@ class DAMIBackendTester:
         self.test_instagram_visual_content_metrics()
         
         print()
+        print("Testing Mapa Territorial Activity Endpoint:")
+        print("-" * 40)
+        
+        # Mapa Territorial tests
+        self.test_mapa_territorial_actividad_endpoint()
+        self.test_mapa_territorial_data_structure()
+        self.test_mapa_territorial_weighted_calculations()
+        self.test_mapa_territorial_activity_analysis()
+        self.test_mapa_territorial_metadata_verification()
+        self.test_mapa_territorial_fallback_handling()
+        
+        print()
         print("Testing Error Handling:")
         print("-" * 40)
         
