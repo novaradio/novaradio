@@ -279,7 +279,7 @@ class CentroEstadisticoBackend:
         return tendencias
 
     def generar_alertas_estadisticas(self) -> List[Dict[str, Any]]:
-        """Genera alertas basadas en anomalías estadísticas"""
+        """Genera alertas basadas en anomalías estadísticas (MANTENER MÉTODO EXISTENTE)"""
         alertas = []
         
         # Alertas potenciales basadas en patrones
