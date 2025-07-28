@@ -108,8 +108,43 @@ const MapaMisiones = () => {
   const actualizarDatosMapa = async () => {
     setLoading(true);
     try {
-      // Generar datos realistas para cada municipio
-      const datosActualizados = municipiosCompletos.map((municipio, index) => {
+      // Obtener datos reales del backend (Twitter, Facebook, Instagram)
+      const response = await axios.get(`${API}/mapa-territorial/actividad`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (response.data.success) {
+        const datosReales = response.data.data;
+        
+        // Combinar datos reales con municipios
+        const datosActualizados = municipiosCompletos.map((municipio, index) => {
+          // Buscar datos específicos del municipio o usar datos agregados
+          const actividadMunicipio = datosReales.municipios?.find(
+            m => m.nombre === municipio.nombre
+          ) || generarActividadBasadaEnDatosReales(municipio, datosReales.general, index);
+          
+          return {
+            ...municipio,
+            id: index + 1,
+            ...actividadMunicipio
+          };
+        });
+        
+        setMunicipiosData(datosActualizados);
+        setLastUpdate(new Date().toLocaleTimeString());
+        
+        toast.success('Mapa actualizado con datos reales de redes sociales');
+      } else {
+        throw new Error('Error en respuesta del servidor');
+      }
+      
+    } catch (error) {
+      console.error('Error actualizando mapa:', error);
+      
+      // Fallback a datos simulados si falla la API
+      const datosSimulados = municipiosCompletos.map((municipio, index) => {
         const actividad = generarActividadRealista(municipio, index);
         return {
           ...municipio,
@@ -118,12 +153,10 @@ const MapaMisiones = () => {
         };
       });
       
-      setMunicipiosData(datosActualizados);
+      setMunicipiosData(datosSimulados);
       setLastUpdate(new Date().toLocaleTimeString());
       
-    } catch (error) {
-      console.error('Error actualizando mapa:', error);
-      toast.error('Error actualizando datos del mapa');
+      toast.error('Usando datos simulados - Error conectando con APIs de redes sociales');
     } finally {
       setLoading(false);
     }
