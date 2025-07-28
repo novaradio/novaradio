@@ -88,7 +88,7 @@ const Dashboard = ({ user, onLogout }) => {
                 ☰
               </button>
               <h1 className="text-xl font-bold text-green-400">
-                🧠 DAMI - Centro de Inteligencia Política
+                🧠 Centro de Monitoreo Inteligente DAMI
               </h1>
             </div>
             <div className="flex items-center space-x-4">
