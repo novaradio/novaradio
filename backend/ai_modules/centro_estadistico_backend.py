@@ -206,6 +206,36 @@ class CentroEstadisticoBackend:
                 'top_posts': []
             }
 
+    async def _get_instagram_data(self) -> Dict[str, Any]:
+        """Get Instagram data with caching"""
+        now = datetime.now()
+        
+        # Check cache
+        if (self._instagram_data_cache and self._instagram_cache_timestamp and 
+            (now - self._instagram_cache_timestamp).seconds < self._cache_duration):
+            return self._instagram_data_cache
+        
+        try:
+            # Get fresh Instagram data
+            self._instagram_data_cache = await instagram_api.get_frente_renovador_metrics()
+            self._instagram_cache_timestamp = now
+            return self._instagram_data_cache
+        except Exception as e:
+            print(f"Error getting Instagram data: {str(e)}")
+            # Return empty data structure if API fails
+            return {
+                'summary': {
+                    'total_posts': 0,
+                    'positive_posts': 0,
+                    'negative_posts': 0,
+                    'neutral_posts': 0,
+                    'sentiment_score': 0,
+                    'engagement_rate': 0,
+                    'timestamp': now.isoformat()
+                },
+                'top_posts': []
+            }
+
     def _calcular_crecimiento_semanal_combinado(self, twitter_summary: Dict[str, Any], facebook_summary: Dict[str, Any]) -> float:
         """Calcula crecimiento semanal basado en engagement real combinado"""
         twitter_engagement = twitter_summary.get('engagement_rate', 0)
