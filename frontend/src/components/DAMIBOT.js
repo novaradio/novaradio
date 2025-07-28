@@ -441,7 +441,47 @@ const DAMIBOT = ({ user, realTimeData }) => {
     }, 1500);
   };
 
-  if (!isVisible || !currentAlert) return null;
+  const showManualHelp = () => {
+    const alert = {
+      id: `manual_help_${Date.now()}`,
+      type: 'SYSTEM_UPDATE',
+      title: '🤖 Asistente DAMIBOT',
+      message: `¡Hola ${user?.username}! Soy tu asistente inteligente DAMIBOT. Puedo ayudarte a entender lo que está pasando en el sistema y proporcionarte recomendaciones personalizadas según tu rol como ${getRoleLabel(user?.role)}.`,
+      context: {
+        userRole: user?.role,
+        manualActivation: true,
+        timestamp: new Date()
+      },
+      recommendations: [
+        'Explicar el estado actual del sistema',
+        'Proporcionar guía de navegación',
+        'Generar reporte personalizado',
+        'Mostrar alertas prioritarias',
+        'Ayuda contextual por módulo'
+      ],
+      autoClose: false
+    };
+    
+    queueAlert(alert);
+  };
+
+  if (!isVisible || !currentAlert) {
+    // Botón flotante para activar DAMIBOT manualmente
+    return (
+      <div className="fixed bottom-20 left-6 z-40">
+        <button
+          onClick={showManualHelp}
+          className="bg-blue-500 hover:bg-blue-400 text-white p-3 rounded-full shadow-lg transition-all duration-200 flex items-center group"
+          title="Activar DAMIBOT - Asistente Inteligente"
+        >
+          <Bot className="w-6 h-6" />
+          <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap text-sm font-medium">
+            DAMIBOT
+          </span>
+        </button>
+      </div>
+    );
+  }
 
   const alertConfig = getAlertConfig(currentAlert.type);
   const Icon = alertConfig.icon;
