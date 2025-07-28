@@ -112,6 +112,7 @@ const Dashboard = ({ user, onLogout }) => {
         <main className="p-6">
           <Routes>
             <Route path="/" element={<DashboardHome user={user} />} />
+            <Route path="/centro-comando" element={<CentroComando user={user} />} />
             <Route path="/radar" element={<RadarView user={user} />} />
             <Route path="/mapa" element={<MapaCalor user={user} />} />
             <Route path="/feed" element={<FeedSrX user={user} realTimeData={realTimeData} />} />
