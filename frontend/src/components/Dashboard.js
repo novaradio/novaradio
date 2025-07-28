@@ -8,6 +8,7 @@ import MapaCalor from './MapaCalor';
 import FeedSrX from './FeedSrX';
 import AlertasIA from './AlertasIA';
 import ChatBot from './ChatBot';
+import DAMIBOT from './DAMIBOT';
 import toast from 'react-hot-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
