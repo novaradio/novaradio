@@ -374,7 +374,7 @@ class CentroEstadisticoBackend:
         return random.sample(palabras_por_tema.get(tema, ["desarrollo", "progreso", "futuro"]), 3)
 
     def _generar_recomendacion_tema(self, tema: str, sentiment_score: float) -> str:
-        """Genera recomendación específica por tema y sentimiento"""
+        """Genera recomendación específica por tema y sentimiento (MANTENER MÉTODO EXISTENTE)"""
         if sentiment_score > 0.3:
             return f"Potenciar comunicación positiva sobre {tema}. Amplificar casos de éxito."
         elif sentiment_score < -0.3:
