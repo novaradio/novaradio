@@ -1,97 +1,86 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { AlertTriangle, Shield, TrendingDown, TrendingUp, Users, MessageSquare, Eye, Zap } from 'lucide-react';
+import toast from 'react-hot-toast';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const CentroComando = () => {
   const [situacionActual, setSituacionActual] = useState({});
   const [alertasUrgentes, setAlertasUrgentes] = useState([]);
   const [monitoreoTiempoReal, setMonitoreoTiempoReal] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
 
   useEffect(() => {
-    // Simular datos en tiempo real para demostración
+    // Cargar datos iniciales
+    actualizarTodosLosDatos();
+    
+    // Actualizar cada 30 segundos
     const interval = setInterval(() => {
-      actualizarSituacion();
-    }, 5000);
+      actualizarTodosLosDatos();
+    }, 30000);
 
-    actualizarSituacion();
     return () => clearInterval(interval);
   }, []);
 
-  const actualizarSituacion = () => {
-    // Datos simulados específicos y realistas
-    setSituacionActual({
-      nivelAmenaza: "MODERADO",
-      ataquesPrincipales: 3,
-      desinformacionActiva: 2,
-      sentimientoPublico: 65,
-      tendencia: "estable"
-    });
+  const actualizarTodosLosDatos = async () => {
+    setLoading(true);
+    try {
+      // Obtener situación actual del backend
+      const situacionResponse = await axios.get(`${API}/centro-comando/situacion-actual`);
+      const situacion = situacionResponse.data;
+      
+      setSituacionActual({
+        nivelAmenaza: situacion.nivel_amenaza,
+        ataquesPrincipales: situacion.ataques_activos,
+        desinformacionActiva: situacion.desinformacion_detectada,
+        sentimientoPublico: Math.round(situacion.sentiment_publico * 100),
+        tendencia: "tiempo_real"
+      });
+      
+      setAlertasUrgentes(situacion.ataques_detalle || []);
+      
+      // Obtener monitoreo en tiempo real
+      const monitoreoResponse = await axios.get(`${API}/centro-comando/monitoreo-tiempo-real`);
+      setMonitoreoTiempoReal(monitoreoResponse.data.eventos || []);
+      
+      setLastUpdate(new Date().toLocaleTimeString());
+      
+    } catch (error) {
+      console.error('Error actualizando datos del centro de comando:', error);
+      toast.error('Error actualizando información en tiempo real');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    setAlertasUrgentes([
-      {
-        id: 1,
-        tipo: "CRÍTICO",
-        problema: "Campaña coordinada de desinformación detectada",
-        detalles: "12 cuentas falsas están difundiendo información falsa sobre presupuesto municipal",
-        ubicacion: "Redes sociales - Twitter y Facebook",
-        tiempo: "Hace 15 minutos",
-        accion: "RESPONDER INMEDIATAMENTE con comunicado oficial",
-        responsable: "Equipo de Comunicaciones",
-        impacto: "ALTO - 2,400 interacciones detectadas"
-      },
-      {
-        id: 2,
-        tipo: "URGENTE",
-        problema: "Ataque coordinado en redes contra liderazgo",
-        detalles: "Hashtag #FrenteCorrupto trending artificialmente",
-        ubicacion: "Twitter - Tendencias manipuladas",
-        tiempo: "Hace 45 minutos",
-        accion: "Activar red de apoyo digital y contra-narrativa",
-        responsable: "Coordinación Digital",
-        impacto: "MEDIO - 8,200 menciones"
-      },
-      {
-        id: 3,
-        tipo: "ATENCIÓN",
-        problema: "Movimiento opositor planificando evento",
-        detalles: "Organización de marcha para el viernes en plaza central",
-        ubicacion: "Grupos de WhatsApp monitoreados",
-        tiempo: "Hace 2 horas",
-        accion: "Preparar evento de respuesta y logística",
-        responsable: "Coordinación Territorial",
-        impacto: "BAJO - Evento local estimado 500 personas"
+  const ejecutarAccionRapida = async (accion) => {
+    try {
+      const response = await axios.post(`${API}/centro-comando/accion-rapida`, {
+        accion: accion,
+        contexto: { timestamp: new Date().toISOString() }
+      });
+      
+      toast.success(`✅ ${response.data.mensaje}`);
+      
+      // Mostrar detalles de la acción
+      if (response.data.detalles) {
+        setTimeout(() => {
+          toast.success(response.data.detalles, { duration: 4000 });
+        }, 1000);
       }
-    ]);
-
-    setMonitoreoTiempoReal([
-      {
-        evento: "Mención positiva en medio local",
-        detalle: "Nota favorable sobre gestión en Canal 7",
-        sentimiento: "positivo",
-        tiempo: "13:45",
-        fuente: "Medios tradicionales"
-      },
-      {
-        evento: "Actividad sospechosa detectada",
-        detalle: "30 cuentas nuevas mencionando misma frase",
-        sentimiento: "negativo",
-        tiempo: "13:42",
-        fuente: "Redes sociales"
-      },
-      {
-        evento: "Apoyo ciudadano registrado",
-        detalle: "Comentarios positivos en publicación oficial",
-        sentimiento: "positivo",
-        tiempo: "13:38",
-        fuente: "Facebook oficial"
-      },
-      {
-        evento: "Crítica en blog opositor",
-        detalle: "Artículo crítico sobre última decisión municipal",
-        sentimiento: "negativo",
-        tiempo: "13:35",
-        fuente: "Blog político"
-      }
-    ]);
+      
+      // Actualizar datos después de la acción
+      setTimeout(() => {
+        actualizarTodosLosDatos();
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error ejecutando acción:', error);
+      toast.error('Error ejecutando acción rápida');
+    }
   };
 
   const getTipoColor = (tipo) => {
