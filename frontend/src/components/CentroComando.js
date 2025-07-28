@@ -252,22 +252,34 @@ const CentroComando = () => {
         <h2 className="text-2xl font-semibold text-white mb-6">⚡ ACCIONES RÁPIDAS DISPONIBLES</h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="p-4 bg-red-600 hover:bg-red-700 rounded-lg transition text-center">
+          <button 
+            onClick={() => ejecutarAccionRapida('respuesta_emergencia')}
+            className="p-4 bg-red-600 hover:bg-red-700 rounded-lg transition text-center"
+          >
             <MessageSquare className="w-6 h-6 mx-auto mb-2" />
             <div className="text-sm font-medium">Respuesta de Emergencia</div>
           </button>
           
-          <button className="p-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-center">
+          <button 
+            onClick={() => ejecutarAccionRapida('activar_red_apoyo')}
+            className="p-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-center"
+          >
             <Users className="w-6 h-6 mx-auto mb-2" />
             <div className="text-sm font-medium">Activar Red de Apoyo</div>
           </button>
           
-          <button className="p-4 bg-green-600 hover:bg-green-700 rounded-lg transition text-center">
+          <button 
+            onClick={() => ejecutarAccionRapida('campana_positiva')}
+            className="p-4 bg-green-600 hover:bg-green-700 rounded-lg transition text-center"
+          >
             <TrendingUp className="w-6 h-6 mx-auto mb-2" />
             <div className="text-sm font-medium">Campaña Positiva</div>
           </button>
           
-          <button className="p-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-center">
+          <button 
+            onClick={() => ejecutarAccionRapida('contramedidas')}
+            className="p-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-center"
+          >
             <Shield className="w-6 h-6 mx-auto mb-2" />
             <div className="text-sm font-medium">Contramedidas</div>
           </button>
