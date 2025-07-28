@@ -325,6 +325,56 @@ class CentroEstadisticoBackend:
         ]
         return random.sample(hashtags_facebook, random.randint(3, 5))
 
+    def _calcular_tendencia_instagram(self, instagram_summary: Dict[str, Any]) -> str:
+        """Calcula tendencia basada en métricas reales de Instagram"""
+        sentiment = instagram_summary.get('sentiment_score', 0)
+        engagement = instagram_summary.get('engagement_rate', 0)
+        
+        # Instagram typically has higher engagement rates
+        if sentiment > 0.3 and engagement > 15:
+            return "creciente"
+        elif sentiment < -0.2 or engagement < 8:
+            return "decreciente"
+        else:
+            return "estable"
+
+    def _extraer_hashtags_instagram(self, instagram_data: Dict[str, Any]) -> List[str]:
+        """Extrae hashtags reales de Instagram o usa fallback"""
+        try:
+            # Try to extract real hashtags from Instagram data
+            all_hashtags = []
+            posts = instagram_data.get('posts', [])
+            
+            for post in posts[:10]:  # Check first 10 posts
+                hashtags = post.get('hashtags', [])
+                all_hashtags.extend(hashtags)
+            
+            if all_hashtags:
+                # Count frequency and return most common
+                hashtag_counts = {}
+                for hashtag in all_hashtags:
+                    hashtag_counts[hashtag] = hashtag_counts.get(hashtag, 0) + 1
+                
+                # Sort by frequency and return top 5
+                sorted_hashtags = sorted(hashtag_counts.items(), key=lambda x: x[1], reverse=True)
+                return [hashtag for hashtag, count in sorted_hashtags[:5]]
+            else:
+                # Fallback to Instagram-typical hashtags
+                return self._generar_hashtags_instagram()
+                
+        except Exception as e:
+            print(f"Error extracting Instagram hashtags: {str(e)}")
+            return self._generar_hashtags_instagram()
+
+    def _generar_hashtags_instagram(self) -> List[str]:
+        """Genera hashtags típicos de Instagram para política"""
+        hashtags_instagram = [
+            "#FrenteRenovador", "#MisionesAvanza", "#DesarrolloSocial",
+            "#ConcordiaSocial", "#ProgresoMisiones", "#FuturoMisiones",
+            "#CambioPositivo", "#UnidosPorMisiones", "#VisualizandoElCambio"
+        ]
+        return random.sample(hashtags_instagram, random.randint(3, 5))
+
     async def _get_twitter_data(self) -> Dict[str, Any]:
         """Get Twitter data with caching"""
         now = datetime.now()
