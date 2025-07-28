@@ -1,0 +1,84 @@
+# Docker Configuration para DAMI Centro Inteligente
+
+version: '3.8'
+
+services:
+  # MongoDB Database
+  dami-mongodb:
+    image: mongo:7.0
+    container_name: dami-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: dami_database
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - dami-network
+
+  # Backend FastAPI
+  dami-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dami-backend
+    restart: always
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://dami-mongodb:27017
+      - DB_NAME=dami_database
+      - SECRET_KEY=dami_secret_key_2025_intelligence_platform
+    depends_on:
+      - dami-mongodb
+    volumes:
+      - ./backend:/app
+    networks:
+      - dami-network
+
+  # Frontend React
+  dami-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: dami-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8001
+      - WDS_SOCKET_PORT=443
+    depends_on:
+      - dami-backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - dami-network
+
+  # Nginx Reverse Proxy (Opcional)
+  dami-nginx:
+    image: nginx:alpine
+    container_name: dami-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl/certs:ro
+    depends_on:
+      - dami-frontend
+      - dami-backend
+    networks:
+      - dami-network
+
+networks:
+  dami-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
