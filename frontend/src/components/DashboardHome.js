@@ -8,7 +8,8 @@ import {
   TrendingUp, 
   Shield,
   Brain,
-  Radio
+  Radio,
+  LayoutDashboard
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
