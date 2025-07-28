@@ -107,12 +107,15 @@ class CentroEstadisticoBackend:
         """Genera estadísticas detalladas por red social (TWITTER Y FACEBOOK CON DATOS REALES)"""
         estadisticas = []
         
-        # Get real data from both platforms
+        # Get real data from all platforms
         twitter_data = await self._get_twitter_data()
         twitter_summary = twitter_data.get('summary', {})
         
         facebook_data = await self._get_facebook_data()
         facebook_summary = facebook_data.get('summary', {})
+        
+        instagram_data = await self._get_instagram_data()
+        instagram_summary = instagram_data.get('summary', {})
         
         for red in self.redes_sociales:
             if red == "Twitter/X":
