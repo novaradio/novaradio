@@ -18,7 +18,8 @@ import {
   Eye,
   Command,
   BarChart3,
-  FileText
+  FileText,
+  Target
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
