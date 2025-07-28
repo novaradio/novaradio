@@ -327,19 +327,6 @@ class CentroEstadisticoBackend:
         
         return alertas_seleccionadas
 
-    def _calcular_sentimiento_general(self) -> str:
-        """Calcula el sentimiento general basado en métricas"""
-        score = random.uniform(-1, 1)
-        if score > 0.3:
-            return "Positivo"
-        elif score < -0.3:
-            return "Negativo"
-        else:
-            return "Neutral"
-
-    def _determinar_nivel_crisis(self) -> str:
-        """Determina el nivel de crisis actual"""
-        return random.choice(["Bajo", "Medio", "Alto"])
 
     def _generar_hashtags_trending(self) -> List[str]:
         """Genera hashtags trending relacionados (MANTENER MÉTODO EXISTENTE)"""
