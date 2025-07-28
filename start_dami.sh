@@ -3,7 +3,7 @@
 # DAMI Centro Inteligente - Script de Inicio Rápido
 # ================================================
 
-echo "🧠 DAMI - Centro de Inteligencia Política Digital"
+echo "🧠 Centro de Monitoreo Inteligente DAMI"
 echo "=================================================="
 
 # Función para manejar Ctrl+C
