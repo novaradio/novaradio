@@ -22,6 +22,12 @@ import schedule
 import threading
 import time
 
+# Importar módulos avanzados de IA
+from ai_modules.deepfake_detection import content_verification_service
+from ai_modules.autonomous_agent import dami_autonomous_agent
+from ai_modules.predictive_analysis import advanced_predictive_analytics
+from ai_modules.emotional_intelligence import emotional_intelligence_system
+
 # Load environment variables
 load_dotenv()
 
