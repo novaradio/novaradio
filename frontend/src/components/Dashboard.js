@@ -9,6 +9,12 @@ import FeedSrX from './FeedSrX';
 import AlertasIA from './AlertasIA';
 import ChatBot from './ChatBot';
 import DAMIBOT from './DAMIBOT';
+// AI Modules
+import AIModulesOverview from './AIModules/AIModulesOverview';
+import DeepfakeDetection from './AIModules/DeepfakeDetection';  
+import AutonomousAgent from './AIModules/AutonomousAgent';
+import PredictiveAnalysis from './AIModules/PredictiveAnalysis';
+import EmotionalIntelligence from './AIModules/EmotionalIntelligence';
 import toast from 'react-hot-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
