@@ -1174,6 +1174,167 @@ def _determinar_estado_territorial(sentiment: float, total_menciones: int) -> st
     else:
         return "CRÍTICO"
 
+# ==============================================================================
+# ANÁLISIS DE COMPETENCIA ENDPOINTS
+# ==============================================================================
+
+@app.get("/api/analisis-competencia/completo")
+async def obtener_analisis_competencia_completo(current_user: dict = Depends(get_current_user)):
+    """Obtiene análisis completo de competencia política"""
+    try:
+        analisis_completo = await analisis_competencia.analizar_competencia_completa()
+        
+        logger.info(f"Análisis de competencia generado: {analisis_completo.get('resumen_ejecutivo', {}).get('partidos_monitoreados', 0)} partidos monitoreados")
+        
+        return {
+            "success": True,
+            "data": analisis_completo,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en análisis completo de competencia: {str(e)}")
+        return {
+            "success": False,
+            "data": analisis_competencia._generar_respuesta_fallback(),
+            "error": "Error en análisis de competencia - usando datos fallback",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/analisis-competencia/resumen")
+async def obtener_resumen_competencia(current_user: dict = Depends(get_current_user)):
+    """Obtiene resumen ejecutivo del análisis de competencia"""
+    try:
+        analisis_completo = await analisis_competencia.analizar_competencia_completa()
+        resumen = analisis_completo.get("resumen_ejecutivo", {})
+        
+        # Agregar datos clave del análisis comparativo
+        comparativo = analisis_completo.get("analisis_comparativo", {})
+        campañas = analisis_completo.get("campañas_coordinadas", [])
+        
+        resumen_extendido = {
+            **resumen,
+            "posicion_competitiva": comparativo.get("posicion_general", "DESCONOCIDA"),
+            "principal_competidor": comparativo.get("principal_competidor", "Ninguno"),
+            "campañas_activas": len(campañas),
+            "recomendaciones_criticas": len([r for r in analisis_completo.get("recomendaciones_estrategicas", []) 
+                                           if r.get("prioridad") == "CRÍTICA"])
+        }
+        
+        return {
+            "success": True,
+            "data": resumen_extendido,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en resumen de competencia: {str(e)}")
+        return {
+            "success": False,
+            "data": {
+                "partidos_monitoreados": 0,
+                "nivel_amenaza_general": "ERROR",
+                "error": str(e)
+            },
+            "error": "Error obteniendo resumen de competencia",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/analisis-competencia/campañas-coordinadas")
+async def obtener_campañas_coordinadas(current_user: dict = Depends(get_current_user)):
+    """Obtiene detección de campañas coordinadas"""
+    try:
+        analisis_completo = await analisis_competencia.analizar_competencia_completa()
+        campañas = analisis_completo.get("campañas_coordinadas", [])
+        
+        return {
+            "success": True,
+            "data": {
+                "campañas_detectadas": campañas,
+                "total_campañas": len(campañas),
+                "nivel_alerta": "CRÍTICO" if len(campañas) >= 2 else "ALTO" if len(campañas) == 1 else "BAJO",
+                "recomendaciones_inmediatas": [
+                    {
+                        "accion": "Monitoreo intensificado de redes sociales",
+                        "prioridad": "ALTA"
+                    } for _ in campañas
+                ]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en detección de campañas: {str(e)}")
+        return {
+            "success": False,
+            "data": {"campañas_detectadas": [], "error": str(e)},
+            "error": "Error detectando campañas coordinadas",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/analisis-competencia/influencia-territorial")
+async def obtener_influencia_territorial(current_user: dict = Depends(get_current_user)):
+    """Obtiene análisis de influencia territorial por municipio"""
+    try:
+        analisis_completo = await analisis_competencia.analizar_competencia_completa()
+        influencia = analisis_completo.get("influencia_territorial", {})
+        
+        return {
+            "success": True,
+            "data": influencia,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en influencia territorial: {str(e)}")
+        return {
+            "success": False,
+            "data": {"error": str(e)},
+            "error": "Error analizando influencia territorial",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/analisis-competencia/recomendaciones")
+async def obtener_recomendaciones_estrategicas(current_user: dict = Depends(get_current_user)):
+    """Obtiene recomendaciones estratégicas basadas en análisis de competencia"""
+    try:
+        analisis_completo = await analisis_competencia.analizar_competencia_completa()
+        recomendaciones = analisis_completo.get("recomendaciones_estrategicas", [])
+        
+        # Organizar recomendaciones por prioridad
+        criticas = [r for r in recomendaciones if r.get("prioridad") == "CRÍTICA"]
+        altas = [r for r in recomendaciones if r.get("prioridad") == "ALTA"]
+        medias = [r for r in recomendaciones if r.get("prioridad") == "MEDIA"]
+        
+        return {
+            "success": True,
+            "data": {
+                "recomendaciones_por_prioridad": {
+                    "criticas": criticas,
+                    "altas": altas,
+                    "medias": medias
+                },
+                "total_recomendaciones": len(recomendaciones),
+                "accion_inmediata_requerida": len(criticas) > 0,
+                "resumen_acciones": {
+                    "comunicacion": len([r for r in recomendaciones if r.get("categoria") == "comunicacion"]),
+                    "inteligencia": len([r for r in recomendaciones if r.get("categoria") == "inteligencia"]),
+                    "territorial": len([r for r in recomendaciones if r.get("categoria") == "territorial"]),
+                    "contra_inteligencia": len([r for r in recomendaciones if r.get("categoria") == "contra_inteligencia"])
+                }
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en recomendaciones estratégicas: {str(e)}")
+        return {
+            "success": False,
+            "data": {"recomendaciones_por_prioridad": {"criticas": [], "altas": [], "medias": []}, "error": str(e)},
+            "error": "Error obteniendo recomendaciones estratégicas",
+            "timestamp": datetime.now().isoformat()
+        }
+
 # Include the router in the main app
 app.include_router(api_router)
 
