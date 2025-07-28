@@ -6,7 +6,7 @@
 
 ## 🧠 Descripción del Sistema
 
-DAMI (Centro de Inteligencia Política Digital) es una plataforma avanzada de inteligencia política que combina monitoreo en tiempo real, análisis de IA, y asistencia inteligente para proporcionar una visión completa del panorama político.
+DAMI (Centro de Monitoreo Inteligente DAMI) es una plataforma avanzada de inteligencia que combina monitoreo en tiempo real, análisis de IA, y asistencia inteligente para proporcionar una visión completa del panorama de interés.
 
 ### ✨ Características Principales
 
