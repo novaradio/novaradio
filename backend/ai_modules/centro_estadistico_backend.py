@@ -508,9 +508,9 @@ class CentroEstadisticoBackend:
             "alertas": self.generar_alertas_estadisticas(),
             "metadata": {
                 "generado": datetime.now().isoformat(),
-                "version": "2.0_twitter_real_data",
+                "version": "3.0_twitter_facebook_real_data",
                 "enfoque": self.frente_renovador,
-                "integraciones_activas": ["Twitter API v2"]
+                "integraciones_activas": ["Twitter API v2", "Facebook Graph API"]
             }
         }
 
