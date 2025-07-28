@@ -303,7 +303,7 @@ class CentroEstadisticoBackend:
         
         if combined_sentiment < -0.4:
             return "Alto"
-        elif combined_sentiment < -0.1:
+        elif combined_sentiment < -0.2:
             return "Medio"
         else:
             return "Bajo"
