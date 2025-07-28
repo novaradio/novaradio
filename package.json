@@ -1,7 +1,7 @@
 {
   "name": "dami-centro-inteligente",
   "version": "1.0.0",
-  "description": "DAMI - Centro de Inteligencia Política Digital. Sistema integral de monitoreo y análisis político en tiempo real con IA avanzada.",
+  "description": "Centro de Monitoreo Inteligente DAMI. Sistema integral de monitoreo e inteligencia en tiempo real con IA avanzada.",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"cd backend && python server.py\" \"cd frontend && yarn start\"",
