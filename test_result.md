@@ -255,8 +255,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test Centro Estadístico backend endpoints and data generation"
-    - "Test Informe Diario backend endpoints and report generation"
     - "Test Centro Estadístico frontend component functionality"
     - "Test Informe Diario frontend component functionality"
     - "Verify navigation and integration between new components"
