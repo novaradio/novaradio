@@ -1012,6 +1012,167 @@ async def ejecutar_accion_rapida(
         logger.error(f"Error ejecutando acción rápida: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ==============================================================================
+# MAPA TERRITORIAL ENDPOINTS
+# ==============================================================================
+
+@app.get("/api/mapa-territorial/actividad")
+async def obtener_actividad_territorial(current_user: dict = Depends(get_current_user)):
+    """Obtiene datos de actividad territorial basados en las 3 APIs de redes sociales"""
+    try:
+        # Importar las integraciones de APIs
+        from integrations.twitter_api_v2 import twitter_api
+        from integrations.facebook_api import facebook_api  
+        from integrations.instagram_api import instagram_api
+        
+        # Obtener datos de las 3 plataformas de manera concurrente
+        twitter_data = await twitter_api.get_frente_renovador_metrics()
+        facebook_data = await facebook_api.get_frente_renovador_metrics()
+        instagram_data = await instagram_api.get_frente_renovador_metrics()
+        
+        # Extraer datos generales
+        twitter_summary = twitter_data.get('summary', {})
+        facebook_summary = facebook_data.get('summary', {})
+        instagram_summary = instagram_data.get('summary', {})
+        
+        # Calcular métricas combinadas con pesos específicos
+        total_menciones = (
+            twitter_summary.get('total_tweets', 0) + 
+            facebook_summary.get('total_posts', 0) + 
+            instagram_summary.get('total_posts', 0)
+        )
+        
+        # Sentiment ponderado: Instagram 40%, Facebook 35%, Twitter 25%
+        sentiment_promedio = (
+            (twitter_summary.get('sentiment_score', 0) * 0.25) +
+            (facebook_summary.get('sentiment_score', 0) * 0.35) +
+            (instagram_summary.get('sentiment_score', 0) * 0.4)
+        )
+        
+        # Engagement ponderado con los mismos pesos
+        engagement_promedio = (
+            (twitter_summary.get('engagement_rate', 0) * 0.25) +
+            (facebook_summary.get('engagement_rate', 0) * 0.35) +
+            (instagram_summary.get('engagement_rate', 0) * 0.4)
+        )
+        
+        # Preparar respuesta estructurada
+        actividad_territorial = {
+            "general": {
+                "twitter": {
+                    "total_tweets": twitter_summary.get('total_tweets', 0),
+                    "positive_tweets": twitter_summary.get('positive_tweets', 0),
+                    "negative_tweets": twitter_summary.get('negative_tweets', 0),
+                    "sentiment_score": twitter_summary.get('sentiment_score', 0),
+                    "engagement_rate": twitter_summary.get('engagement_rate', 0),
+                    "timestamp": twitter_summary.get('timestamp', datetime.now().isoformat())
+                },
+                "facebook": {
+                    "total_posts": facebook_summary.get('total_posts', 0),
+                    "positive_posts": facebook_summary.get('positive_posts', 0),
+                    "negative_posts": facebook_summary.get('negative_posts', 0),
+                    "sentiment_score": facebook_summary.get('sentiment_score', 0),
+                    "engagement_rate": facebook_summary.get('engagement_rate', 0),
+                    "timestamp": facebook_summary.get('timestamp', datetime.now().isoformat())
+                },
+                "instagram": {
+                    "total_posts": instagram_summary.get('total_posts', 0),
+                    "positive_posts": instagram_summary.get('positive_posts', 0),
+                    "negative_posts": instagram_summary.get('negative_posts', 0),
+                    "sentiment_score": instagram_summary.get('sentiment_score', 0),
+                    "engagement_rate": instagram_summary.get('engagement_rate', 0),
+                    "timestamp": instagram_summary.get('timestamp', datetime.now().isoformat())
+                },
+                "combinado": {
+                    "total_menciones": total_menciones,
+                    "sentiment_promedio": round(sentiment_promedio, 3),
+                    "engagement_promedio": round(engagement_promedio, 2),
+                    "nivel_actividad": _determinar_nivel_actividad_territorial(sentiment_promedio, engagement_promedio),
+                    "estado_general": _determinar_estado_territorial(sentiment_promedio, total_menciones),
+                }
+            },
+            "municipios": [],  # Para futuras implementaciones específicas por municipio
+            "metadata": {
+                "integraciones_activas": ["Twitter API v2", "Facebook Graph API", "Instagram Basic API"],
+                "algoritmo_ponderacion": "Instagram: 40%, Facebook: 35%, Twitter: 25%",
+                "ultima_actualizacion": datetime.now().isoformat(),
+                "datos_disponibles": {
+                    "twitter": twitter_summary.get('total_tweets', 0) > 0,
+                    "facebook": facebook_summary.get('total_posts', 0) > 0,
+                    "instagram": instagram_summary.get('total_posts', 0) > 0
+                },
+                "calidad_datos": "alta" if total_menciones > 50 else "media" if total_menciones > 10 else "baja"
+            }
+        }
+        
+        logger.info(f"Actividad territorial generada: {total_menciones} menciones, sentiment: {sentiment_promedio:.3f}")
+        
+        return {
+            "success": True,
+            "data": actividad_territorial,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en actividad territorial: {str(e)}")
+        
+        # Fallback con estructura mínima si falla completamente
+        fallback_data = {
+            "general": {
+                "twitter": {"total_tweets": 0, "sentiment_score": 0, "engagement_rate": 0},
+                "facebook": {"total_posts": 0, "sentiment_score": 0, "engagement_rate": 0},
+                "instagram": {"total_posts": 0, "sentiment_score": 0, "engagement_rate": 0},
+                "combinado": {
+                    "total_menciones": 0,
+                    "sentiment_promedio": 0,
+                    "engagement_promedio": 0,
+                    "nivel_actividad": "DESCONOCIDO",
+                    "estado_general": "ERROR"
+                }
+            },
+            "municipios": [],
+            "metadata": {
+                "error": str(e),
+                "fallback_mode": True,
+                "integraciones_activas": [],
+                "ultima_actualizacion": datetime.now().isoformat(),
+                "datos_disponibles": {"twitter": False, "facebook": False, "instagram": False}
+            }
+        }
+        
+        return {
+            "success": False,
+            "data": fallback_data,
+            "error": "Error conectando con APIs de redes sociales - usando modo fallback",
+            "timestamp": datetime.now().isoformat()
+        }
+
+def _determinar_nivel_actividad_territorial(sentiment: float, engagement: float) -> str:
+    """Determina el nivel de actividad territorial basado en sentiment y engagement"""
+    if sentiment < -0.4 or engagement > 20:
+        return "CRÍTICO"
+    elif sentiment < -0.2 or engagement > 12:
+        return "ALTO"
+    elif sentiment < 0.1 and engagement > 6:
+        return "MEDIO"
+    else:
+        return "BAJO"
+
+def _determinar_estado_territorial(sentiment: float, total_menciones: int) -> str:
+    """Determina el estado territorial general"""
+    if total_menciones == 0:
+        return "SIN_DATOS"
+    elif sentiment > 0.3:
+        return "MUY_FAVORABLE"
+    elif sentiment > 0.1:
+        return "FAVORABLE"
+    elif sentiment > -0.1:
+        return "NEUTRAL"
+    elif sentiment > -0.3:
+        return "DESFAVORABLE"
+    else:
+        return "CRÍTICO"
+
 # Include the router in the main app
 app.include_router(api_router)
 
