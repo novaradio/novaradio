@@ -360,7 +360,7 @@ class CentroEstadisticoBackend:
             return "Neutral"
 
     def _generar_palabras_clave(self, tema: str) -> List[str]:
-        """Genera palabras clave por tema"""
+        """Genera palabras clave por tema (MANTENER MÉTODO EXISTENTE)"""
         palabras_por_tema = {
             "Política Económica": ["empleo", "inversión", "crecimiento", "desarrollo", "oportunidades"],
             "Desarrollo Social": ["familia", "comunidad", "bienestar", "inclusión", "progreso"],
