@@ -12,6 +12,7 @@ import {
   LayoutDashboard
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import DAMIBOTStats from './DAMIBOTStats';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
