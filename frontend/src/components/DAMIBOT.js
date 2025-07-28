@@ -47,6 +47,12 @@ const DAMIBOT = ({ user, realTimeData }) => {
       title: '📡 Alta Actividad en Redes',
       priority: 2
     },
+    CRITICAL_SOCIAL_POST: {
+      icon: Radio,
+      color: 'red',
+      title: '🚨 Post Crítico Detectado',
+      priority: 1
+    },
     TERRITORY_ESCALATION: {
       icon: MapPin,
       color: 'yellow',
@@ -64,6 +70,42 @@ const DAMIBOT = ({ user, realTimeData }) => {
       color: 'green',
       title: '💡 Actualización del Sistema',
       priority: 5
+    },
+    MORNING_BRIEFING: {
+      icon: Clock,
+      color: 'blue',
+      title: '🌅 Briefing Matutino',
+      priority: 4
+    },
+    EVENING_SUMMARY: {
+      icon: Star,
+      color: 'purple',
+      title: '🌆 Resumen Vespertino',
+      priority: 4
+    },
+    NIGHT_MONITORING: {
+      icon: Eye,
+      color: 'blue',
+      title: '🌙 Monitoreo Nocturno',
+      priority: 3
+    },
+    ADMIN_STRATEGIC_UPDATE: {
+      icon: Brain,
+      color: 'red',
+      title: '👑 Alerta Estratégica',
+      priority: 2
+    },
+    ANALYST_DATA_INSIGHT: {
+      icon: TrendingUp,
+      color: 'blue',
+      title: '📊 Insight de Datos',
+      priority: 3
+    },
+    OPERATOR_ACTION_REQUIRED: {
+      icon: Zap,
+      color: 'orange',
+      title: '⚡ Acción Requerida',
+      priority: 2
     }
   };
 
