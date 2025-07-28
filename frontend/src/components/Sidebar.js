@@ -88,6 +88,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       icon: AlertTriangle, 
       path: '/dashboard/alertas',
       description: 'Recomendaciones'
+    },
+    { 
+      id: 'analisis-competencia', 
+      label: 'Análisis Competencia', 
+      icon: Target, 
+      path: '/dashboard/analisis-competencia',
+      description: 'Monitoreo político estratégico'
     }
   ];
 
