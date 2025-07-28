@@ -759,6 +759,16 @@ class DAMIBackendTester:
         self.test_informe_diario_pdf_data()
         
         print()
+        print("Testing Instagram Integration:")
+        print("-" * 40)
+        
+        # Instagram integration tests
+        self.test_instagram_integration_in_resumen()
+        self.test_instagram_in_redes_sociales()
+        self.test_three_platform_weighted_calculation()
+        self.test_instagram_visual_content_metrics()
+        
+        print()
         print("Testing Error Handling:")
         print("-" * 40)
         
