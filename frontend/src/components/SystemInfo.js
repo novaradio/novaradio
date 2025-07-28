@@ -32,9 +32,9 @@ const SystemInfo = () => {
       <div className="dami-card">
         <h2 className="text-2xl font-semibold text-white mb-4">¿Qué es DAMI?</h2>
         <p className="text-gray-300 leading-relaxed mb-4">
-          DAMI (Centro de Inteligencia Política Digital) es una plataforma integral de monitoreo, análisis y 
-          respuesta estratégica diseñada para el análisis político en tiempo real. Combina inteligencia artificial, 
-          análisis de big data y monitoreo social para proporcionar una visión completa del panorama político.
+          DAMI (Centro de Monitoreo Inteligente DAMI) es una plataforma integral de monitoreo, análisis y 
+          respuesta estratégica diseñada para el análisis inteligente en tiempo real. Combina inteligencia artificial, 
+          análisis de big data y monitoreo social para proporcionar una visión completa del panorama de interés.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-green-900 bg-opacity-30 border border-green-400 rounded p-4">
