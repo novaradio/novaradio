@@ -224,10 +224,8 @@ class CentroEstadisticoBackend:
         # For now, return typical Twitter peak hours in Argentina
         return "20:00-22:00"
 
-    # ... [Keep all other existing methods unchanged]
-
     def generar_analisis_tematico(self) -> List[Dict[str, Any]]:
-        """Genera análisis por tema/área política"""
+        """Genera análisis por tema/área política (MANTENER MÉTODO EXISTENTE)"""
         analisis = []
         
         for tema in self.temas_principales:
