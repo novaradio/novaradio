@@ -382,18 +382,19 @@ class CentroEstadisticoBackend:
         else:
             return f"Mantener presencia equilibrada en {tema}. Monitorear evolución."
 
-    def obtener_estadisticas_completas(self) -> Dict[str, Any]:
-        """Método principal que retorna todas las estadísticas"""
+    async def obtener_estadisticas_completas(self) -> Dict[str, Any]:
+        """Método principal que retorna todas las estadísticas (ACTUALIZADO CON DATOS REALES)"""
         return {
-            "estadisticas_generales": self.generar_estadisticas_generales(),
-            "estadisticas_por_red": self.generar_estadisticas_por_red(),
+            "estadisticas_generales": await self.generar_estadisticas_generales(),
+            "estadisticas_por_red": await self.generar_estadisticas_por_red(),
             "analisis_tematico": self.generar_analisis_tematico(),
             "tendencias_temporales": self.generar_tendencias_temporales(),
             "alertas": self.generar_alertas_estadisticas(),
             "metadata": {
                 "generado": datetime.now().isoformat(),
-                "version": "1.0",
-                "enfoque": self.frente_renovador
+                "version": "2.0_twitter_real_data",
+                "enfoque": self.frente_renovador,
+                "integraciones_activas": ["Twitter API v2"]
             }
         }
 
