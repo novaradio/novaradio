@@ -360,9 +360,12 @@ async def simulate_real_time_data():
             # Broadcast updates via WebSocket
             await manager.broadcast(json.dumps({
                 "type": "new_post",
-                "data": new_post.dict(),
+                "data": {
+                    **new_post.dict(),
+                    "timestamp": new_post.timestamp.isoformat()
+                },
                 "timestamp": datetime.utcnow().isoformat()
-            }))
+            }, default=str))
             
             await asyncio.sleep(30)  # Generate new data every 30 seconds
         except Exception as e:
