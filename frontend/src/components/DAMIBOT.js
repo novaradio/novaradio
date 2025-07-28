@@ -505,39 +505,58 @@ const DAMIBOT = ({ user, realTimeData }) => {
           
           {/* Header */}
           <div className={`
-            p-4 rounded-t-lg border-b border-gray-700
+            p-4 rounded-t-lg border-b border-gray-700 relative overflow-hidden
             ${alertConfig.color === 'red' ? 'bg-red-900 bg-opacity-30' :
               alertConfig.color === 'orange' ? 'bg-orange-900 bg-opacity-30' :
               alertConfig.color === 'yellow' ? 'bg-yellow-900 bg-opacity-30' :
               alertConfig.color === 'blue' ? 'bg-blue-900 bg-opacity-30' :
+              alertConfig.color === 'purple' ? 'bg-purple-900 bg-opacity-30' :
               'bg-green-900 bg-opacity-30'}
           `}>
-            <div className="flex items-center justify-between">
+            {/* Animated background effect */}
+            <div className="absolute inset-0 opacity-20">
+              <div className={`absolute inset-0 animate-pulse ${
+                alertConfig.color === 'red' ? 'bg-gradient-to-r from-red-500 to-transparent' :
+                alertConfig.color === 'orange' ? 'bg-gradient-to-r from-orange-500 to-transparent' :
+                alertConfig.color === 'yellow' ? 'bg-gradient-to-r from-yellow-500 to-transparent' :
+                alertConfig.color === 'blue' ? 'bg-gradient-to-r from-blue-500 to-transparent' :
+                alertConfig.color === 'purple' ? 'bg-gradient-to-r from-purple-500 to-transparent' :
+                'bg-gradient-to-r from-green-500 to-transparent'
+              }`}></div>
+            </div>
+            
+            <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center">
                 <div className={`
-                  w-12 h-12 rounded-full flex items-center justify-center mr-4
+                  w-12 h-12 rounded-full flex items-center justify-center mr-4 animate-pulse
                   ${alertConfig.color === 'red' ? 'bg-red-500' :
                     alertConfig.color === 'orange' ? 'bg-orange-500' :
                     alertConfig.color === 'yellow' ? 'bg-yellow-500' :
                     alertConfig.color === 'blue' ? 'bg-blue-500' :
+                    alertConfig.color === 'purple' ? 'bg-purple-500' :
                     'bg-green-500'}
                 `}>
                   <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">DAMIBOT</h2>
-                  <p className="text-sm text-gray-300">Asistente Inteligente</p>
+                  <h2 className="text-xl font-bold text-white flex items-center">
+                    DAMIBOT
+                    <span className="ml-2 px-2 py-1 bg-green-400 text-black text-xs rounded-full">
+                      ACTIVO
+                    </span>
+                  </h2>
+                  <p className="text-sm text-gray-300">Asistente Inteligente • {getRoleLabel(user?.role)}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
                 {alertQueue.length > 0 && (
-                  <div className="bg-green-400 text-black px-2 py-1 rounded-full text-xs font-semibold">
-                    +{alertQueue.length}
+                  <div className="bg-green-400 text-black px-3 py-1 rounded-full text-xs font-semibold animate-bounce">
+                    +{alertQueue.length} alertas
                   </div>
                 )}
                 <button
                   onClick={closeAlert}
-                  className="text-gray-400 hover:text-white p-1"
+                  className="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-700 transition-all duration-200"
                 >
                   <X className="w-5 h-5" />
                 </button>
