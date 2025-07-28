@@ -19,8 +19,9 @@ import {
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
   const navigate = useNavigate();
+  const [aiModulesExpanded, setAiModulesExpanded] = useState(false);
 
-  const menuItems = [
+  const navigationItems = [
     { 
       id: 'dashboard', 
       label: 'Dashboard', 
@@ -55,6 +56,44 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       icon: AlertTriangle, 
       path: '/dashboard/alertas',
       description: 'Recomendaciones'
+    }
+  ];
+
+  const aiModules = [
+    {
+      id: 'ai-overview',
+      label: 'Resumen IA',
+      icon: Brain,
+      path: '/dashboard/ai/overview',
+      description: 'Estado general módulos IA'
+    },
+    {
+      id: 'deepfake-detection',
+      label: 'Detección Deepfakes',
+      icon: Shield,
+      path: '/dashboard/ai/deepfake-detection',
+      description: 'Verificación de contenido'
+    },
+    {
+      id: 'autonomous-agent',
+      label: 'Agente Autónomo',
+      icon: Bot,
+      path: '/dashboard/ai/autonomous-agent',
+      description: 'DAMI-GPT inteligente'
+    },
+    {
+      id: 'predictive-analysis',
+      label: 'Análisis Predictivo',
+      icon: TrendingUp,
+      path: '/dashboard/ai/predictive-analysis',
+      description: 'Predicciones y tendencias'
+    },
+    {
+      id: 'emotional-intelligence',
+      label: 'Inteligencia Emocional',
+      icon: Heart,
+      path: '/dashboard/ai/emotional-intelligence',
+      description: 'Análisis psicológico'
     }
   ];
 
