@@ -10,6 +10,7 @@ from typing import Dict, List, Any
 import json
 import asyncio
 from integrations.twitter_api_v2 import twitter_api
+from integrations.facebook_api import facebook_api
 
 class CentroEstadisticoBackend:
     """Backend para generar estadísticas de redes sociales del Frente Renovador"""
