@@ -292,15 +292,16 @@ class CentroEstadisticoBackend:
         else:
             return round(random.uniform(-3.0, 6.0), 1)
 
-    def _determinar_nivel_crisis_combinado(self, twitter_summary: Dict[str, Any], facebook_summary: Dict[str, Any]) -> str:
-        """Determina nivel de crisis basado en sentiment combinado"""
+    def _determinar_nivel_crisis_combinado(self, twitter_summary: Dict[str, Any], facebook_summary: Dict[str, Any], instagram_summary: Dict[str, Any]) -> str:
+        """Determina nivel de crisis basado en sentiment combinado de tres plataformas"""
         twitter_sentiment = twitter_summary.get('sentiment_score', 0)
         facebook_sentiment = facebook_summary.get('sentiment_score', 0)
+        instagram_sentiment = instagram_summary.get('sentiment_score', 0)
         
-        # Average the sentiments (Facebook weighted higher due to longer content)
-        combined_sentiment = (twitter_sentiment * 0.4) + (facebook_sentiment * 0.6)
+        # Weight platforms: Instagram (visual impact), Facebook (text content), Twitter (speed)
+        combined_sentiment = (twitter_sentiment * 0.25) + (facebook_sentiment * 0.35) + (instagram_sentiment * 0.4)
         
-        if combined_sentiment < -0.3:
+        if combined_sentiment < -0.4:
             return "Alto"
         elif combined_sentiment < -0.1:
             return "Medio"
