@@ -32,17 +32,19 @@ class CentroEstadisticoBackend:
         self._instagram_cache_timestamp = None
 
     async def generar_estadisticas_generales(self) -> Dict[str, Any]:
-        """Genera estadísticas generales de actividad en redes (CON DATOS REALES DE TWITTER Y FACEBOOK)"""
+        """Genera estadísticas generales de actividad en redes (CON DATOS REALES DE TWITTER, FACEBOOK E INSTAGRAM)"""
         
-        # Get real Twitter data
+        # Get real data from all integrated platforms
         twitter_data = await self._get_twitter_data()
         twitter_summary = twitter_data.get('summary', {})
         
-        # Get real Facebook data
         facebook_data = await self._get_facebook_data()
         facebook_summary = facebook_data.get('summary', {})
         
-        # Use real data from both platforms
+        instagram_data = await self._get_instagram_data()
+        instagram_summary = instagram_data.get('summary', {})
+        
+        # Use real data from all three platforms
         total_menciones_twitter = twitter_summary.get('total_tweets', 0)
         menciones_positivas_twitter = twitter_summary.get('positive_tweets', 0)
         menciones_negativas_twitter = twitter_summary.get('negative_tweets', 0)
@@ -53,19 +55,28 @@ class CentroEstadisticoBackend:
         menciones_negativas_facebook = facebook_summary.get('negative_posts', 0)
         engagement_facebook = facebook_summary.get('engagement_rate', 0)
         
-        # Estimate other platforms (Instagram, TikTok, YouTube, WhatsApp)
-        other_platforms_total = int((total_menciones_twitter + total_menciones_facebook) * 0.8)
+        total_menciones_instagram = instagram_summary.get('total_posts', 0)
+        menciones_positivas_instagram = instagram_summary.get('positive_posts', 0)
+        menciones_negativas_instagram = instagram_summary.get('negative_posts', 0)
+        engagement_instagram = instagram_summary.get('engagement_rate', 0)
         
-        total_menciones = total_menciones_twitter + total_menciones_facebook + other_platforms_total
-        menciones_positivas = menciones_positivas_twitter + menciones_positivas_facebook + int(other_platforms_total * 0.65)
-        menciones_negativas = menciones_negativas_twitter + menciones_negativas_facebook + int(other_platforms_total * 0.2)
+        # Estimate remaining platforms (TikTok, YouTube, WhatsApp)
+        real_platforms_total = total_menciones_twitter + total_menciones_facebook + total_menciones_instagram
+        other_platforms_total = int(real_platforms_total * 0.6)
+        
+        total_menciones = real_platforms_total + other_platforms_total
+        menciones_positivas = (menciones_positivas_twitter + menciones_positivas_facebook + 
+                              menciones_positivas_instagram + int(other_platforms_total * 0.65))
+        menciones_negativas = (menciones_negativas_twitter + menciones_negativas_facebook + 
+                              menciones_negativas_instagram + int(other_platforms_total * 0.2))
         menciones_neutrales = total_menciones - menciones_positivas - menciones_negativas
         
-        # Calculate weighted engagement rate
-        total_real_posts = total_menciones_twitter + total_menciones_facebook
+        # Calculate weighted engagement rate from real data
+        total_real_posts = real_platforms_total
         if total_real_posts > 0:
             weighted_engagement = ((engagement_twitter * total_menciones_twitter) + 
-                                 (engagement_facebook * total_menciones_facebook)) / total_real_posts
+                                 (engagement_facebook * total_menciones_facebook) +
+                                 (engagement_instagram * total_menciones_instagram)) / total_real_posts
         else:
             weighted_engagement = random.uniform(3.2, 8.7)
         
