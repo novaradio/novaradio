@@ -769,9 +769,193 @@ async def get_ai_modules_overview(current_user: User = Depends(get_current_user)
         logger.error(f"Error obteniendo resumen de módulos IA: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# ============================================================================
+# ==============================================================================
+# CENTRO ESTADÍSTICO ENDPOINTS
+# ==============================================================================
+
+@app.get("/api/centro-estadistico/resumen")
+async def obtener_resumen_estadistico(current_user: dict = Depends(get_current_user)):
+    """Obtiene resumen estadístico de actividad en redes sociales"""
+    try:
+        estadisticas = centro_estadistico.obtener_estadisticas_completas()
+        return {
+            "success": True,
+            "data": estadisticas["estadisticas_generales"],
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en resumen estadístico: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/centro-estadistico/completo")
+async def obtener_estadisticas_completas(current_user: dict = Depends(get_current_user)):
+    """Obtiene todas las estadísticas del centro estadístico"""
+    try:
+        estadisticas = centro_estadistico.obtener_estadisticas_completas()
+        return {
+            "success": True,
+            "data": estadisticas,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en estadísticas completas: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/centro-estadistico/redes-sociales")
+async def obtener_estadisticas_redes(current_user: dict = Depends(get_current_user)):
+    """Obtiene estadísticas específicas por red social"""
+    try:
+        estadisticas_redes = centro_estadistico.generar_estadisticas_por_red()
+        return {
+            "success": True,
+            "data": estadisticas_redes,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en estadísticas por redes: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/centro-estadistico/tendencias")
+async def obtener_tendencias_temporales(current_user: dict = Depends(get_current_user)):
+    """Obtiene tendencias temporales de los últimos 7 días"""
+    try:
+        tendencias = centro_estadistico.generar_tendencias_temporales()
+        return {
+            "success": True,
+            "data": tendencias,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en tendencias temporales: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/centro-estadistico/alertas")
+async def obtener_alertas_estadisticas(current_user: dict = Depends(get_current_user)):
+    """Obtiene alertas estadísticas activas"""
+    try:
+        alertas = centro_estadistico.generar_alertas_estadisticas()
+        return {
+            "success": True,
+            "data": alertas,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en alertas estadísticas: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+# ==============================================================================
+# INFORME DIARIO ENDPOINTS
+# ==============================================================================
+
+@app.get("/api/informe-diario")
+async def obtener_informe_diario(
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene el informe diario completo"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        informe = informe_diario.generar_informe_completo(fecha)
+        return {
+            "success": True,
+            "data": informe,
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en informe diario: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/informe-diario/resumen")
+async def obtener_resumen_informe(
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene resumen ejecutivo del informe diario"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        informe = informe_diario.generar_informe_completo(fecha)
+        return {
+            "success": True,
+            "data": {
+                "encabezado": informe["encabezado"],
+                "resumen_ejecutivo": informe["resumen_ejecutivo"],
+                "metricas_kpi": informe["metricas_kpi"],
+                "conclusion": informe["conclusion"]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en resumen de informe: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/informe-diario/recomendaciones")
+async def obtener_recomendaciones_informe(
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene recomendaciones estratégicas del informe"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        informe = informe_diario.generar_informe_completo(fecha)
+        return {
+            "success": True,
+            "data": {
+                "recomendaciones_estrategicas": informe["recomendaciones_estrategicas"],
+                "alertas_y_riesgos": informe["alertas_y_riesgos"],
+                "plan_accion_24h": informe["plan_accion_24h"]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en recomendaciones: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/informe-diario/pdf-data")
+async def obtener_datos_pdf_informe(
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene datos optimizados para generar PDF del informe"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        datos_pdf = informe_diario.generar_informe_pdf_data(fecha)
+        return {
+            "success": True,
+            "data": datos_pdf,
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en datos PDF: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+# Helper function for date validation
+def _validar_fecha(fecha: str) -> bool:
+    """Valida formato de fecha YYYY-MM-DD"""
+    try:
+        datetime.strptime(fecha, "%Y-%m-%d")
+        return True
+    except ValueError:
+        return False
+
+# ==============================================================================
 # CENTRO DE COMANDO - ENDPOINTS ESPECÍFICOS
-# ============================================================================
+# ==============================================================================
 
 @api_router.get("/centro-comando/situacion-actual")
 async def get_situacion_actual(current_user: User = Depends(get_current_user)):
