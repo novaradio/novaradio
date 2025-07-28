@@ -266,6 +266,9 @@ const DashboardHome = ({ user }) => {
         </div>
       </div>
 
+      {/* DAMIBOT Statistics */}
+      <DAMIBOTStats user={user} />
+
       {/* Quick Actions */}
       <div className="dami-card">
         <h3 className="text-lg font-semibold text-white mb-4">Acciones Rápidas</h3>
