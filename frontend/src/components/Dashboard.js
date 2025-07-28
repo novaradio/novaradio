@@ -9,6 +9,7 @@ import FeedSrX from './FeedSrX';
 import AlertasIA from './AlertasIA';
 import ChatBot from './ChatBot';
 import DAMIBOT from './DAMIBOT';
+import CentroComando from './CentroComando';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
