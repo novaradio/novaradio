@@ -661,9 +661,9 @@ async def run_predictive_analysis(current_user: User = Depends(get_current_user)
     """Ejecutar análisis predictivo completo"""
     try:
         # Recopilar datos del sistema
-        actors = list(db.actors.find({}, {"_id": 0}))
-        zones = list(db.zones.find({}, {"_id": 0}))
-        social_media = list(db.feed.find({}).sort("timestamp", -1).limit(100))
+        actors = await db.political_actors.find({}, {"_id": 0}).to_list(1000)
+        zones = await db.zones.find({}, {"_id": 0}).to_list(1000)
+        social_media = await db.feed.find({}).sort("timestamp", -1).limit(100).to_list(100)
         
         system_data = {
             "actors": actors,
