@@ -50,15 +50,53 @@ const ChatBot = ({ user }) => {
   };
 
   const getWelcomeMessage = (role) => {
+    const baseExplanation = `
+
+🧠 DAMI Bot - Tu Asistente de Inteligencia Política
+
+¿Qué puedo hacer por ti?
+• Analizar situaciones políticas complejas
+• Generar reportes personalizados en tiempo real
+• Proporcionar recomendaciones estratégicas basadas en datos
+• Interpretar patrones de comportamiento político
+• Sugerir acciones tácticas según tu nivel de acceso
+• Responder consultas sobre el estado del sistema
+
+Simplemente escribe tu pregunta y te ayudaré con análisis especializado.`;
+
     switch (role) {
       case 'administrator':
-        return '¡Hola! Soy DAMI Bot, tu asistente de inteligencia política. Como administrador, puedo ayudarte con análisis estratégicos, coordinación de equipos y toma de decisiones críticas. ¿En qué puedo asistirte?';
+        return `¡Hola! Soy DAMI Bot, tu asistente de inteligencia política avanzada. Como administrador, tienes acceso completo a todas mis capacidades analíticas.${baseExplanation}
+
+Como ADMINISTRADOR puedes:
+• Acceso a análisis estratégicos de máximo nivel
+• Coordinación de equipos y asignación de recursos
+• Toma de decisiones críticas con soporte de IA
+• Generación de reportes ejecutivos
+• Análisis de riesgo político y social`;
+
       case 'analyst':
-        return '¡Saludos! Soy DAMI Bot. Como analista, puedo ayudarte con interpretación de datos, generación de reportes y análisis de tendencias políticas. ¿Qué información necesitas analizar?';
+        return `¡Saludos! Soy DAMI Bot, especializado en análisis político profundo. Como analista, puedo proporcionarte insights detallados y correlaciones de datos complejas.${baseExplanation}
+
+Como ANALISTA puedes acceder a:
+• Interpretación avanzada de datos políticos
+• Análisis de tendencias y patrones de comportamiento  
+• Generación de reportes analíticos especializados
+• Correlación de eventos políticos y sociales
+• Predicciones basadas en modelos estadísticos`;
+
       case 'operator':
-        return '¡Bienvenido! Soy DAMI Bot, tu guía operativo. Puedo ayudarte con instrucciones específicas, verificación de procedimientos y coordinar acciones tácticas. ¿Necesitas orientación?';
+        return `¡Bienvenido! Soy DAMI Bot, tu guía operativo especializado. Te ayudo con instrucciones precisas y procedimientos tácticos para la ejecución eficiente de operaciones.${baseExplanation}
+
+Como OPERADOR tienes acceso a:
+• Instrucciones específicas para operaciones tácticas
+• Verificación de procedimientos estándar
+• Coordinación de acciones de campo
+• Consultas sobre protocolos de seguridad
+• Orientación para ejecución de estrategias`;
+
       default:
-        return '¡Hola! Soy DAMI Bot, tu asistente de inteligencia política. Estoy aquí para ayudarte con análisis, recomendaciones y orientación estratégica. ¿Cómo puedo asistirte?';
+        return `¡Hola! Soy DAMI Bot, tu asistente de inteligencia política integral.${baseExplanation}`;
     }
   };
 
