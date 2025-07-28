@@ -114,6 +114,9 @@ const Dashboard = ({ user, onLogout }) => {
 
         {/* Floating Chat Bot */}
         <ChatBot user={user} />
+
+        {/* DAMIBOT - Intelligent Emergent Assistant */}
+        <DAMIBOT user={user} realTimeData={realTimeData} />
       </div>
 
       {/* Mobile Sidebar Overlay */}
