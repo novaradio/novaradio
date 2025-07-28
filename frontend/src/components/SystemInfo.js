@@ -253,7 +253,7 @@ const SystemInfo = () => {
           DAMI v1.0.0 - Centro de Monitoreo Inteligente DAMI © 2025
         </p>
         <p className="text-gray-500 text-xs mt-2">
-          Sistema desarrollado para análisis político estratégico en tiempo real
+          Sistema desarrollado para análisis inteligente en tiempo real
         </p>
       </div>
     </div>
