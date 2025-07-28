@@ -174,14 +174,20 @@ const CentroEstadistico = () => {
           </div>
 
           {/* Indicador de Datos Reales */}
-          {estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter && (
+          {(estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter || 
+            estadisticas.estadisticas_generales.resumen_general.datos_reales_facebook) && (
             <div className="dami-card">
               <div className="flex items-center justify-center p-4 bg-green-900 bg-opacity-30 border border-green-400 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 font-semibold">📡 DATOS REALES DE TWITTER ACTIVOS</span>
-                  <div className="text-sm text-gray-300">
-                    ({estadisticas.estadisticas_generales.resumen_general.twitter_tweets} tweets reales analizados)
+                  <span className="text-green-400 font-semibold">📡 DATOS REALES ACTIVOS</span>
+                  <div className="text-sm text-gray-300 flex items-center space-x-4">
+                    {estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter && (
+                      <span>🐦 Twitter: {estadisticas.estadisticas_generales.resumen_general.twitter_tweets} tweets</span>
+                    )}
+                    {estadisticas.estadisticas_generales.resumen_general.datos_reales_facebook && (
+                      <span>📘 Facebook: {estadisticas.estadisticas_generales.resumen_general.facebook_posts} posts</span>
+                    )}
                   </div>
                 </div>
               </div>
