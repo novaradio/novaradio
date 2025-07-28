@@ -547,6 +547,225 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
+# ============================================================================
+# MÓDULOS AVANZADOS DE IA - ENDPOINTS
+# ============================================================================
+
+@api_router.post("/ai/deepfake-detection")
+async def analyze_deepfake_content(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Analizar contenido para detectar deepfakes y desinformación"""
+    try:
+        content_type = request.get("content_type")  # "text" o "image"
+        content_data = request.get("content_data")
+        source_url = request.get("source_url")
+        
+        if not content_type or not content_data:
+            raise HTTPException(status_code=400, detail="Faltan parámetros requeridos")
+        
+        result = await content_verification_service.verify_content(
+            content_type, content_data, source_url
+        )
+        
+        return {
+            "analysis_result": result,
+            "user": current_user["username"],
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en análisis de deepfake: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/ai/deepfake-detection/stats")
+async def get_deepfake_stats(current_user: dict = Depends(get_current_user)):
+    """Obtener estadísticas de verificación de contenido"""
+    try:
+        stats = await content_verification_service.get_verification_stats()
+        return stats
+    except Exception as e:
+        logger.error(f"Error obteniendo estadísticas: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/ai/autonomous-agent/start")
+async def start_autonomous_agent(current_user: dict = Depends(get_current_user)):
+    """Iniciar el agente autónomo DAMI-GPT"""
+    try:
+        # Solo administradores pueden iniciar el agente autónomo
+        if current_user["role"] != "Administrator":
+            raise HTTPException(status_code=403, detail="Solo administradores pueden iniciar el agente autónomo")
+        
+        result = await dami_autonomous_agent.start_autonomous_monitoring()
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error iniciando agente autónomo: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/ai/autonomous-agent/analyze")
+async def analyze_situation_autonomous(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Analizar situación con el agente autónomo"""
+    try:
+        situation_data = request.get("situation_data", {})
+        
+        # Agregar datos del sistema actual para análisis
+        actors = list(db.actors.find({}, {"_id": 0}))
+        zones = list(db.zones.find({}, {"_id": 0}))
+        recent_posts = list(db.feed.find({}).sort("timestamp", -1).limit(20))
+        
+        situation_data.update({
+            "actors": actors,
+            "zones": zones,
+            "social_posts": recent_posts,
+            "timestamp": datetime.utcnow().isoformat()
+        })
+        
+        result = await dami_autonomous_agent.analyze_situation(situation_data)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error en análisis autónomo: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/ai/autonomous-agent/status")
+async def get_autonomous_agent_status(current_user: dict = Depends(get_current_user)):
+    """Obtener estado del agente autónomo"""
+    try:
+        status = dami_autonomous_agent.get_agent_status()
+        return status
+    except Exception as e:
+        logger.error(f"Error obteniendo estado del agente: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/ai/autonomous-agent/stop")
+async def stop_autonomous_agent(current_user: dict = Depends(get_current_user)):
+    """Detener el agente autónomo"""
+    try:
+        if current_user["role"] != "Administrator":
+            raise HTTPException(status_code=403, detail="Solo administradores pueden detener el agente")
+        
+        result = await dami_autonomous_agent.stop_monitoring()
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error deteniendo agente autónomo: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/ai/predictive-analysis")
+async def run_predictive_analysis(current_user: dict = Depends(get_current_user)):
+    """Ejecutar análisis predictivo completo"""
+    try:
+        # Recopilar datos del sistema
+        actors = list(db.actors.find({}, {"_id": 0}))
+        zones = list(db.zones.find({}, {"_id": 0}))
+        social_media = list(db.feed.find({}).sort("timestamp", -1).limit(100))
+        
+        system_data = {
+            "actors": actors,
+            "zones": zones,
+            "social_media": social_media,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        result = await advanced_predictive_analytics.run_comprehensive_prediction(system_data)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error en análisis predictivo: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/ai/predictive-analysis/status")
+async def get_predictive_analytics_status(current_user: dict = Depends(get_current_user)):
+    """Obtener estado del sistema de análisis predictivo"""
+    try:
+        status = advanced_predictive_analytics.get_analytics_status()
+        return status
+    except Exception as e:
+        logger.error(f"Error obteniendo estado de análisis predictivo: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/ai/emotional-intelligence")
+async def run_emotional_analysis(current_user: dict = Depends(get_current_user)):
+    """Ejecutar análisis emocional y psicológico completo"""
+    try:
+        # Recopilar datos para análisis emocional
+        actors = list(db.actors.find({}, {"_id": 0}))
+        social_posts = list(db.feed.find({}).sort("timestamp", -1).limit(50))
+        
+        analysis_data = {
+            "political_actors": actors,
+            "social_media_posts": social_posts,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        result = await emotional_intelligence_system.run_comprehensive_emotional_analysis(analysis_data)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error en análisis emocional: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/ai/emotional-intelligence/status")
+async def get_emotional_intelligence_status(current_user: dict = Depends(get_current_user)):
+    """Obtener estado del sistema de inteligencia emocional"""
+    try:
+        status = emotional_intelligence_system.get_system_status()
+        return status
+    except Exception as e:
+        logger.error(f"Error obteniendo estado de inteligencia emocional: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/ai/modules/overview")
+async def get_ai_modules_overview(current_user: dict = Depends(get_current_user)):
+    """Obtener resumen de todos los módulos IA"""
+    try:
+        # Obtener estado de todos los módulos
+        deepfake_stats = await content_verification_service.get_verification_stats()
+        agent_status = dami_autonomous_agent.get_agent_status()
+        predictive_status = advanced_predictive_analytics.get_analytics_status()
+        emotional_status = emotional_intelligence_system.get_system_status()
+        
+        return {
+            "ai_modules_status": "operational",
+            "modules": {
+                "deepfake_detection": {
+                    "name": "Detección de Deepfakes",
+                    "status": "active",
+                    "verifications": deepfake_stats.get("total_verifications", 0),
+                    "accuracy": deepfake_stats.get("accuracy_rate", 0.89)
+                },
+                "autonomous_agent": {
+                    "name": "Agente Autónomo DAMI-GPT",
+                    "status": agent_status.get("agent_state", "idle"),
+                    "decisions_made": agent_status.get("decisions_made", 0),
+                    "monitoring": agent_status.get("active_monitoring", False)
+                },
+                "predictive_analysis": {
+                    "name": "Análisis Predictivo",
+                    "status": predictive_status.get("system_status", "operational"),
+                    "active_predictions": predictive_status.get("active_predictions", 0),
+                    "prediction_types": len(predictive_status.get("supported_prediction_types", []))
+                },
+                "emotional_intelligence": {
+                    "name": "Inteligencia Emocional",
+                    "status": emotional_status.get("system_status", "operational"),
+                    "supported_emotions": emotional_status.get("supported_emotions", 0),
+                    "analysis_method": emotional_status.get("analysis_method", "heuristic")
+                }
+            },
+            "total_modules": 4,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo resumen de módulos IA: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
