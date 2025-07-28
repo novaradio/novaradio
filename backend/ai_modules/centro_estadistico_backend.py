@@ -25,6 +25,8 @@ class CentroEstadisticoBackend:
         self._twitter_data_cache = None
         self._cache_timestamp = None
         self._cache_duration = 300  # 5 minutes cache
+        self._facebook_data_cache = None
+        self._facebook_cache_timestamp = None
 
     async def generar_estadisticas_generales(self) -> Dict[str, Any]:
         """Genera estadísticas generales de actividad en redes (CON DATOS REALES DE TWITTER)"""
