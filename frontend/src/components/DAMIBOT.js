@@ -123,21 +123,31 @@ const DAMIBOT = ({ user, realTimeData }) => {
     queueAlert(welcomeAlert);
   };
 
-  const showSocialActivityAlert = (post) => {
+  const showIntelligentAlert = (trigger) => {
+    const alertType = trigger.type;
+    const data = trigger.data;
+    
+    let message;
+    switch (alertType) {
+      case 'CRITICAL_SOCIAL_POST':
+        message = DAMIBOTMessages.CRITICAL_SOCIAL_POST(data);
+        break;
+      case 'HIGH_SOCIAL_ACTIVITY':
+        message = `Se ha detectado alta actividad de ${data.author} en ${data.platform}. El sistema ha identificado ${data.keywords_triggered.length} palabras clave sensibles que requieren seguimiento.`;
+        break;
+      default:
+        message = 'Se ha detectado actividad que requiere tu atención inmediata.';
+    }
+
     const alert = {
-      id: `social_${Date.now()}`,
-      type: 'HIGH_SOCIAL_ACTIVITY',
-      title: 'Nueva Actividad Crítica Detectada',
-      message: `Se ha detectado una publicación de ${post.author} con nivel de alerta ${post.alert_level.toUpperCase()}. El sistema ha identificado palabras clave sensibles que requieren atención.`,
-      context: {
-        author: post.author,
-        platform: post.platform,
-        alertLevel: post.alert_level,
-        keywords: post.keywords_triggered,
-        sentiment: post.sentiment_score
-      },
-      recommendations: generateSocialRecommendations(post),
-      autoClose: true
+      id: `intelligent_${Date.now()}`,
+      type: alertType,
+      title: alertTypes[alertType]?.title || '🤖 Alerta Inteligente',
+      message: message,
+      context: DAMIBOTTriggers.enrichAlertContext(alertType, data, user),
+      recommendations: DAMIBOTTriggers.generateSmartRecommendations(alertType, data, user),
+      urgency: DAMIBOTTriggers.calculateUrgency(alertType, data),
+      autoClose: trigger.priority > 2
     };
     
     queueAlert(alert);
