@@ -104,7 +104,7 @@ class CentroEstadisticoBackend:
         }
 
     async def generar_estadisticas_por_red(self) -> List[Dict[str, Any]]:
-        """Genera estadísticas detalladas por red social (TWITTER Y FACEBOOK CON DATOS REALES)"""
+        """Genera estadísticas detalladas por red social (TWITTER, FACEBOOK E INSTAGRAM CON DATOS REALES)"""
         estadisticas = []
         
         # Get real data from all platforms
