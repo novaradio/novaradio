@@ -23,6 +23,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
 
   const navigationItems = [
     { 
+      id: 'centro-comando', 
+      label: 'Centro de Comando', 
+      icon: Eye, 
+      path: '/dashboard/centro-comando',
+      description: 'Situación actual y acciones'
+    },
+    { 
       id: 'dashboard', 
       label: 'Dashboard', 
       icon: LayoutDashboard, 
