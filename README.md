@@ -231,8 +231,8 @@ sudo supervisorctl restart all
 ## 📞 Soporte Técnico
 
 **Sistema DAMI v1.0.0**
-- Desarrollado para análisis político estratégico
-- Centro de Inteligencia Política Digital
+- Desarrollado para análisis inteligente estratégico
+- Centro de Monitoreo Inteligente DAMI
 - © 2025 - Todos los derechos reservados
 
 ---
