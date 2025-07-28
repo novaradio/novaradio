@@ -3,7 +3,7 @@
 # DAMI Centro Inteligente - Script de Instalación Automática
 # ==========================================================
 
-echo "🧠 DAMI - Centro de Inteligencia Política Digital"
+echo "🧠 Centro de Monitoreo Inteligente DAMI"
 echo "=================================================="
 echo "Iniciando instalación automática del sistema..."
 
