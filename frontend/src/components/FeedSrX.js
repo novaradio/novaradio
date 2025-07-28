@@ -153,6 +153,40 @@ const FeedSrX = ({ user, realTimeData }) => {
         </p>
       </div>
 
+      {/* Module Explanation */}
+      <div className="dami-card mb-6">
+        <div className="flex items-center mb-4">
+          <MessageSquare className="w-6 h-6 text-green-400 mr-3" />
+          <h2 className="text-xl font-semibold text-white">¿Qué es el Feed Sr. X?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Monitoreo de Redes Sociales</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              El Feed Sr. X es nuestro sistema de vigilancia digital más sofisticado. Monitorea en tiempo real 
+              múltiples plataformas sociales (Twitter, Facebook, Instagram, Telegram) para detectar discursos 
+              opositores, tendencias virales y movimientos de opinión pública que puedan impactar la estabilidad política.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Capacidades Avanzadas</h3>
+            <ul className="text-gray-300 text-sm space-y-1">
+              <li>• <strong>Detección de Keywords:</strong> Alertas automáticas por palabras clave específicas</li>
+              <li>• <strong>Análisis de Sentimiento:</strong> Clasificación automática positiva/negativa/neutral</li>
+              <li>• <strong>Tendencias Virales:</strong> Identificación temprana de contenido en propagación</li>
+              <li>• <strong>Perfiles de Riesgo:</strong> Clasificación de usuarios según su potencial de influencia</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-4 p-3 bg-orange-900 bg-opacity-30 border border-orange-400 rounded">
+          <p className="text-orange-400 text-sm">
+            <strong>Alerta de Inteligencia:</strong> "Sr. X" representa cualquier actor digital que pueda influir 
+            en la opinión pública. El sistema identifica automáticamente patrones de desinformación, campañas 
+            coordinadas y movimientos de resistencia digital.
+          </p>
+        </div>
+      </div>
+
       {/* Controls */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* Search */}
