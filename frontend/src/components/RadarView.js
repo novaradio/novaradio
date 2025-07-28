@@ -8,7 +8,8 @@ import {
   User,
   Activity,
   Calendar,
-  Search
+  Search,
+  Brain
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
