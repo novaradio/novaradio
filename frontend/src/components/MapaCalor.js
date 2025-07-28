@@ -92,6 +92,40 @@ const MapaCalor = ({ user }) => {
         </p>
       </div>
 
+      {/* Module Explanation */}
+      <div className="dami-card mb-6">
+        <div className="flex items-center mb-4">
+          <BarChart3 className="w-6 h-6 text-green-400 mr-3" />
+          <h2 className="text-xl font-semibold text-white">¿Qué es el Mapa de Calor Territorial?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Análisis Geopolítico</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              El Mapa de Calor Territorial analiza la intensidad de la actividad política en diferentes zonas 
+              geográficas. Utiliza algoritmos de inteligencia territorial para identificar focos de tensión, 
+              movimientos sociales y cambios en el apoyo popular por región.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Métricas de Actividad</h3>
+            <ul className="text-gray-300 text-sm space-y-1">
+              <li>• <strong>Nivel de Actividad:</strong> Porcentaje de intensidad política en la zona</li>
+              <li>• <strong>Eventos Registrados:</strong> Manifestaciones, reuniones, actividades</li>
+              <li>• <strong>Sentiment Territorial:</strong> Percepción ciudadana por área geográfica</li>
+              <li>• <strong>Factores de Riesgo:</strong> Elementos que pueden generar inestabilidad</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-4 p-3 bg-purple-900 bg-opacity-30 border border-purple-400 rounded">
+          <p className="text-purple-400 text-sm">
+            <strong>Inteligencia Territorial:</strong> Este sistema permite identificar patrones geográficos 
+            de comportamiento político, facilitando la planificación estratégica y la asignación de recursos 
+            de manera eficiente según las necesidades regionales.
+          </p>
+        </div>
+      </div>
+
       {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
