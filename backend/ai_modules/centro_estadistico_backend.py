@@ -351,7 +351,7 @@ class CentroEstadisticoBackend:
         return random.sample(hashtags_base, random.randint(3, 5))
 
     def _obtener_sentiment_label(self, score: float) -> str:
-        """Convierte score numérico a etiqueta de sentimiento"""
+        """Convierte score numérico a etiqueta de sentimiento (MANTENER MÉTODO EXISTENTE)"""
         if score > 0.2:
             return "Positivo"
         elif score < -0.2:
