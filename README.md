@@ -1,6 +1,6 @@
-# DAMI - Centro de Inteligencia Política Digital
+# Centro de Monitoreo Inteligente DAMI
 
-**Sistema Integral de Monitoreo y Análisis Político en Tiempo Real**
+**Sistema Integral de Monitoreo e Inteligencia en Tiempo Real**
 
 ---
 
