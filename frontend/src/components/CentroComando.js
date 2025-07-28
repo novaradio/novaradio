@@ -176,8 +176,8 @@ const CentroComando = () => {
         <h2 className="text-2xl font-semibold text-white mb-6">🚨 PROBLEMAS QUE REQUIEREN ACCIÓN</h2>
         
         <div className="space-y-4">
-          {alertasUrgentes.map((alerta) => (
-            <div key={alerta.id} className={`border-2 rounded-lg p-6 ${getTipoColor(alerta.tipo)}`}>
+          {alertasUrgentes.length > 0 ? alertasUrgentes.map((alerta, index) => (
+            <div key={index} className={`border-2 rounded-lg p-6 ${getTipoColor(alerta.tipo)}`}>
               {/* Encabezado del problema */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -214,7 +214,13 @@ const CentroComando = () => {
                 <strong>IMPACTO:</strong> {alerta.impacto}
               </div>
             </div>
-          ))}
+          )) : (
+            <div className="text-center py-8 text-gray-400">
+              <Shield className="w-16 h-16 mx-auto mb-4 opacity-50" />
+              <p className="text-lg">✅ No hay problemas urgentes detectados</p>
+              <p className="text-sm">El sistema continúa monitoreando en tiempo real</p>
+            </div>
+          )}
         </div>
       </div>
 
