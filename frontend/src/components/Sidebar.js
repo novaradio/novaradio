@@ -14,7 +14,8 @@ import {
   TrendingUp,
   Heart,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Eye
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
