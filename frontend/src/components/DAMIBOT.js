@@ -415,8 +415,30 @@ const DAMIBOT = ({ user, realTimeData }) => {
   };
 
   const handleAction = (action) => {
-    toast.success(`Acción ejecutada: ${action}`);
-    // Aquí podrías implementar navegación o acciones específicas
+    // Navegación inteligente basada en la acción
+    if (action.includes('Dashboard')) {
+      window.location.hash = '#/dashboard';
+      toast.success('Navegando al Dashboard General');
+    } else if (action.includes('Radar')) {
+      window.location.hash = '#/dashboard/radar';
+      toast.success('Navegando al Radar de Actores');
+    } else if (action.includes('Mapa') || action.includes('Territorial')) {
+      window.location.hash = '#/dashboard/mapa';
+      toast.success('Navegando al Mapa de Calor Territorial');
+    } else if (action.includes('Feed') || action.includes('redes')) {
+      window.location.hash = '#/dashboard/feed';
+      toast.success('Navegando al Feed Sr. X');
+    } else if (action.includes('IA') || action.includes('Alertas') || action.includes('recomendaciones')) {
+      window.location.hash = '#/dashboard/alertas';
+      toast.success('Navegando a IA Táctica');
+    } else {
+      toast.success(`Acción ejecutada: ${action}`);
+    }
+    
+    // Cerrar DAMIBOT después de ejecutar acción
+    setTimeout(() => {
+      closeAlert();
+    }, 1500);
   };
 
   if (!isVisible || !currentAlert) return null;
