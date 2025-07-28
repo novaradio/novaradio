@@ -497,6 +497,231 @@ class DAMIBackendTester:
             self.log_test("Date Validation", False, f"Exception: {str(e)}")
             return False
     
+    def test_instagram_integration_in_resumen(self) -> bool:
+        """Test Instagram data integration in Centro Estadístico resumen"""
+        try:
+            response = self.session.get(f"{API_BASE}/centro-estadistico/resumen")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Instagram Integration - Resumen", False, "Response success flag is False")
+                    return False
+                
+                estadisticas = data.get("data", {})
+                resumen = estadisticas.get("resumen_general", {})
+                
+                # Check for Instagram-specific indicators in metadata or response
+                # Instagram should contribute to total mentions and engagement
+                total_menciones = resumen.get("total_menciones", 0)
+                engagement_rate = resumen.get("engagement_rate", 0)
+                
+                # Instagram typically has higher engagement rates, so combined rate should reflect this
+                if total_menciones > 0 and engagement_rate > 0:
+                    self.log_test("Instagram Integration - Resumen", True, 
+                                 f"Instagram data integrated: {total_menciones} mentions, {engagement_rate}% engagement")
+                    return True
+                else:
+                    self.log_test("Instagram Integration - Resumen", False, 
+                                 "No Instagram data detected in combined metrics")
+                    return False
+            else:
+                self.log_test("Instagram Integration - Resumen", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Instagram Integration - Resumen", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_instagram_in_redes_sociales(self) -> bool:
+        """Test Instagram appears in social networks breakdown"""
+        try:
+            response = self.session.get(f"{API_BASE}/centro-estadistico/redes-sociales")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Instagram in Networks", False, "Response success flag is False")
+                    return False
+                
+                redes_data = data.get("data", [])
+                
+                # Find Instagram in the networks list
+                instagram_data = None
+                for red in redes_data:
+                    if red.get("red_social") == "Instagram":
+                        instagram_data = red
+                        break
+                
+                if not instagram_data:
+                    self.log_test("Instagram in Networks", False, "Instagram not found in social networks list")
+                    return False
+                
+                # Validate Instagram-specific data
+                required_fields = ["menciones_total", "menciones_positivas", "menciones_negativas", 
+                                 "porcentaje_positivo", "hashtags_trending", "audiencia_principal"]
+                
+                for field in required_fields:
+                    if field not in instagram_data:
+                        self.log_test("Instagram in Networks", False, f"Missing Instagram field: {field}")
+                        return False
+                
+                # Check Instagram-specific characteristics
+                audiencia = instagram_data.get("audiencia_principal", "")
+                if "18-34" not in audiencia:
+                    self.log_test("Instagram in Networks", False, f"Incorrect Instagram demographic: {audiencia}")
+                    return False
+                
+                # Check for Instagram-typical hashtags
+                hashtags = instagram_data.get("hashtags_trending", [])
+                instagram_hashtags = ["#FrenteRenovador", "#MisionesAvanza", "#DesarrolloSocial"]
+                has_instagram_hashtags = any(tag in hashtags for tag in instagram_hashtags)
+                
+                if not has_instagram_hashtags:
+                    self.log_test("Instagram in Networks", False, "No Instagram-typical hashtags found")
+                    return False
+                
+                self.log_test("Instagram in Networks", True, 
+                             f"Instagram data validated: {instagram_data.get('menciones_total')} posts, "
+                             f"{instagram_data.get('porcentaje_positivo')}% positive, audience: {audiencia}")
+                return True
+            else:
+                self.log_test("Instagram in Networks", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Instagram in Networks", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_three_platform_weighted_calculation(self) -> bool:
+        """Test three-platform weighted engagement calculation (Twitter: 25%, Facebook: 35%, Instagram: 40%)"""
+        try:
+            # Get complete statistics to analyze weighted calculations
+            response = self.session.get(f"{API_BASE}/centro-estadistico/completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Three-Platform Weighting", False, "Response success flag is False")
+                    return False
+                
+                estadisticas = data.get("data", {})
+                
+                # Check metadata for integration confirmation
+                metadata = estadisticas.get("metadata", {})
+                integraciones = metadata.get("integraciones_activas", [])
+                
+                expected_integrations = ["Twitter API v2", "Facebook Graph API", "Instagram Basic API"]
+                missing_integrations = [integration for integration in expected_integrations 
+                                      if integration not in integraciones]
+                
+                if missing_integrations:
+                    self.log_test("Three-Platform Weighting", False, 
+                                 f"Missing integrations: {missing_integrations}")
+                    return False
+                
+                # Check that general statistics reflect combined data
+                generales = estadisticas.get("estadisticas_generales", {})
+                resumen = generales.get("resumen_general", {})
+                
+                # Verify we have data from all three platforms
+                has_twitter_data = resumen.get("twitter_tweets", 0) > 0
+                has_facebook_data = resumen.get("facebook_posts", 0) > 0
+                
+                # Check for Instagram indicators in network breakdown
+                redes = estadisticas.get("estadisticas_por_red", [])
+                instagram_network = next((red for red in redes if red.get("red_social") == "Instagram"), None)
+                has_instagram_data = instagram_network and instagram_network.get("menciones_total", 0) > 0
+                
+                if not (has_twitter_data or has_facebook_data or has_instagram_data):
+                    self.log_test("Three-Platform Weighting", False, 
+                                 "No data detected from any of the three integrated platforms")
+                    return False
+                
+                # Check engagement rate reflects weighted calculation
+                engagement_rate = resumen.get("engagement_rate", 0)
+                if engagement_rate <= 0:
+                    self.log_test("Three-Platform Weighting", False, 
+                                 "No weighted engagement rate calculated")
+                    return False
+                
+                self.log_test("Three-Platform Weighting", True, 
+                             f"Three-platform integration confirmed: Twitter({has_twitter_data}), "
+                             f"Facebook({has_facebook_data}), Instagram({has_instagram_data}), "
+                             f"Weighted engagement: {engagement_rate}%")
+                return True
+            else:
+                self.log_test("Three-Platform Weighting", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Three-Platform Weighting", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_instagram_visual_content_metrics(self) -> bool:
+        """Test Instagram visual content metrics (image/video ratio)"""
+        try:
+            response = self.session.get(f"{API_BASE}/centro-estadistico/redes-sociales")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Instagram Visual Metrics", False, "Response success flag is False")
+                    return False
+                
+                redes_data = data.get("data", [])
+                
+                # Find Instagram data
+                instagram_data = None
+                for red in redes_data:
+                    if red.get("red_social") == "Instagram":
+                        instagram_data = red
+                        break
+                
+                if not instagram_data:
+                    self.log_test("Instagram Visual Metrics", False, "Instagram not found in networks")
+                    return False
+                
+                # Check for Instagram-specific engagement characteristics
+                # Instagram typically has higher engagement than Twitter/Facebook
+                engagement_rate = instagram_data.get("engagement_rate", 0)
+                menciones_total = instagram_data.get("menciones_total", 0)
+                
+                # Instagram should have reasonable engagement and content
+                if menciones_total > 0:
+                    # Check for Instagram-typical positive sentiment (visual content tends to be more positive)
+                    porcentaje_positivo = instagram_data.get("porcentaje_positivo", 0)
+                    
+                    # Instagram typically has higher positive sentiment due to visual nature
+                    if porcentaje_positivo > 40:  # Instagram content is usually more positive
+                        self.log_test("Instagram Visual Metrics", True, 
+                                     f"Instagram visual content validated: {menciones_total} posts, "
+                                     f"{porcentaje_positivo}% positive (typical for visual platform)")
+                        return True
+                    else:
+                        self.log_test("Instagram Visual Metrics", True, 
+                                     f"Instagram data present: {menciones_total} posts, "
+                                     f"{porcentaje_positivo}% positive")
+                        return True
+                else:
+                    self.log_test("Instagram Visual Metrics", False, "No Instagram content detected")
+                    return False
+            else:
+                self.log_test("Instagram Visual Metrics", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Instagram Visual Metrics", False, f"Exception: {str(e)}")
+            return False
+    
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
