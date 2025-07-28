@@ -614,9 +614,9 @@ async def analyze_situation_autonomous(
         situation_data = request.get("situation_data", {})
         
         # Agregar datos del sistema actual para análisis
-        actors = list(db.actors.find({}, {"_id": 0}))
-        zones = list(db.zones.find({}, {"_id": 0}))
-        recent_posts = list(db.feed.find({}).sort("timestamp", -1).limit(20))
+        actors = await db.political_actors.find({}, {"_id": 0}).to_list(1000)
+        zones = await db.zones.find({}, {"_id": 0}).to_list(1000)
+        recent_posts = await db.feed.find({}).sort("timestamp", -1).limit(20).to_list(20)
         
         situation_data.update({
             "actors": actors,
