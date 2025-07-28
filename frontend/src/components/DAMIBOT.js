@@ -180,36 +180,111 @@ const DAMIBOT = ({ user, realTimeData }) => {
     queueAlert(alert);
   };
 
-  const generateContextualAlert = () => {
-    const alertOptions = [
-      {
-        type: 'AI_RECOMMENDATION',
-        title: 'Análisis Predictivo Completado',
-        message: 'El sistema de IA ha identificado un patrón emergente en el comportamiento político que requiere tu atención. Se recomienda revisar los últimos datos del Radar de Actores.',
-        recommendations: [
-          'Revisa el módulo Radar de Actores',
-          'Analiza las tendencias de los últimos 24 horas',
-          'Considera activar protocolos preventivos'
-        ]
-      },
-      {
-        type: 'TERRITORY_ESCALATION',
-        title: 'Cambio en Actividad Territorial',
-        message: 'Se ha detectado un incremento significativo en la actividad política de una zona territorial. Los algoritmos sugieren monitoreo intensivo.',
-        recommendations: [
-          'Ve al Mapa de Calor Territorial',
-          'Identifica la zona con mayor actividad',
-          'Evalúa necesidad de recursos adicionales'
-        ]
-      }
-    ];
-
-    const selectedAlert = alertOptions[Math.floor(Math.random() * alertOptions.length)];
+  const showContextualAlert = (alertData) => {
     const alert = {
       id: `contextual_${Date.now()}`,
-      ...selectedAlert,
-      context: { timestamp: new Date(), automatic: true },
-      autoClose: true
+      type: alertData.type,
+      title: alertData.title,
+      message: alertData.message,
+      context: { 
+        timestamp: new Date(), 
+        automatic: true,
+        userRole: user?.role
+      },
+      recommendations: DAMIBOTTriggers.generateSmartRecommendations(alertData.type, {}, user),
+      autoClose: alertData.priority > 3
+    };
+    
+    queueAlert(alert);
+  };
+
+  const showMorningBriefing = async () => {
+    try {
+      // Obtener datos actualizados para el briefing
+      const [summaryRes, actorsRes, alertsRes] = await Promise.all([
+        axios.get(`${API}/dashboard/summary`).catch(() => ({ data: null })),
+        axios.get(`${API}/actors`).catch(() => ({ data: [] })),
+        axios.get(`${API}/alerts`).catch(() => ({ data: [] }))
+      ]);
+
+      const criticalActors = summaryRes.data ? 
+        (actorsRes.data || []).filter(actor => actor.status === 'roja').length : 0;
+      const activeAlerts = summaryRes.data ? summaryRes.data.active_alerts : 0;
+
+      const alert = {
+        id: `morning_${Date.now()}`,
+        type: 'MORNING_BRIEFING',
+        title: '🌅 Briefing Matutino DAMI',
+        message: `Buenos días, ${user?.username}. Durante la noche se registraron ${activeAlerts} alertas activas y ${criticalActors} actores en estado crítico. Te proporciono el resumen para comenzar tu jornada estratégicamente.`,
+        context: {
+          timestamp: new Date(),
+          nightlyAlerts: activeAlerts,
+          criticalActors: criticalActors,
+          briefingType: 'morning'
+        },
+        recommendations: [
+          'Revisar Dashboard General para métricas nocturnas',
+          `Analizar los ${criticalActors} actores en estado crítico`,
+          'Verificar alertas pendientes de atención',
+          'Planificar prioridades del día con tu equipo'
+        ],
+        autoClose: false
+      };
+      
+      queueAlert(alert);
+    } catch (error) {
+      console.error('Error generating morning briefing:', error);
+    }
+  };
+
+  const showEveningSummary = async () => {
+    try {
+      const summaryRes = await axios.get(`${API}/dashboard/summary`).catch(() => ({ data: null }));
+      const recentActivity = summaryRes.data ? summaryRes.data.recent_social_activity : 0;
+
+      const alert = {
+        id: `evening_${Date.now()}`,
+        type: 'EVENING_SUMMARY',
+        title: '🌆 Resumen Vespertino DAMI',
+        message: `La jornada concluye con ${recentActivity} eventos registrados en redes sociales. Te proporciono un análisis de los desarrollos del día y preparaciones para el monitoreo nocturno.`,
+        context: {
+          timestamp: new Date(),
+          dailyActivity: recentActivity,
+          summaryType: 'evening'
+        },
+        recommendations: [
+          'Revisar logros y eventos del día',
+          'Identificar temas críticos para seguimiento nocturno',
+          'Preparar briefing para el turno siguiente',
+          'Configurar alertas automáticas para la noche'
+        ],
+        autoClose: false
+      };
+      
+      queueAlert(alert);
+    } catch (error) {
+      console.error('Error generating evening summary:', error);
+    }
+  };
+
+  const showNightMonitoringAlert = () => {
+    const alert = {
+      id: `night_${Date.now()}`,
+      type: 'NIGHT_MONITORING',
+      title: '🌙 Monitoreo Nocturno Activado',
+      message: `El sistema DAMI ha activado el modo de monitoreo nocturno. Los algoritmos de IA estarán vigilando automáticamente y te alertarán solo sobre eventos críticos que requieran intervención inmediata.`,
+      context: {
+        timestamp: new Date(),
+        monitoringMode: 'night',
+        autoResponse: true
+      },
+      recommendations: [
+        'Verificar configuración de alertas críticas',
+        'Asegurar disponibilidad del equipo de emergencia',
+        'Revisar protocolos de respuesta nocturna',
+        'Confirmar canales de comunicación de emergencia'
+      ],
+      autoClose: false
     };
     
     queueAlert(alert);
