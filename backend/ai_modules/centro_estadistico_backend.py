@@ -99,7 +99,7 @@ class CentroEstadisticoBackend:
                 "crecimiento_semanal": self._calcular_crecimiento_semanal_combinado(twitter_summary, facebook_summary),
                 "indice_influencia": min(95, int(weighted_engagement * 8) + random.randint(65, 90)),
                 "score_reputacion": self._calcular_score_reputacion(menciones_positivas, menciones_negativas),
-                "nivel_crisis": self._determinar_nivel_crisis_combinado(twitter_summary, facebook_summary)
+                "nivel_crisis": self._determinar_nivel_crisis_combinado(twitter_summary, facebook_summary, instagram_summary)
             }
         }
 
