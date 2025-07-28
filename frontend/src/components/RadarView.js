@@ -93,6 +93,51 @@ const RadarView = ({ user }) => {
         </p>
       </div>
 
+      {/* Module Explanation */}
+      <div className="dami-card mb-6">
+        <div className="flex items-center mb-4">
+          <Brain className="w-6 h-6 text-green-400 mr-3" />
+          <h2 className="text-xl font-semibold text-white">¿Qué es el Radar de Actores?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Propósito Principal</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              El Radar de Actores es el sistema de monitoreo político más avanzado de DAMI. Rastrea en tiempo real 
+              el comportamiento, declaraciones y actividad de figuras políticas clave, categorizándolas según su 
+              nivel de riesgo y potencial impacto en la estabilidad política.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Sistema de Clasificación</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                <span className="text-gray-300"><strong>Roja (Crítico):</strong> Actividad hostil o declaraciones agresivas</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-orange-500 rounded mr-2"></div>
+                <span className="text-gray-300"><strong>Naranja (Alto Riesgo):</strong> Ataques discursivos o maniobras estratégicas</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
+                <span className="text-gray-300"><strong>Amarilla (Precaución):</strong> Actividad sospechosa o cambios de postura</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                <span className="text-gray-300"><strong>Verde (Neutro):</strong> Discurso neutral o favorable</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 p-3 bg-blue-900 bg-opacity-30 border border-blue-400 rounded">
+          <p className="text-blue-400 text-sm">
+            <strong>Inteligencia Predictiva:</strong> El sistema utiliza análisis de patrones de comportamiento, 
+            frecuencia de declaraciones y sentiment analysis para predecir movimientos políticos antes de que ocurran.
+          </p>
+        </div>
+      </div>
+
       {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
