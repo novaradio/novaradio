@@ -10,6 +10,8 @@ import AlertasIA from './AlertasIA';
 import ChatBot from './ChatBot';
 import DAMIBOT from './DAMIBOT';
 import CentroComando from './CentroComando';
+import CentroEstadistico from './CentroEstadistico';
+import InformeDiario from './InformeDiario';
 import MapaMisiones from './MapaMisiones';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
