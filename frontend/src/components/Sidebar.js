@@ -29,9 +29,23 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
     { 
       id: 'centro-comando', 
       label: 'Centro de Comando', 
-      icon: Eye, 
+      icon: Command, 
       path: '/dashboard/centro-comando',
       description: 'Situación actual y acciones'
+    },
+    { 
+      id: 'centro-estadistico', 
+      label: 'Centro Estadístico', 
+      icon: BarChart3, 
+      path: '/dashboard/centro-estadistico',
+      description: 'Análisis y métricas'
+    },
+    { 
+      id: 'informe-diario', 
+      label: 'Informe Diario', 
+      icon: FileText, 
+      path: '/dashboard/informe-diario',
+      description: 'Reportes diarios'
     },
     { 
       id: 'mapa-territorial', 
