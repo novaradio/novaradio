@@ -69,7 +69,7 @@ const Login = ({ onLogin }) => {
             🧠 DAMI
           </h1>
           <p className="text-gray-400 text-lg">
-            Centro de Inteligencia Política Digital
+            Centro de Monitoreo Inteligente DAMI
           </p>
         </div>
 
