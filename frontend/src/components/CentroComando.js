@@ -128,12 +128,28 @@ const CentroComando = () => {
 
       {/* Panel de Situación General */}
       <div className="dami-card mb-6">
-        <h2 className="text-2xl font-semibold text-white mb-6">📊 SITUACIÓN GENERAL AHORA</h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-white">📊 SITUACIÓN GENERAL AHORA</h2>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={actualizarTodosLosDatos}
+              disabled={loading}
+              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition"
+            >
+              {loading ? '⟳' : '🔄'} Actualizar
+            </button>
+            {lastUpdate && (
+              <span className="text-sm text-gray-400">
+                Última actualización: {lastUpdate}
+              </span>
+            )}
+          </div>
+        </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center p-4 bg-gray-800 rounded-lg">
             <div className={`text-2xl font-bold px-3 py-1 rounded ${getNivelAmenazaColor(situacionActual.nivelAmenaza)}`}>
-              {situacionActual.nivelAmenaza || 'MODERADO'}
+              {situacionActual.nivelAmenaza || 'CARGANDO...'}
             </div>
             <div className="text-sm text-gray-400 mt-2">Nivel de Amenaza</div>
           </div>
