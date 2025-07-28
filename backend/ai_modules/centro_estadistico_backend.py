@@ -11,6 +11,7 @@ import json
 import asyncio
 from integrations.twitter_api_v2 import twitter_api
 from integrations.facebook_api import facebook_api
+from integrations.instagram_api import instagram_api
 
 class CentroEstadisticoBackend:
     """Backend para generar estadísticas de redes sociales del Frente Renovador"""
