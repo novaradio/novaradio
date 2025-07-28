@@ -574,6 +574,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
                 alertConfig.color === 'orange' ? 'text-orange-400' :
                 alertConfig.color === 'yellow' ? 'text-yellow-400' :
                 alertConfig.color === 'blue' ? 'text-blue-400' :
+                alertConfig.color === 'purple' ? 'text-purple-400' :
                 'text-green-400'
               }`} />
               <h3 className="text-lg font-semibold text-white">
