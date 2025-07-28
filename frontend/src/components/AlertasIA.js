@@ -152,6 +152,47 @@ const AlertasIA = ({ user }) => {
         </p>
       </div>
 
+      {/* Module Explanation */}
+      <div className="dami-card mb-6">
+        <div className="flex items-center mb-4">
+          <Zap className="w-6 h-6 text-green-400 mr-3" />
+          <h2 className="text-xl font-semibold text-white">¿Qué es la IA Táctica DAMI?</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Inteligencia Artificial Estratégica</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              La IA Táctica DAMI es el cerebro del sistema. Analiza continuamente todos los datos recopilados 
+              (actores, territorios, redes sociales) y genera recomendaciones estratégicas automatizadas. 
+              Utiliza machine learning para predecir escenarios políticos y sugerir acciones preventivas o reactivas.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-green-400 mb-2">Tipos de Recomendaciones</h3>
+            <ul className="text-gray-300 text-sm space-y-1">
+              <li>• <strong>Respuesta Inmediata:</strong> Acciones para contrarrestar amenazas detectadas</li>
+              <li>• <strong>Estrategia Preventiva:</strong> Medidas para evitar escalamiento de conflictos</li>
+              <li>• <strong>Comunicación Táctica:</strong> Mensajes optimizados para diferentes audiencias</li>
+              <li>• <strong>Asignación de Recursos:</strong> Distribución eficiente de equipos y presupuesto</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-3 bg-red-900 bg-opacity-30 border border-red-400 rounded">
+            <p className="text-red-400 text-sm">
+              <strong>Alertas Críticas:</strong> Recomendaciones de máxima prioridad que requieren acción inmediata 
+              para prevenir crisis políticas o sociales.
+            </p>
+          </div>
+          <div className="p-3 bg-green-900 bg-opacity-30 border border-green-400 rounded">
+            <p className="text-green-400 text-sm">
+              <strong>Análisis Predictivo:</strong> La IA aprende de patrones históricos para anticipar 
+              movimientos políticos hasta con 72 horas de antelación.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Stats & Filter */}
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
         {/* Stats */}
