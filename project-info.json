@@ -1,9 +1,9 @@
 {
   "project": {
-    "name": "DAMI Centro Inteligente",
-    "fullName": "Centro de Inteligencia Política Digital",
+    "name": "Centro de Monitoreo Inteligente DAMI",
+    "fullName": "Centro de Monitoreo Inteligente DAMI",
     "version": "1.0.0",
-    "description": "Sistema integral de monitoreo y análisis político en tiempo real con inteligencia artificial avanzada",
+    "description": "Sistema integral de monitoreo e inteligencia en tiempo real con inteligencia artificial avanzada",
     "createdDate": "2025-07-28",
     "status": "Production Ready"
   },
