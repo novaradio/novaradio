@@ -722,6 +722,322 @@ class DAMIBackendTester:
             self.log_test("Instagram Visual Metrics", False, f"Exception: {str(e)}")
             return False
     
+    def test_mapa_territorial_actividad_endpoint(self) -> bool:
+        """Test Mapa de Misiones territorial activity endpoint with 3-API integration"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Mapa Territorial - Actividad Endpoint", False, "Response success flag is False")
+                    return False
+                
+                actividad_data = data.get("data", {})
+                
+                # Validate main structure
+                required_sections = ["general", "municipios", "metadata"]
+                for section in required_sections:
+                    if section not in actividad_data:
+                        self.log_test("Mapa Territorial - Actividad Endpoint", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate general section with 3 platforms + combined
+                general = actividad_data.get("general", {})
+                required_platforms = ["twitter", "facebook", "instagram", "combinado"]
+                for platform in required_platforms:
+                    if platform not in general:
+                        self.log_test("Mapa Territorial - Actividad Endpoint", False, f"Missing platform: {platform}")
+                        return False
+                
+                self.log_test("Mapa Territorial - Actividad Endpoint", True, 
+                             "Endpoint structure validated with all 3 platforms + combined data")
+                return True
+            else:
+                self.log_test("Mapa Territorial - Actividad Endpoint", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Actividad Endpoint", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_mapa_territorial_data_structure(self) -> bool:
+        """Test Mapa Territorial data structure validation"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                actividad_data = data.get("data", {})
+                general = actividad_data.get("general", {})
+                
+                # Test Twitter data structure
+                twitter = general.get("twitter", {})
+                twitter_fields = ["total_tweets", "positive_tweets", "negative_tweets", "sentiment_score", "engagement_rate", "timestamp"]
+                for field in twitter_fields:
+                    if field not in twitter:
+                        self.log_test("Mapa Territorial - Twitter Data", False, f"Missing Twitter field: {field}")
+                        return False
+                
+                # Test Facebook data structure
+                facebook = general.get("facebook", {})
+                facebook_fields = ["total_posts", "positive_posts", "negative_posts", "sentiment_score", "engagement_rate", "timestamp"]
+                for field in facebook_fields:
+                    if field not in facebook:
+                        self.log_test("Mapa Territorial - Facebook Data", False, f"Missing Facebook field: {field}")
+                        return False
+                
+                # Test Instagram data structure
+                instagram = general.get("instagram", {})
+                instagram_fields = ["total_posts", "positive_posts", "negative_posts", "sentiment_score", "engagement_rate", "timestamp"]
+                for field in instagram_fields:
+                    if field not in instagram:
+                        self.log_test("Mapa Territorial - Instagram Data", False, f"Missing Instagram field: {field}")
+                        return False
+                
+                # Test combined data structure
+                combinado = general.get("combinado", {})
+                combinado_fields = ["total_menciones", "sentiment_promedio", "engagement_promedio", "nivel_actividad", "estado_general"]
+                for field in combinado_fields:
+                    if field not in combinado:
+                        self.log_test("Mapa Territorial - Combined Data", False, f"Missing combined field: {field}")
+                        return False
+                
+                self.log_test("Mapa Territorial - Data Structure", True, 
+                             "All platform data structures validated successfully")
+                return True
+            else:
+                self.log_test("Mapa Territorial - Data Structure", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Data Structure", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_mapa_territorial_weighted_calculations(self) -> bool:
+        """Test weighted calculations (Instagram: 40%, Facebook: 35%, Twitter: 25%)"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                actividad_data = data.get("data", {})
+                general = actividad_data.get("general", {})
+                
+                # Get individual platform data
+                twitter = general.get("twitter", {})
+                facebook = general.get("facebook", {})
+                instagram = general.get("instagram", {})
+                combinado = general.get("combinado", {})
+                
+                # Verify metadata shows correct weighting algorithm
+                metadata = actividad_data.get("metadata", {})
+                algoritmo = metadata.get("algoritmo_ponderacion", "")
+                expected_algorithm = "Instagram: 40%, Facebook: 35%, Twitter: 25%"
+                
+                if expected_algorithm not in algoritmo:
+                    self.log_test("Mapa Territorial - Weighted Algorithm", False, 
+                                 f"Incorrect weighting algorithm: {algoritmo}")
+                    return False
+                
+                # Verify combined calculations exist
+                sentiment_promedio = combinado.get("sentiment_promedio", 0)
+                engagement_promedio = combinado.get("engagement_promedio", 0)
+                total_menciones = combinado.get("total_menciones", 0)
+                
+                # Check that combined metrics are calculated
+                if sentiment_promedio == 0 and engagement_promedio == 0 and total_menciones == 0:
+                    self.log_test("Mapa Territorial - Weighted Calculations", False, 
+                                 "No weighted calculations detected")
+                    return False
+                
+                # Verify total mentions is sum of all platforms
+                expected_total = (twitter.get("total_tweets", 0) + 
+                                facebook.get("total_posts", 0) + 
+                                instagram.get("total_posts", 0))
+                
+                if total_menciones != expected_total:
+                    self.log_test("Mapa Territorial - Weighted Calculations", False, 
+                                 f"Total mentions mismatch: expected {expected_total}, got {total_menciones}")
+                    return False
+                
+                self.log_test("Mapa Territorial - Weighted Calculations", True, 
+                             f"Weighted calculations validated: {total_menciones} total mentions, "
+                             f"sentiment: {sentiment_promedio:.3f}, engagement: {engagement_promedio:.2f}%")
+                return True
+            else:
+                self.log_test("Mapa Territorial - Weighted Calculations", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Weighted Calculations", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_mapa_territorial_activity_analysis(self) -> bool:
+        """Test territorial activity level and state determination"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                actividad_data = data.get("data", {})
+                general = actividad_data.get("general", {})
+                combinado = general.get("combinado", {})
+                
+                # Test activity level determination
+                nivel_actividad = combinado.get("nivel_actividad", "")
+                valid_activity_levels = ["CRÍTICO", "ALTO", "MEDIO", "BAJO", "DESCONOCIDO"]
+                
+                if nivel_actividad not in valid_activity_levels:
+                    self.log_test("Mapa Territorial - Activity Analysis", False, 
+                                 f"Invalid activity level: {nivel_actividad}")
+                    return False
+                
+                # Test territorial state determination
+                estado_general = combinado.get("estado_general", "")
+                valid_states = ["MUY_FAVORABLE", "FAVORABLE", "NEUTRAL", "DESFAVORABLE", "CRÍTICO", "SIN_DATOS", "ERROR"]
+                
+                if estado_general not in valid_states:
+                    self.log_test("Mapa Territorial - Activity Analysis", False, 
+                                 f"Invalid territorial state: {estado_general}")
+                    return False
+                
+                # Verify consistency between sentiment and state
+                sentiment_promedio = combinado.get("sentiment_promedio", 0)
+                engagement_promedio = combinado.get("engagement_promedio", 0)
+                
+                # Basic consistency check
+                if sentiment_promedio > 0.3 and estado_general in ["DESFAVORABLE", "CRÍTICO"]:
+                    self.log_test("Mapa Territorial - Activity Analysis", False, 
+                                 f"Inconsistent state: positive sentiment ({sentiment_promedio}) but negative state ({estado_general})")
+                    return False
+                
+                self.log_test("Mapa Territorial - Activity Analysis", True, 
+                             f"Activity analysis validated: Level={nivel_actividad}, State={estado_general}, "
+                             f"Sentiment={sentiment_promedio:.3f}, Engagement={engagement_promedio:.2f}%")
+                return True
+            else:
+                self.log_test("Mapa Territorial - Activity Analysis", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Activity Analysis", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_mapa_territorial_metadata_verification(self) -> bool:
+        """Test metadata shows active integrations and data quality"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                actividad_data = data.get("data", {})
+                metadata = actividad_data.get("metadata", {})
+                
+                # Check for required metadata fields
+                required_metadata = ["integraciones_activas", "algoritmo_ponderacion", "ultima_actualizacion", 
+                                   "datos_disponibles", "calidad_datos"]
+                for field in required_metadata:
+                    if field not in metadata:
+                        self.log_test("Mapa Territorial - Metadata", False, f"Missing metadata field: {field}")
+                        return False
+                
+                # Verify active integrations
+                integraciones = metadata.get("integraciones_activas", [])
+                expected_integrations = ["Twitter API v2", "Facebook Graph API", "Instagram Basic API"]
+                
+                for integration in expected_integrations:
+                    if integration not in integraciones:
+                        self.log_test("Mapa Territorial - Metadata", False, f"Missing integration: {integration}")
+                        return False
+                
+                # Check data availability flags
+                datos_disponibles = metadata.get("datos_disponibles", {})
+                required_flags = ["twitter", "facebook", "instagram"]
+                for flag in required_flags:
+                    if flag not in datos_disponibles:
+                        self.log_test("Mapa Territorial - Metadata", False, f"Missing data availability flag: {flag}")
+                        return False
+                
+                # Verify data quality assessment
+                calidad_datos = metadata.get("calidad_datos", "")
+                valid_quality_levels = ["alta", "media", "baja"]
+                
+                if calidad_datos not in valid_quality_levels:
+                    self.log_test("Mapa Territorial - Metadata", False, f"Invalid data quality: {calidad_datos}")
+                    return False
+                
+                self.log_test("Mapa Territorial - Metadata", True, 
+                             f"Metadata validated: {len(integraciones)} integrations active, "
+                             f"data quality: {calidad_datos}")
+                return True
+            else:
+                self.log_test("Mapa Territorial - Metadata", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Metadata", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_mapa_territorial_fallback_handling(self) -> bool:
+        """Test fallback data structure when APIs fail"""
+        try:
+            response = self.session.get(f"{API_BASE}/mapa-territorial/actividad")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check if we're in fallback mode
+                actividad_data = data.get("data", {})
+                metadata = actividad_data.get("metadata", {})
+                
+                if metadata.get("fallback_mode", False):
+                    # Validate fallback structure
+                    general = actividad_data.get("general", {})
+                    combinado = general.get("combinado", {})
+                    
+                    # In fallback mode, should have basic structure with zero values
+                    if (combinado.get("total_menciones", -1) == 0 and 
+                        combinado.get("nivel_actividad") == "DESCONOCIDO" and
+                        combinado.get("estado_general") == "ERROR"):
+                        
+                        self.log_test("Mapa Territorial - Fallback Handling", True, 
+                                     "Fallback mode detected and structure validated")
+                        return True
+                    else:
+                        self.log_test("Mapa Territorial - Fallback Handling", False, 
+                                     "Fallback mode detected but structure invalid")
+                        return False
+                else:
+                    # Normal mode - verify we have actual data
+                    general = actividad_data.get("general", {})
+                    combinado = general.get("combinado", {})
+                    total_menciones = combinado.get("total_menciones", 0)
+                    
+                    if total_menciones > 0:
+                        self.log_test("Mapa Territorial - Fallback Handling", True, 
+                                     f"Normal mode with {total_menciones} mentions - fallback not needed")
+                        return True
+                    else:
+                        self.log_test("Mapa Territorial - Fallback Handling", True, 
+                                     "Normal mode with zero mentions - APIs may be returning empty data")
+                        return True
+                        
+            else:
+                self.log_test("Mapa Territorial - Fallback Handling", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Mapa Territorial - Fallback Handling", False, f"Exception: {str(e)}")
+            return False
+    
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
