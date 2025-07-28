@@ -166,6 +166,30 @@ class CentroEstadisticoBackend:
                     "ultima_actualizacion": facebook_summary.get('timestamp', datetime.now().isoformat())
                 })
             
+            elif red == "Instagram":
+                # Use REAL Instagram data
+                menciones_total = instagram_summary.get('total_posts', 0)
+                positivas = instagram_summary.get('positive_posts', 0)
+                negativas = instagram_summary.get('negative_posts', 0)
+                neutrales = instagram_summary.get('neutral_posts', 0)
+                engagement_rate = instagram_summary.get('engagement_rate', 0)
+                
+                estadisticas.append({
+                    "red_social": red,
+                    "menciones_total": menciones_total,
+                    "menciones_positivas": positivas,
+                    "menciones_negativas": negativas,
+                    "menciones_neutrales": neutrales,
+                    "porcentaje_positivo": round((positivas / menciones_total) * 100, 1) if menciones_total > 0 else 0,
+                    "porcentaje_negativo": round((negativas / menciones_total) * 100, 1) if menciones_total > 0 else 0,
+                    "tendencia": self._calcular_tendencia_instagram(instagram_summary),
+                    "hashtags_trending": self._extraer_hashtags_instagram(instagram_data),
+                    "horario_pico": "20:00-22:00",  # Instagram typical peak hours
+                    "audiencia_principal": "18-34 años",  # Instagram demographic
+                    "datos_reales": True,
+                    "ultima_actualizacion": instagram_summary.get('timestamp', datetime.now().isoformat())
+                })
+            
             else:
                 # Simulated data for other platforms (until we integrate their APIs)
                 menciones_total = random.randint(80, 600)
