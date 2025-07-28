@@ -17,7 +17,7 @@ class CentroEstadisticoBackend:
     
     def __init__(self):
         self.frente_renovador = "Frente Renovador de la Concordia Social"
-        self.redes_sociales = ["Twitter/X", "Facebook", "Instagram", "TikTok", "YouTube", "WhatsApp"]
+        self.redes_sociales = ["Facebook", "Twitter/X", "Instagram", "TikTok", "YouTube", "WhatsApp"]
         self.temas_principales = [
             "Política Económica", "Desarrollo Social", "Infraestructura", 
             "Educación", "Salud", "Seguridad", "Medio Ambiente", "Empleo"
