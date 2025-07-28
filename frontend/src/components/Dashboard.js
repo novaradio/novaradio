@@ -124,6 +124,7 @@ const Dashboard = ({ user, onLogout }) => {
             <Route path="/mapa" element={<MapaCalor user={user} />} />
             <Route path="/feed" element={<FeedSrX user={user} realTimeData={realTimeData} />} />
             <Route path="/alertas" element={<AlertasIA user={user} />} />
+            <Route path="/analisis-competencia" element={<AnalisisCompetencia user={user} />} />
             
             {/* AI Modules Routes */}
             <Route path="/ai/overview" element={<AIModulesOverview user={user} />} />
