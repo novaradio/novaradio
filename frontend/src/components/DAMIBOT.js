@@ -32,6 +32,11 @@ const DAMIBOT = ({ user, realTimeData }) => {
   const [contextualInfo, setContextualInfo] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const alertTimeoutRef = useRef(null);
+  
+  // Nuevo estado para la solapa emergente
+  const [emergentTab, setEmergentTab] = useState(null);
+  const [showEmergentTab, setShowEmergentTab] = useState(false);
+  const emergentTabTimeoutRef = useRef(null);
 
   // Tipos de alertas que DAMIBOT puede mostrar
   const alertTypes = {
