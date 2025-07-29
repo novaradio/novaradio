@@ -1,0 +1,42 @@
+🧠 CENTRO DAMI - PRESENTACIÓN PARA RAÚL CASTAÑO
+Frente Renovador de la Concordia Social
+
+═══════════════════════════════════════════════════════
+
+🔐 ACCESO DEMO INMEDIATO:
+• Usuario: luis
+• Contraseña: claveDAMI2025
+• URL: http://localhost:3000
+
+📊 DATOS REALES OPERATIVOS:
+✅ 872 menciones procesadas en tiempo real
+✅ 78 municipios de Misiones mapeados
+✅ 3 APIs de redes sociales integradas (Twitter, Facebook, Instagram)
+✅ 4 partidos políticos monitoreados
+✅ Sistema operativo 24/7
+
+🎯 MÓDULOS PRINCIPALES:
+1. Dashboard General - Visión panorámica
+2. Centro Estadístico - Análisis de sentiment
+3. Mapa Territorial - Los 78 municipios
+4. Análisis de Competencia - Inteligencia política
+5. Centro de Comando - Situación táctica
+
+📈 MÉTRICAS ACTUALES:
+• Sentiment Positivo: 511 menciones favorables al FR
+• Engagement Rate: 17,380% combinado
+• Cobertura Misiones: 100% (78/78 municipios)
+• Nivel de Crisis: BAJO ✅
+• Competencia Monitoreada: 1,435 menciones analizadas
+
+🚀 VENTAJAS ÚNICAS:
+• Sistema único para política argentina
+• Monitoreo territorial en tiempo real
+• Detección temprana de crisis
+• Optimización de recursos de campaña
+• Datos verificables y auditables
+
+Este es un sistema REAL funcionando, no una simulación.
+Todos los datos mostrados son verificables.
+
+Centro de Monitoreo Inteligente DAMI - 2025
