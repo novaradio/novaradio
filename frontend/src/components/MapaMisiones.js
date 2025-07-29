@@ -145,7 +145,7 @@ const MapaMisiones = () => {
       
       // Fallback a datos simulados si falla la API
       const datosSimulados = municipiosCompletos.map((municipio, index) => {
-        const actividad = generarActividadRealista(municipio, index);
+        const actividad = generarActividadBasadaEnDatosReales(municipio, {general: {twitter: {}, facebook: {}, instagram: {}}}, index);
         return {
           ...municipio,
           id: index + 1,
