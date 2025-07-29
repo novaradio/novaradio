@@ -310,7 +310,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
       }
       
       // Generar notificaciones emergentes proactivas
-      const now = new Date();
+      const currentTime = new Date();
       const randomChance = Math.random();
       
       if (randomChance > 0.85) { // 15% probabilidad cada minuto
@@ -334,9 +334,8 @@ const DAMIBOT = ({ user, realTimeData }) => {
       }
       
       // Alertas automáticas por horario
-      const now = new Date();
-      const hour = now.getHours();
-      const minute = now.getMinutes();
+      const hour = currentTime.getHours();
+      const minute = currentTime.getMinutes();
       
       // Briefing matutino (8:00 AM)
       if (hour === 8 && minute === 0) {
