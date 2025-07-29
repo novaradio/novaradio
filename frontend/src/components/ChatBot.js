@@ -284,15 +284,15 @@ Como OPERADOR tienes acceso a:
       </div>
 
       {/* Quick Responses */}
-      {messages.length <= 1 && (
-        <div className="px-4 py-2 border-t border-gray-700">
+      {messages.length === 1 && (
+        <div className="p-3 sm:p-4 border-t border-gray-700 bg-gray-900">
           <p className="text-xs text-gray-400 mb-2">Respuestas rápidas:</p>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 sm:gap-2">
             {quickResponses.slice(0, 3).map((response, index) => (
               <button
                 key={index}
                 onClick={() => setInputMessage(response)}
-                className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded transition-colors"
+                className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded transition-colors truncate max-w-full"
               >
                 {response}
               </button>
