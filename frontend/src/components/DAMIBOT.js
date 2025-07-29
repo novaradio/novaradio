@@ -776,7 +776,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
               {/* Indicador de progreso más sutil */}
               <div className="w-full bg-gray-700 h-1 rounded-b-lg overflow-hidden">
                 <div 
-                  className={`h-1 transition-all duration-8000 ease-linear ${
+                  className={`h-1 transition-all duration-5000 ease-linear ${
                     emergentTab.color === 'red' ? 'bg-red-400' :
                     emergentTab.color === 'blue' ? 'bg-blue-400' :
                     emergentTab.color === 'yellow' ? 'bg-yellow-400' :
@@ -784,7 +784,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
                   }`}
                   style={{ 
                     width: showEmergentTab ? '0%' : '100%',
-                    transition: 'width 8s linear'
+                    transition: 'width 5s linear'
                   }}
                 ></div>
               </div>
