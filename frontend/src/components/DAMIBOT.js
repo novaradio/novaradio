@@ -114,6 +114,147 @@ const DAMIBOT = ({ user, realTimeData }) => {
     }
   };
 
+  // Función para mostrar solapa emergente proactiva
+  const showEmergentNotification = (type, message, data = {}) => {
+    const emergentTypes = {
+      'ALERT': {
+        icon: '⚠️',
+        color: 'red',
+        bgColor: 'bg-red-900',
+        borderColor: 'border-red-400',
+        title: 'Alerta Importante'
+      },
+      'SUMMARY': {
+        icon: '📊',
+        color: 'blue',
+        bgColor: 'bg-blue-900',
+        borderColor: 'border-blue-400',
+        title: 'Resumen Disponible'
+      },
+      'STATISTICS': {
+        icon: '📈',
+        color: 'green',
+        bgColor: 'bg-green-900',
+        borderColor: 'border-green-400',
+        title: 'Estadísticas Actualizadas'
+      },
+      'IMPORTANT_DATA': {
+        icon: '🔔',
+        color: 'yellow',
+        bgColor: 'bg-yellow-900',
+        borderColor: 'border-yellow-400',
+        title: 'Datos Importantes'
+      },
+      'CRITICAL_UPDATE': {
+        icon: '🚨',
+        color: 'red',
+        bgColor: 'bg-red-900',
+        borderColor: 'border-red-400',
+        title: 'Actualización Crítica'
+      }
+    };
+
+    const emergentInfo = emergentTypes[type] || emergentTypes['IMPORTANT_DATA'];
+    
+    const notification = {
+      id: `emergent_${Date.now()}`,
+      type: type,
+      icon: emergentInfo.icon,
+      title: emergentInfo.title,
+      message: message,
+      color: emergentInfo.color,
+      bgColor: emergentInfo.bgColor,
+      borderColor: emergentInfo.borderColor,
+      timestamp: new Date(),
+      data: data
+    };
+
+    setEmergentTab(notification);
+    setShowEmergentTab(true);
+
+    // Auto-cerrar después de 8 segundos
+    if (emergentTabTimeoutRef.current) {
+      clearTimeout(emergentTabTimeoutRef.current);
+    }
+    emergentTabTimeoutRef.current = setTimeout(() => {
+      setShowEmergentTab(false);
+    }, 8000);
+  };
+
+  // Función para cerrar solapa emergente
+  const closeEmergentTab = () => {
+    setShowEmergentTab(false);
+    if (emergentTabTimeoutRef.current) {
+      clearTimeout(emergentTabTimeoutRef.current);
+    }
+  };
+
+  // Función para expandir desde la solapa
+  const expandFromEmergentTab = () => {
+    // Crear alerta completa basada en la solapa emergente
+    if (emergentTab) {
+      const fullAlert = {
+        id: `full_${emergentTab.id}`,
+        type: 'SYSTEM_UPDATE',
+        title: emergentTab.title,
+        message: emergentTab.message,
+        context: {
+          emergent_source: true,
+          original_type: emergentTab.type,
+          timestamp: emergentTab.timestamp
+        },
+        recommendations: generateRecommendationsFromEmergent(emergentTab.type, emergentTab.data),
+        autoClose: false
+      };
+      
+      queueAlert(fullAlert);
+    }
+    closeEmergentTab();
+  };
+
+  // Generar recomendaciones basadas en el tipo de emergente
+  const generateRecommendationsFromEmergent = (type, data) => {
+    switch (type) {
+      case 'ALERT':
+        return [
+          'Revisar detalles de la alerta inmediatamente',
+          'Verificar nivel de severidad',
+          'Activar protocolos de respuesta si es necesario',
+          'Notificar al equipo correspondiente'
+        ];
+      case 'SUMMARY':
+        return [
+          'Revisar el resumen completo en el dashboard',
+          'Analizar tendencias identificadas',
+          'Compartir hallazgos con el equipo',
+          'Planificar acciones basadas en datos'
+        ];
+      case 'STATISTICS':
+        return [
+          'Examinar métricas actualizadas',
+          'Comparar con periodos anteriores',
+          'Identificar patrones significativos',
+          'Generar reportes si es necesario'
+        ];
+      case 'IMPORTANT_DATA':
+        return [
+          'Revisar datos importantes inmediatamente',
+          'Validar información crítica',
+          'Tomar acciones preventivas',
+          'Documentar hallazgos'
+        ];
+      case 'CRITICAL_UPDATE':
+        return [
+          'Atender actualización crítica inmediatamente',
+          'Evaluar impacto en operaciones',
+          'Comunicar cambios al equipo',
+          'Ajustar estrategias según sea necesario'
+        ];
+      default:
+        return ['Revisar información proporcionada', 'Tomar acciones apropiadas'];
+    }
+  };
+
   useEffect(() => {
     // Mostrar DAMIBOT al iniciar sesión
     const welcomeTimeout = setTimeout(() => {
