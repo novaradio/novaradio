@@ -7,7 +7,6 @@ import RadarView from './RadarView';
 import MapaCalor from './MapaCalor';
 import FeedSrX from './FeedSrX';
 import AlertasIA from './AlertasIA';
-import ChatBot from './ChatBot';
 import DAMIBOT from './DAMIBOT';
 import CentroComando from './CentroComando';
 import CentroEstadistico from './CentroEstadistico';
