@@ -880,13 +880,12 @@ const DAMIBOT = ({ user, realTimeData }) => {
   return (
     <>
       {/* Overlay menos invasivo */}
-      <div className="fixed inset-0 bg-black bg-opacity-30 z-40 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center p-4">
         
-        {/* DAMIBOT Alert - Versión mejorada */}
+        {/* DAMIBOT Alert - Versión centrada y analítica */}
         <div className={`
-          bg-gray-800 border-2 rounded-xl shadow-2xl max-w-xl w-full
+          bg-gray-800 border-2 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden
           transform transition-all duration-300
-          ${isExpanded ? 'max-h-screen' : 'max-h-80'}
           ${alertConfig.color === 'red' ? 'border-red-400' :
             alertConfig.color === 'orange' ? 'border-orange-400' :
             alertConfig.color === 'yellow' ? 'border-yellow-400' :
@@ -895,173 +894,92 @@ const DAMIBOT = ({ user, realTimeData }) => {
             'border-green-400'}
           animate-in slide-in-from-bottom-4 fade-in-0 duration-300
         `}>
-          
-          {/* Header */}
-          <div className={`
-            p-4 rounded-t-lg border-b border-gray-700 relative overflow-hidden
-            ${alertConfig.color === 'red' ? 'bg-red-900 bg-opacity-30' :
-              alertConfig.color === 'orange' ? 'bg-orange-900 bg-opacity-30' :
-              alertConfig.color === 'yellow' ? 'bg-yellow-900 bg-opacity-30' :
-              alertConfig.color === 'blue' ? 'bg-blue-900 bg-opacity-30' :
-              alertConfig.color === 'purple' ? 'bg-purple-900 bg-opacity-30' :
-              'bg-green-900 bg-opacity-30'}
-          `}>
-            {/* Animated background effect */}
-            <div className="absolute inset-0 opacity-20">
-              <div className={`absolute inset-0 animate-pulse ${
-                alertConfig.color === 'red' ? 'bg-gradient-to-r from-red-500 to-transparent' :
-                alertConfig.color === 'orange' ? 'bg-gradient-to-r from-orange-500 to-transparent' :
-                alertConfig.color === 'yellow' ? 'bg-gradient-to-r from-yellow-500 to-transparent' :
-                alertConfig.color === 'blue' ? 'bg-gradient-to-r from-blue-500 to-transparent' :
-                alertConfig.color === 'purple' ? 'bg-gradient-to-r from-purple-500 to-transparent' :
-                'bg-gradient-to-r from-green-500 to-transparent'
-              }`}></div>
-            </div>
-            
-            <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center">
-                <div className={`
-                  w-12 h-12 rounded-full flex items-center justify-center mr-4 animate-pulse
-                  ${alertConfig.color === 'red' ? 'bg-red-500' :
-                    alertConfig.color === 'orange' ? 'bg-orange-500' :
-                    alertConfig.color === 'yellow' ? 'bg-yellow-500' :
-                    alertConfig.color === 'blue' ? 'bg-blue-500' :
-                    alertConfig.color === 'purple' ? 'bg-purple-500' :
-                    'bg-green-500'}
-                `}>
-                  <Bot className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-white flex items-center">
-                    DAMIBOT
-                    <span className="ml-2 px-2 py-1 bg-green-400 text-black text-xs rounded-full">
-                      ACTIVO
-                    </span>
-                  </h2>
-                  <p className="text-sm text-gray-300">Asistente Inteligente • {getRoleLabel(user?.role)}</p>
-                </div>
+          {/* Header mejorado */}
+          <div className="bg-gray-700 p-4 border-b border-gray-600 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center">
+                <Bot className="w-6 h-6 text-black" />
               </div>
-              <div className="flex items-center space-x-2">
-                {alertQueue.length > 0 && (
-                  <div className="bg-green-400 text-black px-3 py-1 rounded-full text-xs font-semibold animate-bounce">
-                    +{alertQueue.length} alertas
-                  </div>
-                )}
-                <button
-                  onClick={closeAlert}
-                  className="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-700 transition-all duration-200"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+              <div>
+                <h3 className="text-white font-bold text-lg">DAMIBOT</h3>
+                <p className="text-gray-300 text-sm">Asistente IA Analítico</p>
               </div>
             </div>
+            <button
+              onClick={closeAlert}
+              className="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-600 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Content */}
-          <div className="p-6">
-            {/* Alert Title */}
-            <div className="flex items-center mb-4">
-              <Icon className={`w-6 h-6 mr-3 ${
-                alertConfig.color === 'red' ? 'text-red-400' :
-                alertConfig.color === 'orange' ? 'text-orange-400' :
-                alertConfig.color === 'yellow' ? 'text-yellow-400' :
-                alertConfig.color === 'blue' ? 'text-blue-400' :
-                alertConfig.color === 'purple' ? 'text-purple-400' :
-                'text-green-400'
-              }`} />
-              <h3 className="text-lg font-semibold text-white">
-                {currentAlert.title}
-              </h3>
-            </div>
-
-            {/* Alert Message */}
+          {/* Contenido principal */}
+          <div className="p-6 max-h-[60vh] overflow-y-auto">
             <div className="mb-6">
-              <p className="text-gray-300 leading-relaxed">
-                {currentAlert.message}
-              </p>
+              <div className="flex items-start space-x-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  alertConfig.color === 'red' ? 'bg-red-500' :
+                  alertConfig.color === 'orange' ? 'bg-orange-500' :
+                  alertConfig.color === 'yellow' ? 'bg-yellow-500' :
+                  alertConfig.color === 'blue' ? 'bg-blue-500' :
+                  alertConfig.color === 'purple' ? 'bg-purple-500' :
+                  'bg-green-500'
+                }`}>
+                  {alertConfig.icon}
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-white font-semibold text-lg mb-2">{currentAlert.title}</h4>
+                  <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                    {currentAlert.message}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Context Information */}
-            {currentAlert.context && isExpanded && (
-              <div className="mb-6 p-4 bg-gray-700 bg-opacity-50 rounded-lg">
-                <h4 className="text-sm font-semibold text-green-400 mb-2">
-                  Información Contextual:
-                </h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  {Object.entries(currentAlert.context).map(([key, value]) => (
-                    <div key={key} className="flex justify-between">
-                      <span className="text-gray-400 capitalize">{key.replace('_', ' ')}:</span>
-                      <span className="text-white font-medium">
-                        {Array.isArray(value) ? value.join(', ') : String(value)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Recommendations */}
-            {currentAlert.recommendations && currentAlert.recommendations.length > 0 && (
+            {/* Recomendaciones */}
+            {recommendations.length > 0 && (
               <div className="mb-6">
-                <div className="flex items-center mb-3">
-                  <Lightbulb className="w-5 h-5 text-yellow-400 mr-2" />
-                  <h4 className="text-sm font-semibold text-white">
-                    ¿Qué debo hacer ahora?
-                  </h4>
-                </div>
+                <h5 className="text-green-400 font-semibold mb-3 flex items-center">
+                  <Brain className="w-4 h-4 mr-2" />
+                  Recomendaciones IA
+                </h5>
                 <div className="space-y-2">
-                  {currentAlert.recommendations.map((rec, index) => (
-                    <div 
-                      key={index}
-                      className="flex items-center p-3 bg-gray-700 bg-opacity-30 rounded-lg hover:bg-gray-700 hover:bg-opacity-50 transition-colors cursor-pointer"
-                      onClick={() => handleAction(rec)}
-                    >
-                      <ArrowRight className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" />
-                      <span className="text-sm text-gray-300 flex-1">{rec}</span>
-                      <CheckCircle className="w-4 h-4 text-gray-500 hover:text-green-400" />
+                  {recommendations.map((rec, index) => (
+                    <div key={index} className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-300 text-sm">{rec}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="text-sm text-gray-400 hover:text-green-400 flex items-center"
-              >
-                <Info className="w-4 h-4 mr-1" />
-                {isExpanded ? 'Menos detalles' : 'Más detalles'}
-              </button>
-              
-              <div className="flex space-x-3">
-                {currentAlert.autoClose && (
-                  <button
-                    onClick={closeAlert}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500 transition-colors text-sm"
-                  >
-                    Entendido
-                  </button>
-                )}
-                
+            {/* Botones de acción */}
+            <div className="flex space-x-3 mb-6">
+              {currentAlert.autoClose && (
                 <button
-                  onClick={() => {
-                    // Aquí podrías abrir el chat completo o navegar
-                    toast.success('Abriendo análisis completo...');
-                  }}
-                  className="px-4 py-2 bg-green-400 text-black rounded-md hover:bg-green-300 transition-colors text-sm font-semibold"
+                  onClick={closeAlert}
+                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors text-sm"
                 >
-                  Analizar Más
+                  Entendido
                 </button>
-              </div>
+              )}
+              
+              <button
+                onClick={() => {
+                  toast.success('Análisis completo iniciado...');
+                }}
+                className="px-4 py-2 bg-green-400 text-black rounded-lg hover:bg-green-300 transition-colors text-sm font-semibold"
+              >
+                Análisis Completo
+              </button>
             </div>
 
             {/* Sección de Chat Interactivo */}
-            <div className="mt-6 border-t border-gray-700 pt-4">
+            <div className="border-t border-gray-700 pt-4">
               <h4 className="text-sm font-semibold text-green-400 mb-3 flex items-center">
                 <Bot className="w-4 h-4 mr-2" />
-                Conversación con DAMIBOT
+                Chat Analítico DAMIBOT
               </h4>
               
               {/* Historial de chat */}
@@ -1082,7 +1000,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
                   ))
                 ) : (
                   <p className="text-gray-400 text-sm text-center">
-                    ¡Hola! Puedes hacer preguntas sobre el sistema DAMI.
+                    💬 Pregunta lo que necesites sobre el sistema DAMI
                   </p>
                 )}
                 
@@ -1107,7 +1025,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Escribe tu pregunta..."
+                  placeholder="Pregunta sobre análisis, alertas, datos..."
                   className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none text-sm"
                   disabled={isLoadingResponse}
                 />
@@ -1120,20 +1038,6 @@ const DAMIBOT = ({ user, realTimeData }) => {
                 </button>
               </div>
             </div>
-
-            {/* Progress indicator si hay más alertas */}
-            {alertQueue.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-700">
-                <div className="flex items-center justify-between text-xs text-gray-400">
-                  <span>{alertQueue.length} alertas pendientes</span>
-                  <div className="flex space-x-1">
-                    {[...Array(Math.min(alertQueue.length, 5))].map((_, i) => (
-                      <div key={i} className="w-2 h-2 bg-green-400 rounded-full opacity-50"></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
