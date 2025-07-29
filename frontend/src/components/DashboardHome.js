@@ -55,13 +55,13 @@ const DashboardHome = ({ user }) => {
   const StatCard = ({ icon: Icon, title, value, description, color = "green" }) => (
     <div className="dami-card">
       <div className="flex items-center justify-between">
-        <div>
-          <p className="text-gray-400 text-sm font-medium">{title}</p>
-          <p className={`text-2xl font-bold text-${color}-400 mt-1`}>{value}</p>
-          <p className="text-gray-500 text-xs mt-1">{description}</p>
+        <div className="flex-1 min-w-0"> {/* Allow text to shrink */}
+          <p className="text-gray-400 text-xs sm:text-sm font-medium truncate">{title}</p>
+          <p className={`text-xl sm:text-2xl font-bold text-${color}-400 mt-1`}>{value}</p>
+          <p className="text-gray-500 text-xs mt-1 truncate">{description}</p>
         </div>
-        <div className={`p-3 bg-${color}-400 bg-opacity-20 rounded-lg`}>
-          <Icon className={`w-6 h-6 text-${color}-400`} />
+        <div className={`p-2 sm:p-3 bg-${color}-400 bg-opacity-20 rounded-lg ml-2 flex-shrink-0`}>
+          <Icon className={`w-5 h-5 sm:w-6 sm:h-6 text-${color}-400`} />
         </div>
       </div>
     </div>
