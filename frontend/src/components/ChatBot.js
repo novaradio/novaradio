@@ -19,6 +19,7 @@ const API = `${BACKEND_URL}/api`;
 
 const ChatBot = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
