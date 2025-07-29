@@ -1345,11 +1345,13 @@ app.include_router(api_router)
 # ==============================================================================
 
 @app.get("/api/files/download-page")
+@app.head("/api/files/download-page")
 async def get_download_page():
     """Sirve la página de descargas para Raúl Castaño"""
     return FileResponse("/app/DESCARGAS_RAUL_CASTANO.html")
 
 @app.get("/api/files/pdf")
+@app.head("/api/files/pdf")
 async def download_pdf():
     """Descarga el PDF de presentación"""
     return FileResponse(
@@ -1359,6 +1361,7 @@ async def download_pdf():
     )
 
 @app.get("/api/files/html")
+@app.head("/api/files/html")
 async def download_html():
     """Descarga la presentación HTML"""
     return FileResponse(
@@ -1368,6 +1371,7 @@ async def download_html():
     )
 
 @app.get("/api/files/whatsapp-message")
+@app.head("/api/files/whatsapp-message")
 async def download_whatsapp_message():
     """Descarga el mensaje completo de WhatsApp"""
     return FileResponse(
@@ -1377,6 +1381,7 @@ async def download_whatsapp_message():
     )
 
 @app.get("/api/files/whatsapp-short")
+@app.head("/api/files/whatsapp-short")
 async def download_whatsapp_short():
     """Descarga el mensaje corto de WhatsApp"""
     return FileResponse(
@@ -1386,6 +1391,7 @@ async def download_whatsapp_short():
     )
 
 @app.get("/api/files/demo-guide")
+@app.head("/api/files/demo-guide")
 async def download_demo_guide():
     """Descarga la guía de acceso demo"""
     return FileResponse(
