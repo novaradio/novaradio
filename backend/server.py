@@ -1340,6 +1340,60 @@ async def obtener_recomendaciones_estrategicas(current_user: dict = Depends(get_
 # Include the router in the main app
 app.include_router(api_router)
 
+# ==============================================================================
+# SERVICIO DE ARCHIVOS PARA DESCARGAS
+# ==============================================================================
+
+@app.get("/api/files/download-page")
+async def get_download_page():
+    """Sirve la página de descargas para Raúl Castaño"""
+    return FileResponse("/app/DESCARGAS_RAUL_CASTANO.html")
+
+@app.get("/api/files/pdf")
+async def download_pdf():
+    """Descarga el PDF de presentación"""
+    return FileResponse(
+        "/app/CENTRO_DAMI_PRESENTACION_RAUL_CASTANO.pdf",
+        filename="Centro_DAMI_Presentacion_Raul_Castano.pdf",
+        media_type="application/pdf"
+    )
+
+@app.get("/api/files/html")
+async def download_html():
+    """Descarga la presentación HTML"""
+    return FileResponse(
+        "/app/CENTRO_DAMI_PRESENTACION_WEB.html",
+        filename="Centro_DAMI_Presentacion_Web.html",
+        media_type="text/html"
+    )
+
+@app.get("/api/files/whatsapp-message")
+async def download_whatsapp_message():
+    """Descarga el mensaje completo de WhatsApp"""
+    return FileResponse(
+        "/app/MENSAJE_WHATSAPP_RAUL_CASTANO.txt",
+        filename="Mensaje_WhatsApp_Raul_Castano.txt",
+        media_type="text/plain"
+    )
+
+@app.get("/api/files/whatsapp-short")
+async def download_whatsapp_short():
+    """Descarga el mensaje corto de WhatsApp"""
+    return FileResponse(
+        "/app/WHATSAPP_CORTO_RAUL.txt",
+        filename="WhatsApp_Corto_Raul.txt",
+        media_type="text/plain"
+    )
+
+@app.get("/api/files/demo-guide")
+async def download_demo_guide():
+    """Descarga la guía de acceso demo"""
+    return FileResponse(
+        "/app/extracted_content/🔐 Guia_Acceso_Demo.md",
+        filename="Guia_Acceso_Demo.md",
+        media_type="text/plain"
+    )
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
