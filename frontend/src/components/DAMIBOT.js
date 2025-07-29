@@ -925,7 +925,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
                   alertConfig.color === 'purple' ? 'bg-purple-500' :
                   'bg-green-500'
                 }`}>
-                  {alertConfig.icon}
+                  <Icon className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-white font-semibold text-lg mb-2">{currentAlert.title}</h4>
