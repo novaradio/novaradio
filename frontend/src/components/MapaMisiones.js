@@ -390,8 +390,8 @@ const MapaMisiones = () => {
         
         <div style={{ height: '600px', border: '2px solid #374151', borderRadius: '8px' }}>
           <MapContainer
-            center={[-27.0, -55.0]}
-            zoom={8}
+            center={[-26.8754, -54.6567]}
+            zoom={9}
             style={{ height: '100%', width: '100%' }}
             className="rounded-lg z-0"
           >
