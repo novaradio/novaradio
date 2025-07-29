@@ -195,9 +195,9 @@ Como OPERADOR tienes acceso a:
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-96 h-96 bg-gray-800 border border-gray-700 rounded-lg shadow-2xl flex flex-col">
+    <div className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-96 sm:h-96 bg-gray-800 border border-gray-700 rounded-lg shadow-2xl flex flex-col max-w-[calc(100vw-3rem)]">
       {/* Header */}
-      <div className="bg-gray-700 p-4 rounded-t-lg border-b border-gray-600">
+      <div className="bg-gray-700 p-3 sm:p-4 rounded-t-lg border-b border-gray-600">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center mr-3">
