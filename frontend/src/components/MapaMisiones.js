@@ -388,7 +388,7 @@ const MapaMisiones = () => {
       <div className="dami-card">
         <h2 className="text-2xl font-semibold text-white mb-6">🗺️ Mapa Interactivo de Misiones</h2>
         
-        <div style={{ height: '600px', border: '2px solid #374151', borderRadius: '8px' }}>
+        <div className="mapa-misiones-container" style={{ height: '500px', border: '2px solid #374151', borderRadius: '8px' }}>
           <MapContainer
             center={[-26.8754, -54.6567]}
             zoom={9}
