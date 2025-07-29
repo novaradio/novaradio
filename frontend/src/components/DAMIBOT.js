@@ -261,17 +261,17 @@ const DAMIBOT = ({ user, realTimeData }) => {
       showWelcomeAlert();
     }, 2000);
 
-    // Mostrar notificación emergente de bienvenida
+    // Mostrar notificación emergente de bienvenida más sutil
     const emergentWelcomeTimeout = setTimeout(() => {
       showEmergentNotification('IMPORTANT_DATA', 
-        `¡Tengo datos importantes para ti, ${user?.username}! Sistema DAMI operativo y monitoreando.`
+        `Sistema DAMI activo. ${user?.username}, tengo información para ti.`
       );
-    }, 5000);
+    }, 8000);
 
-    // Generar notificaciones emergentes con datos reales
+    // Generar notificaciones emergentes con datos reales (menos frecuente)
     const realDataTimeout = setTimeout(() => {
       fetchRealTimeDataForNotifications();
-    }, 10000);
+    }, 15000);
 
     return () => {
       clearTimeout(welcomeTimeout);
