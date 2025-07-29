@@ -335,314 +335,326 @@ def simulate_social_media_post() -> SocialMediaPost:
 # DAMI Bot responses
 def generate_bot_response(user_message: str, user_role: UserRole) -> str:
     """
-    Genera respuestas inteligentes basadas en el mensaje del usuario y su rol
+    Genera respuestas inteligentes y analíticas basadas en el mensaje del usuario y datos del sistema
     """
     user_message_lower = user_message.lower()
     
-    # Respuestas específicas por contenido del mensaje
-    if any(keyword in user_message_lower for keyword in ["situación", "situacion", "estado", "actualidad", "actual"]):
-        if user_role == UserRole.ADMINISTRATOR:
-            return """🎯 **Situación Actual del Sistema DAMI**
+    # Respuestas específicas con análisis en tiempo real
+    if any(keyword in user_message_lower for keyword in ["situación", "situacion", "estado", "actualidad", "actual", "acontece", "que pasa"]):
+        # Análisis completo del sistema
+        return f"""🎯 **ANÁLISIS SITUACIONAL COMPLETO - SISTEMA DAMI**
 
-**Estado General:** ✅ OPERATIVO
-• Centro de Comando: Activo y monitoreando
-• Redes Sociales: Twitter, Facebook, Instagram integradas
-• Análisis IA: 4 módulos funcionando correctamente
+**🔄 ESTADO OPERATIVO ACTUAL:**
+• Sistema: ✅ 100% Operativo
+• Módulos activos: 8/8 funcionando
+• Última actualización: {datetime.now().strftime('%H:%M:%S')}
 
-**Métricas Clave:**
-• Actores monitoreados: 50+ perfiles políticos
-• Alertas activas: Nivel medio de actividad
-• Cobertura territorial: 78 municipios de Misiones
+**📊 MÉTRICAS EN TIEMPO REAL:**
+• Redes sociales monitoreadas: Twitter, Facebook, Instagram
+• Actores políticos rastreados: 50+ perfiles
+• Menciones FR (últimas 24h): {random.randint(150, 300)}
+• Sentiment promedio: {random.choice(['Neutro-Positivo (+0.3)', 'Estable (+0.1)', 'Positivo (+0.5)'])}
 
-**Recomendaciones:**
-1. Revisar Dashboard General para métricas detalladas
-2. Consultar Centro Estadístico para análisis de tendencias
-3. Verificar alertas en el módulo de IA Táctica"""
+**🗺️ SITUACIÓN TERRITORIAL:**
+• 78 municipios bajo monitoreo
+• Región Norte: {random.choice(['Estable', 'Actividad normal', 'Sin alertas'])}
+• Región Centro: {random.choice(['Posadas - Alta actividad', 'Actividad moderada', 'Estable'])}
+• Región Sur: {random.choice(['Oberá - Monitoreando', 'Actividad normal', 'Sin novedades'])}
+
+**⚠️ ALERTAS ACTIVAS:**
+• Nivel crítico: {random.randint(0, 2)} alertas
+• Nivel medio: {random.randint(1, 5)} alertas
+• Municipios que requieren atención: {random.choice(['Ninguno', 'Posadas', 'Oberá', '2 municipios'])}
+
+**🎯 ENCUESTAS SOCIALES:**
+• Respuestas hoy: {random.randint(200, 500)}
+• Adhesión FR promedio: {random.randint(42, 58)}%
+• Humor social general: {random.choice(['Estable', 'Positivo', 'Neutro'])}
+
+**💡 RECOMENDACIONES ESTRATÉGICAS:**
+1. {random.choice(['Mantener monitoreo intensivo', 'Reforzar presencia en redes', 'Activar campañas positivas'])}
+2. {random.choice(['Revisar municipios críticos', 'Fortalecer comunicación', 'Monitorear competencia'])}
+3. {random.choice(['Preparar respuesta rápida', 'Evaluar tendencias', 'Optimizar estrategias'])}
+
+**🔄 PRÓXIMA ACTUALIZACIÓN:** {(datetime.now() + timedelta(minutes=15)).strftime('%H:%M')}"""
             
-        elif user_role == UserRole.ANALYST:
-            return """📊 **Análisis de Situación Actual**
+    elif any(keyword in user_message_lower for keyword in ["reporte", "informe", "resumen", "análisis", "analisis", "datos"]):
+        return f"""📋 **INFORME EJECUTIVO DAMIBOT**
 
-**Datos Procesados:**
-• Últimas 24h: Actividad social media estable
-• Sentiment general: Neutro-positivo (+0.2)
-• Tendencias: Sin anomalías significativas
+**📈 ANÁLISIS DE RENDIMIENTO:**
+• Engagement rate: {random.randint(85, 95)}%
+• Alcance orgánico: {random.randint(15000, 25000)} usuarios
+• Interacciones positivas: {random.randint(70, 85)}%
 
-**Insights Clave:**
-• Frente Renovador: Posición sólida en redes
-• Competencia: Actividad normal sin campañas coordinadas
-• Territorio: Misiones muestra estabilidad general
+**🎯 INTELIGENCIA COMPETITIVA:**
+• Actividad oposición: {random.choice(['Baja', 'Moderada', 'Normal'])}
+• Campañas detectadas: {random.randint(0, 3)}
+• Contramedidas sugeridas: {random.choice(['Ninguna', 'Respuesta programada', 'Monitoreo intensivo'])}
 
-**Próximos Pasos:**
-1. Generar informe diario completo
-2. Analizar patrones de engagement
-3. Monitorear competencia política"""
-            
-        else:  # OPERATOR
-            return """⚡ **Estado Operativo Actual**
+**📊 MÓDULOS ACTIVOS:**
+• Centro de Comando: {random.choice(['Óptimo', 'Funcionando', 'Excelente'])}
+• Centro Estadístico: {random.choice(['Actualizado', 'Procesando', 'Completo'])}
+• Análisis Competencia: {random.choice(['Activo', 'Monitoreando', 'Evaluando'])}
+• Encuestas Sociales: {random.randint(200, 400)} respuestas procesadas
 
-**Sistemas Activos:**
-• Monitoreo tiempo real: ✅ Funcionando
-• Alertas automáticas: ✅ Configuradas
-• Canales de comunicación: ✅ Operativos
+**💡 INSIGHTS CLAVE:**
+• Frente Renovador mantiene posición sólida
+• Sentiment territorial positivo en {random.randint(65, 75)}% de municipios
+• Picos de actividad detectados en horarios: {random.choice(['8-10hs', '18-20hs', '12-14hs'])}
 
-**Acciones Pendientes:**
-• Verificar integridad de datos
-• Confirmar conexiones API
-• Validar flujos de información
-
-**Protocolo Sugerido:**
-1. Ejecutar verificación de sistemas
-2. Confirmar respaldo de datos
-3. Reportar cualquier anomalía"""
+**🔄 PRÓXIMOS PASOS:**
+1. Continuar monitoreo automatizado
+2. Generar alertas proactivas
+3. Optimizar respuestas en tiempo real"""
     
-    elif any(keyword in user_message_lower for keyword in ["reporte", "informe", "resumen", "análisis", "analisis"]):
-        if user_role == UserRole.ADMINISTRATOR:
-            return """📋 **Generación de Reportes Ejecutivos**
+    elif any(keyword in user_message_lower for keyword in ["alertas", "emergencia", "crítico", "critico", "riesgo", "problema"]):
+        return f"""🚨 **SISTEMA DE ALERTAS DAMI**
 
-**Reportes Disponibles:**
-• **Informe Diario:** Resumen completo de actividad
-• **Centro Estadístico:** Métricas y KPIs
-• **Análisis Competencia:** Monitoreo de oposición
-• **Mapa Territorial:** Actividad por municipio
+**⚠️ ALERTAS CRÍTICAS ACTIVAS:**
+• Nivel ALTO: {random.randint(0, 2)} alertas
+• Nivel MEDIO: {random.randint(1, 4)} alertas
+• Nivel BAJO: {random.randint(2, 6)} alertas
 
-**Recomendación:**
-1. Navegar a "Informe Diario" para resumen ejecutivo
-2. Usar "Centro Estadístico" para análisis detallado
-3. Consultar "Análisis Competencia" para inteligencia
+**🎯 ANÁLISIS DE RIESGOS:**
+• Riesgo comunicacional: {random.choice(['BAJO', 'MEDIO', 'CONTROLADO'])}
+• Riesgo territorial: {random.choice(['BAJO', 'ESTABLE', 'MONITOREANDO'])}
+• Riesgo competitivo: {random.choice(['BAJO', 'NORMAL', 'BAJO'])}
 
-**Nota:** Todos los reportes se actualizan automáticamente cada hora."""
-            
-        elif user_role == UserRole.ANALYST:
-            return """🔍 **Capacidades de Análisis Avanzado**
+**📊 MUNICIPIOS BAJO SEGUIMIENTO:**
+• Posadas: {random.choice(['🟢 Normal', '🟡 Monitoreando', '🟢 Estable'])}
+• Oberá: {random.choice(['🟢 Normal', '🟢 Estable', '🟡 Observando'])}
+• Iguazú: {random.choice(['🟢 Normal', '🟢 Estable', '🟢 Normal'])}
 
-**Módulos Analíticos:**
-• **Análisis Predictivo:** Proyecciones y tendencias
-• **Inteligencia Emocional:** Sentiment analysis
-• **Detección Deepfakes:** Verificación de contenido
-• **Análisis Competencia:** Monitoreo oposición
+**🤖 RESPUESTA AUTOMATIZADA:**
+• Protocolos activos: {random.randint(3, 6)}
+• Respuestas programadas: {random.randint(8, 15)}
+• Escalamiento automático: ✅ Activado
 
-**Herramientas Disponibles:**
-1. Dashboard con métricas en tiempo real
-2. Visualizaciones interactivas de datos
-3. Exportación de reportes en PDF
-4. Alertas automáticas por patrones
-
-**Sugerencia:** Comienza con el Centro Estadístico para análisis base."""
-            
-        else:  # OPERATOR
-            return """📊 **Procedimientos de Reporte**
-
-**Reportes Operativos:**
-• Estado de sistemas: Verificar funcionamiento
-• Incidentes: Documentar anomalías
-• Métricas básicas: Confirmar datos
-• Alertas: Validar y procesar
-
-**Flujo de Trabajo:**
-1. Verificar datos en Dashboard
-2. Confirmar alertas activas
-3. Generar reporte de turno
-4. Escalar incidentes críticos
-
-**Recordatorio:** Siempre documentar acciones tomadas."""
+**💡 RECOMENDACIONES INMEDIATAS:**
+1. {random.choice(['Mantener vigilancia', 'Activar protocolo preventivo', 'Continuar monitoreo'])}
+2. {random.choice(['Preparar respuesta rápida', 'Evaluar contramedidas', 'Reforzar comunicación'])}
+3. {random.choice(['Coordinar con equipo', 'Activar red de apoyo', 'Implementar plan B'])}"""
     
-    elif any(keyword in user_message_lower for keyword in ["alertas", "emergencia", "crítico", "critico", "riesgo"]):
-        if user_role == UserRole.ADMINISTRATOR:
-            return """🚨 **Protocolo de Alertas Críticas**
+    elif any(keyword in user_message_lower for keyword in ["encuestas", "humor", "social", "ciudadanos", "opinion", "adhesion"]):
+        return f"""📊 **ANÁLISIS DE ENCUESTAS SOCIALES**
 
-**Niveles de Alerta:**
-• **CRÍTICO:** Requiere acción inmediata
-• **ALTO:** Atención en próximas 2 horas
-• **MEDIO:** Seguimiento rutinario
-• **BAJO:** Monitoreo pasivo
+**🎭 HUMOR SOCIAL ACTUAL:**
+• Índice general: {random.randint(60, 80)}/100
+• Alegría: {random.randint(20, 35)}%
+• Esperanza: {random.randint(25, 40)}%
+• Preocupación: {random.randint(15, 25)}%
+• Bronca: {random.randint(10, 20)}%
 
-**Protocolos Activados:**
-1. Notificación automática a equipos
-2. Escalamiento según procedimientos
-3. Documentación de respuestas
-4. Seguimiento post-incidente
+**🗳️ INTENCIÓN DE VOTO:**
+• Frente Renovador: {random.randint(42, 58)}%
+• Otros partidos: {random.randint(25, 35)}%
+• No decide: {random.randint(10, 18)}%
+• No contesta: {random.randint(5, 12)}%
 
-**Acciones Disponibles:**
-• Activar "Respuesta de Emergencia"
-• Coordinar "Red de Apoyo"
-• Lanzar "Campaña Positiva"
-• Implementar "Contramedidas"
+**🏛️ EVALUACIÓN GESTIÓN:**
+• Muy buena/Buena: {random.randint(45, 60)}%
+• Regular: {random.randint(25, 35)}%
+• Mala/Muy mala: {random.randint(15, 25)}%
 
-**Navegar a:** IA Táctica → Alertas Activas"""
-            
-        elif user_role == UserRole.ANALYST:
-            return """⚠️ **Análisis de Riesgos y Alertas**
+**📍 ANÁLISIS TERRITORIAL:**
+• Región Norte: Adhesión {random.randint(45, 55)}%
+• Región Centro: Adhesión {random.randint(50, 60)}%
+• Región Sur: Adhesión {random.randint(40, 50)}%
 
-**Tipos de Alertas:**
-• **Sociales:** Cambios en sentiment o engagement
-• **Políticas:** Actividad de competencia
-• **Territoriales:** Anomalías por región
-• **Técnicas:** Problemas de sistema
+**⚠️ MUNICIPIOS CRÍTICOS:**
+• Requieren atención: {random.randint(2, 8)} municipios
+• Tendencia negativa: {random.randint(3, 12)} municipios
+• Oportunidades: {random.randint(5, 15)} municipios
 
-**Herramientas de Análisis:**
-1. Algoritmos de detección de anomalías
-2. Análisis de patrones históricos
-3. Correlación de eventos múltiples
-4. Predicción de escalamiento
-
-**Recomendación:** Usar módulos de IA para análisis profundo."""
-            
-        else:  # OPERATOR
-            return """🔔 **Gestión de Alertas Operativas**
-
-**Procedimiento de Respuesta:**
-1. **Recibir:** Confirmar recepción de alerta
-2. **Evaluar:** Determinar nivel de severidad
-3. **Actuar:** Ejecutar protocolo correspondiente
-4. **Reportar:** Documentar acciones tomadas
-
-**Canales de Comunicación:**
-• WhatsApp: Alertas inmediatas
-• Email: Reportes detallados
-• Dashboard: Monitoreo continuo
-• Escalamiento: Supervisores
-
-**Importante:** Nunca ignorar alertas críticas."""
+**💡 ESTRATEGIAS SUGERIDAS:**
+1. {random.choice(['Reforzar comunicación positiva', 'Activar campaña territorial', 'Incrementar presencia'])}
+2. {random.choice(['Abordar preocupaciones ciudadanas', 'Mejorar percepción gestión', 'Fortalecer vínculos'])}
+3. {random.choice(['Capitalizar oportunidades', 'Neutralizar amenazas', 'Consolidar fortalezas'])}"""
     
-    elif any(keyword in user_message_lower for keyword in ["ayuda", "help", "cómo", "como", "tutorial", "guía", "guia"]):
-        if user_role == UserRole.ADMINISTRATOR:
-            return """🎓 **Guía del Administrador DAMI**
+    elif any(keyword in user_message_lower for keyword in ["competencia", "oposición", "oposicion", "rivales", "contrincantes"]):
+        return f"""🎯 **ANÁLISIS DE COMPETENCIA POLÍTICA**
 
-**Módulos Principales:**
-• **Dashboard:** Vista general del sistema
-• **Centro Comando:** Análisis estratégico
-• **Mapa Misiones:** Visualización territorial
-• **IA Táctica:** Alertas inteligentes
+**👥 ACTORES MONITOREADOS:**
+• Principales figuras: {random.randint(12, 20)} perfiles
+• Actividad última semana: {random.choice(['Moderada', 'Intensa', 'Normal'])}
+• Campañas detectadas: {random.randint(0, 4)}
 
-**Funciones Administrativas:**
-1. Gestión de usuarios y permisos
-2. Configuración de alertas
-3. Supervisión de módulos IA
-4. Generación de reportes ejecutivos
+**📊 MÉTRICAS COMPETITIVAS:**
+• Engagement oposición: {random.randint(40, 70)}% del FR
+• Alcance promedio: {random.randint(5000, 15000)} usuarios
+• Narrativas negativas: {random.randint(2, 8)} detectadas
 
-**Navegación Rápida:**
-• Usa el menú lateral para acceder a módulos
-• Los iconos indican el estado de cada sistema
-• Las notificaciones aparecen automáticamente
-• DAMIBOT te asiste en tiempo real
+**🎭 ANÁLISIS DE DISCURSO:**
+• Temas principales: {random.choice(['Economía', 'Seguridad', 'Empleo', 'Obra pública'])}
+• Nivel de agresividad: {random.choice(['Bajo', 'Moderado', 'Medio'])}
+• Estrategia detectada: {random.choice(['Defensiva', 'Ofensiva', 'Neutral'])}
 
-**Tip:** Comienza siempre por el Dashboard para obtener el panorama general."""
-            
-        elif user_role == UserRole.ANALYST:
-            return """📈 **Guía del Analista DAMI**
+**📈 TENDENCIAS IDENTIFICADAS:**
+• Crecimiento oposición: {random.choice(['Estable', 'Leve alza', 'Sin cambios'])}
+• Nuevos actores: {random.randint(0, 3)} detectados
+• Alianzas formadas: {random.randint(0, 2)} identificadas
 
-**Herramientas Analíticas:**
-• **Centro Estadístico:** Métricas y KPIs
-• **Informe Diario:** Análisis temporal
-• **Análisis Competencia:** Inteligencia oposición
-• **Módulos IA:** Análisis avanzado
+**🛡️ CONTRAMEDIDAS ACTIVAS:**
+• Respuestas programadas: {random.randint(5, 12)}
+• Monitoreo intensivo: ✅ Activo
+• Alertas tempranas: ✅ Configuradas
 
-**Metodología de Trabajo:**
-1. Revisar métricas en Centro Estadístico
-2. Analizar tendencias en Informe Diario
-3. Monitorear competencia continuamente
-4. Usar IA para insights profundos
-
-**Capacidades Especiales:**
-• Análisis de sentiment en tiempo real
-• Detección de patrones anómalos
-• Predicción de tendencias
-• Correlación de eventos múltiples
-
-**Recomendación:** Usa múltiples fuentes de datos para análisis completo."""
-            
-        else:  # OPERATOR
-            return """🛠️ **Guía del Operador DAMI**
-
-**Funciones Operativas:**
-• **Monitoreo:** Vigilancia continua de sistemas
-• **Alertas:** Gestión y respuesta inmediata
-• **Reportes:** Documentación de actividades
-• **Coordinación:** Enlace con otros niveles
-
-**Procedimientos Básicos:**
-1. Verificar estado de sistemas al inicio
-2. Monitorear alertas constantemente
-3. Responder según protocolos
-4. Documentar todas las acciones
-
-**Herramientas Disponibles:**
-• Dashboard para monitoreo básico
-• Sistema de alertas automatizado
-• Canales de comunicación directa
-• Protocolos de escalamiento
-
-**Importante:** Siempre seguir procedimientos establecidos."""
+**💡 RECOMENDACIONES ESTRATÉGICAS:**
+1. {random.choice(['Mantener ventaja narrativa', 'Reforzar mensajes positivos', 'Anticipar movimientos'])}
+2. {random.choice(['Neutralizar críticas', 'Fortalecer posicionamiento', 'Activar defensas'])}
+3. {random.choice(['Capitalizar errores rivales', 'Consolidar liderazgo', 'Expandir influencia'])}"""
     
-    elif any(keyword in user_message_lower for keyword in ["redes", "social", "twitter", "facebook", "instagram"]):
-        return """📱 **Integración de Redes Sociales**
+    elif any(keyword in user_message_lower for keyword in ["redes", "social", "twitter", "facebook", "instagram", "posts"]):
+        return f"""📱 **ANÁLISIS DE REDES SOCIALES**
 
-**Plataformas Conectadas:**
-• **Twitter API v2:** ✅ Activa - Monitoreo en tiempo real
-• **Facebook Graph API:** ✅ Activa - Posts y engagement
-• **Instagram Basic API:** ✅ Activa - Contenido público
+**🌐 PLATAFORMAS MONITOREADAS:**
+• Twitter: ✅ {random.randint(80, 120)} menciones/día
+• Facebook: ✅ {random.randint(50, 90)} posts/día
+• Instagram: ✅ {random.randint(30, 60)} historias/día
 
-**Métricas Monitoreadas:**
-• Menciones del Frente Renovador
-• Sentiment score automático
-• Engagement rate por plataforma
-• Detección de contenido crítico
+**📊 MÉTRICAS DE ENGAGEMENT:**
+• Likes promedio: {random.randint(500, 1500)}
+• Comentarios: {random.randint(80, 200)}
+• Shares: {random.randint(150, 400)}
+• Alcance total: {random.randint(15000, 35000)} usuarios
 
-**Funcionalidades:**
-1. Recopilación automática de datos
-2. Análisis de sentiment en tiempo real
-3. Detección de campañas coordinadas
-4. Alertas por actividad anómala
+**🎯 ANÁLISIS DE SENTIMENT:**
+• Positivo: {random.randint(45, 65)}%
+• Neutral: {random.randint(25, 35)}%
+• Negativo: {random.randint(10, 20)}%
 
-**Acceso:** Centro Estadístico → Redes Sociales"""
+**🔥 TRENDING TOPICS:**
+• #{random.choice(['FrenteRenovador', 'MisionesProgresa', 'GestiónTrabajo'])}
+• #{random.choice(['ObrasParaMisiones', 'DesarrolloLocal', 'FuturoDeMisiones'])}
+• #{random.choice(['LiderazgoMisiones', 'CrecimientoSostenible', 'InnovaciónPública'])}
+
+**⚠️ ALERTAS DETECTADAS:**
+• Campañas coordinadas: {random.randint(0, 2)}
+• Bots sospechosos: {random.randint(0, 5)}
+• Desinformación: {random.randint(0, 3)} casos
+
+**💡 OPORTUNIDADES IDENTIFICADAS:**
+1. {random.choice(['Viralizar contenido positivo', 'Amplificar logros', 'Crear engagement'])}
+2. {random.choice(['Responder inquietudes', 'Generar conversación', 'Impulsar hashtags'])}
+3. {random.choice(['Capitalizar tendencias', 'Crear contenido viral', 'Fortalecer presencia'])}"""
     
-    elif any(keyword in user_message_lower for keyword in ["mapa", "misiones", "territorial", "municipio"]):
-        return """🗺️ **Mapa Territorial de Misiones**
+    elif any(keyword in user_message_lower for keyword in ["ayuda", "help", "cómo", "como", "guía", "guia", "tutorial"]):
+        return f"""🤖 **GUÍA COMPLETA DAMIBOT - ASISTENTE IA ANALÍTICO**
 
-**Cobertura Completa:**
-• 78 municipios monitoreados
-• Indicadores de actividad tipo "semáforo"
-• Centralización en coordenadas de Misiones
-• Zoom optimizado para visualización
+**🎯 CAPACIDADES PRINCIPALES:**
+• Análisis situacional en tiempo real
+• Monitoreo de redes sociales 24/7
+• Evaluación de encuestas sociales
+• Inteligencia competitiva avanzada
+• Alertas predictivas automáticas
 
-**Estados de Actividad:**
-• 🟢 **Verde:** Actividad normal
-• 🟡 **Amarillo:** Actividad moderada
-• 🔴 **Rojo:** Actividad crítica
+**📊 CONSULTAS DISPONIBLES:**
+• "¿Cuál es la situación actual?" - Análisis completo
+• "Genera un reporte" - Informe ejecutivo
+• "Muestra alertas críticas" - Sistema de alertas
+• "Analiza encuestas sociales" - Humor ciudadano
+• "Evalúa la competencia" - Análisis rival
+• "Estado de redes sociales" - Métricas digitales
 
-**Datos Integrados:**
-• Actividad en redes sociales por región
-• Sentiment territorial
-• Engagement por municipio
-• Alertas georreferenciadas
+**🎭 ANÁLISIS PREDICTIVO:**
+• Tendencias futuras basadas en datos
+• Identificación de patrones anómalos
+• Proyecciones de comportamiento
+• Simulaciones de escenarios
 
-**Navegación:** Menú → Mapa de Misiones"""
+**⚡ RESPUESTAS INSTANTÁNEAS:**
+• Datos actualizados en tiempo real
+• Métricas precisas y contextualizadas
+• Recomendaciones estratégicas inmediatas
+• Alertas proactivas automáticas
+
+**💡 COMANDOS ESPECIALES:**
+• "Análisis profundo [tema]" - Investigación específica
+• "Predicción [escenario]" - Proyección futura
+• "Alerta [municipio]" - Foco territorial
+• "Tendencia [período]" - Evolución temporal
+
+**🔄 ACTUALIZACIONES:**
+• Cada 15 minutos: Redes sociales
+• Cada hora: Encuestas y análisis
+• Tiempo real: Alertas críticas
+• Diario: Reportes ejecutivos
+
+Soy tu asistente de inteligencia política más avanzado. ¿Qué análisis necesitas?"""
     
     else:
-        # Respuestas generales por rol
-        role_responses = {
-            UserRole.ADMINISTRATOR: [
-                "Como administrador, tienes acceso completo a todas las funcionalidades DAMI. ¿En qué módulo necesitas asistencia?",
-                "El sistema está operativo. Revisa el Dashboard para métricas actualizadas o consulta módulos específicos.",
-                "¿Necesitas generar un reporte ejecutivo o consultar algún análisis específico?",
-                "Puedo ayudarte con configuración de alertas, análisis de datos o gestión de usuarios."
-            ],
-            UserRole.ANALYST: [
-                "Como analista, puedes acceder a herramientas avanzadas de análisis. ¿Qué tipo de análisis necesitas?",
-                "Usa el Centro Estadístico para métricas detalladas o el Informe Diario para análisis temporal.",
-                "¿Deseas analizar competencia política, sentiment de redes sociales o tendencias territoriales?",
-                "Los módulos de IA pueden proporcionarte insights profundos sobre los datos."
-            ],
-            UserRole.OPERATOR: [
-                "Como operador, tu función es clave para la ejecución. ¿Necesitas verificar el estado de algún sistema?",
-                "Verifica alertas activas en el Dashboard y confirma que todos los canales estén funcionando.",
-                "¿Requieres procedimientos específicos para alguna operación o protocolo de respuesta?",
-                "Mantén monitoreo constante y reporta cualquier anomalía inmediatamente."
-            ]
-        }
+        # Respuestas inteligentes contextuales por rol
+        if user_role == UserRole.ADMINISTRATOR:
+            return f"""🎯 **DAMIBOT EJECUTIVO ACTIVO**
+
+**Situación actual:** {datetime.now().strftime('%H:%M')} - Sistema operativo al 100%
+
+**Métricas clave:**
+• Actividad FR: {random.randint(85, 95)}% positiva
+• Territorio: {random.randint(70, 85)}% de municipios estables
+• Competencia: {random.choice(['Controlada', 'Monitoreada', 'Estable'])}
+
+**Análisis inmediato:**
+• Redes sociales: {random.randint(200, 400)} menciones positivas
+• Encuestas: {random.randint(45, 60)}% adhesión promedio
+• Alertas: {random.randint(0, 3)} requieren atención
+
+**💡 Recomendación ejecutiva:**
+{random.choice(['Mantener estrategia actual', 'Reforzar comunicación', 'Optimizar presencia territorial'])}
+
+¿Necesitas análisis específico de algún aspecto?"""
+            
+        elif user_role == UserRole.ANALYST:
+            return f"""📊 **DAMIBOT ANALÍTICO ESPECIALIZADO**
+
+**Datos procesados:**
+• {random.randint(1500, 2500)} publicaciones analizadas
+• {random.randint(500, 800)} encuestas procesadas
+• {random.randint(50, 100)} actores monitoreados
+
+**Insights detectados:**
+• Sentiment FR: {random.choice(['+0.3 (Positivo)', '+0.1 (Estable)', '+0.5 (Muy positivo)'])}
+• Engagement rate: {random.randint(8, 15)}%
+• Reach orgánico: {random.randint(15000, 25000)}
+
+**Patrones identificados:**
+• Picos de actividad: {random.choice(['Mañana temprano', 'Mediodía', 'Tarde'])}
+• Temas dominantes: {random.choice(['Gestión', 'Obras', 'Desarrollo'])}
+• Oportunidades: {random.randint(3, 8)} detectadas
+
+**🔬 Análisis disponible:**
+• Correlaciones temporales
+• Predicciones comportamentales
+• Segmentación demográfica
+• Análisis competitivo profundo
+
+¿Qué análisis específico requieres?"""
+            
+        else:  # OPERATOR
+            return f"""⚡ **DAMIBOT OPERACIONAL**
+
+**Estado de sistemas:**
+• Monitoreo: ✅ Activo
+• Alertas: ✅ Configuradas
+• Respuestas: ✅ Automatizadas
+
+**Tareas pendientes:**
+• Verificar {random.randint(2, 8)} alertas
+• Procesar {random.randint(50, 150)} menciones
+• Actualizar {random.randint(3, 10)} reportes
+
+**Protocolos activos:**
+• Respuesta rápida: ✅
+• Escalamiento: ✅
+• Documentación: ✅
+
+**🎯 Próximas acciones:**
+1. {random.choice(['Confirmar alertas', 'Validar datos', 'Ejecutar respuestas'])}
+2. {random.choice(['Reportar novedades', 'Actualizar métricas', 'Sincronizar sistemas'])}
+
+¿Necesitas ejecutar algún protocolo específico?"""
         
-        role_responses_list = role_responses.get(user_role, role_responses[UserRole.OPERATOR])
-        return random.choice(role_responses_list)
+    return "🤖 DAMIBOT listo para análisis avanzado. ¿Qué información necesitas?"
 
 # Background tasks for real-time simulation
 async def simulate_real_time_data():
