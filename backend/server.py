@@ -33,6 +33,7 @@ from ai_modules.centro_comando_backend import situacion_analyzer, monitoreo_tiem
 from ai_modules.centro_estadistico_backend import centro_estadistico
 from ai_modules.informe_diario_backend import informe_diario
 from ai_modules.analisis_competencia_backend import analisis_competencia
+from ai_modules.encuestas_sociales_backend import encuestas_sociales
 
 # Load environment variables
 load_dotenv()
