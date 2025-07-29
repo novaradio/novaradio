@@ -173,7 +173,7 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       {/* Sidebar */}
       <div className={`
         fixed top-0 left-0 h-full bg-gray-800 border-r border-gray-700 z-30
-        transition-transform duration-300 ease-in-out
+        transition-transform duration-300 ease-in-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         w-64 lg:translate-x-0
       `}>
