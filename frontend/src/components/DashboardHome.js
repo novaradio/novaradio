@@ -105,23 +105,23 @@ const DashboardHome = ({ user }) => {
       </div>
 
       {/* Module Explanation */}
-      <div className="dami-card mb-6">
+      <div className="dami-card mb-4 sm:mb-6">
         <div className="flex items-center mb-4">
-          <LayoutDashboard className="w-6 h-6 text-green-400 mr-3" />
-          <h2 className="text-xl font-semibold text-white">¿Qué es el Dashboard General?</h2>
+          <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6 text-green-400 mr-3" />
+          <h2 className="text-lg sm:text-xl font-semibold text-white">¿Qué es el Dashboard General?</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6">
           <div>
-            <h3 className="text-lg font-medium text-green-400 mb-2">Propósito Principal</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <h3 className="text-base sm:text-lg font-medium text-green-400 mb-2">Propósito Principal</h3>
+            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
               El Dashboard General es el centro de comando del sistema DAMI. Proporciona una visión panorámica 
               de toda la actividad política y social monitoreada, permitiendo una evaluación rápida del estado 
               general de la situación.
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-green-400 mb-2">Funcionalidades Clave</h3>
-            <ul className="text-gray-300 text-sm space-y-1">
+            <h3 className="text-base sm:text-lg font-medium text-green-400 mb-2">Funcionalidades Clave</h3>
+            <ul className="text-gray-300 text-xs sm:text-sm space-y-1">
               <li>• <strong>Métricas en Tiempo Real:</strong> Contadores actualizados de actores, zonas y alertas</li>
               <li>• <strong>Estado del Sistema:</strong> Monitoreo de la salud operacional de DAMI</li>
               <li>• <strong>Actividad Reciente:</strong> Stream de las últimas detecciones importantes</li>
