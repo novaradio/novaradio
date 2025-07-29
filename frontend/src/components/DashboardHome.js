@@ -163,33 +163,33 @@ const DashboardHome = ({ user }) => {
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6">
         {/* System Status */}
         <div className="dami-card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Estado del Sistema</h3>
-            <Shield className="w-5 h-5 text-green-400" />
+            <h3 className="text-base sm:text-lg font-semibold text-white">Estado del Sistema</h3>
+            <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">Monitoreo en Tiempo Real</span>
+              <span className="text-gray-400 text-xs sm:text-sm">Monitoreo en Tiempo Real</span>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-green"></div>
-                <span className="text-green-400 text-sm">Activo</span>
+                <span className="text-green-400 text-xs sm:text-sm">Activo</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">Base de Datos</span>
+              <span className="text-gray-400 text-xs sm:text-sm">Base de Datos</span>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                <span className="text-green-400 text-sm">Conectada</span>
+                <span className="text-green-400 text-xs sm:text-sm">Conectada</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">IA Táctica</span>
+              <span className="text-gray-400 text-xs sm:text-sm">IA Táctica</span>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                <span className="text-green-400 text-sm">Operativa</span>
+                <span className="text-green-400 text-xs sm:text-sm">Operativa</span>
               </div>
             </div>
           </div>
@@ -198,20 +198,20 @@ const DashboardHome = ({ user }) => {
         {/* User Role Info */}
         <div className="dami-card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Perfil de Usuario</h3>
-            <Brain className="w-5 h-5 text-green-400" />
+            <h3 className="text-base sm:text-lg font-semibold text-white">Perfil de Usuario</h3>
+            <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
           </div>
           <div className="space-y-3">
             <div>
-              <span className="text-gray-400 text-sm">Usuario Activo</span>
-              <p className="text-white font-semibold">{user?.username}</p>
+              <span className="text-gray-400 text-xs sm:text-sm">Usuario Activo</span>
+              <p className="text-white font-semibold text-sm sm:text-base">{user?.username}</p>
             </div>
             <div>
-              <span className="text-gray-400 text-sm">Nivel de Acceso</span>
-              <p className="text-green-400 font-semibold capitalize">{user?.role}</p>
+              <span className="text-gray-400 text-xs sm:text-sm">Nivel de Acceso</span>
+              <p className="text-green-400 font-semibold capitalize text-sm sm:text-base">{user?.role}</p>
             </div>
             <div>
-              <span className="text-gray-400 text-sm">Permisos</span>
+              <span className="text-gray-400 text-xs sm:text-sm">Permisos</span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {user?.role === 'administrator' && (
                   <>
@@ -237,8 +237,8 @@ const DashboardHome = ({ user }) => {
         {/* Recent Activity */}
         <div className="dami-card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Actividad Reciente</h3>
-            <Radio className="w-5 h-5 text-green-400" />
+            <h3 className="text-base sm:text-lg font-semibold text-white">Actividad Reciente</h3>
+            <Radio className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
           </div>
           <div className="space-y-3 max-h-48 overflow-y-auto">
             {recentActivity.length > 0 ? (
