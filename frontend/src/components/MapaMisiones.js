@@ -404,12 +404,13 @@ const MapaMisiones = () => {
               <CircleMarker
                 key={municipio.id}
                 center={municipio.coords}
-                radius={municipio.nivelActividad === 'ALTO' ? 12 : municipio.nivelActividad === 'MEDIO' ? 8 : 6}
+                radius={municipio.nivelActividad === 'ALTO' ? 4 : municipio.nivelActividad === 'MEDIO' ? 3 : 2}
                 pathOptions={{
                   color: getSemaforoColor(municipio.colorSemaforo),
                   fillColor: getSemaforoColor(municipio.colorSemaforo),
-                  fillOpacity: 0.7,
-                  weight: 2
+                  fillOpacity: 0.8,
+                  weight: 1,
+                  className: 'semaforo-marker'
                 }}
                 eventHandlers={{
                   click: () => setSelectedMunicipio(municipio)
