@@ -49,6 +49,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'Reportes diarios'
     },
     { 
+      id: 'encuestas-sociales', 
+      label: 'Encuestas Sociales', 
+      icon: Users, 
+      path: '/dashboard/encuestas-sociales',
+      description: 'Humor social predictivo'
+    },
+    { 
       id: 'mapa-territorial', 
       label: 'Mapa Territorial', 
       icon: MapPin, 
