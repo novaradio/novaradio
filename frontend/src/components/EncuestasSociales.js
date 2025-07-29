@@ -255,6 +255,11 @@ const EncuestasSociales = ({ user }) => {
   );
 
   const exportarCSV = () => {
+    if (!encuestasData || encuestasData.length === 0) {
+      toast.error('No hay datos para exportar');
+      return;
+    }
+    
     const csvContent = encuestasData.map(m => 
       `${m.nombre},${m.region},${m.respuestas},${m.humorSocial.predominante},${m.intencionVoto.frente_renovador},${m.tendencia}`
     ).join('\n');
