@@ -221,16 +221,16 @@ Como OPERADOR tienes acceso a:
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
             className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <div className={`max-w-[80%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
+            <div className={`max-w-[85%] sm:max-w-[80%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
               <div className={`flex items-start space-x-2 ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                 {/* Avatar */}
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                   message.type === 'user' 
                     ? 'bg-blue-500' 
                     : message.isError 
@@ -245,14 +245,14 @@ Como OPERADOR tienes acceso a:
                 </div>
 
                 {/* Message Bubble */}
-                <div className={`p-3 rounded-lg ${
+                <div className={`p-2 sm:p-3 rounded-lg ${
                   message.type === 'user' 
                     ? 'bg-blue-600 text-white' 
                     : message.isError
                       ? 'bg-red-900 bg-opacity-50 text-red-400 border border-red-400'
                       : 'bg-gray-700 text-white'
                 }`}>
-                  <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+                  <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">{message.message}</p>
                   <p className="text-xs opacity-70 mt-1">
                     {formatTime(message.timestamp)}
                   </p>
