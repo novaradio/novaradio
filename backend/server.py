@@ -1244,6 +1244,183 @@ def _validar_fecha(fecha: str) -> bool:
         return False
 
 # ==============================================================================
+# ENCUESTAS SOCIALES - MÓDULO DE ENCUESTAS PREDICTIVAS
+# ==============================================================================
+
+@api_router.get("/encuestas-sociales/datos")
+async def obtener_datos_encuestas_sociales(
+    fecha: str = None,
+    region: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene datos de encuestas sociales por fecha y región"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        datos = await encuestas_sociales.obtener_datos_encuestas(fecha)
+        
+        # Filtrar por región si se especifica
+        if region and region != 'todos':
+            datos['municipios'] = [m for m in datos['municipios'] if m['region'] == region]
+        
+        return {
+            "success": True,
+            "data": datos,
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en encuestas sociales: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/encuestas-sociales/municipio/{municipio_nombre}")
+async def obtener_detalle_municipio(
+    municipio_nombre: str,
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene detalle de encuestas de un municipio específico"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        datos = await encuestas_sociales.obtener_datos_encuestas(fecha)
+        
+        municipio = next((m for m in datos['municipios'] if m['nombre'] == municipio_nombre), None)
+        if not municipio:
+            raise HTTPException(status_code=404, detail="Municipio no encontrado")
+        
+        return {
+            "success": True,
+            "data": municipio,
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en detalle municipio: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/encuestas-sociales/alertas")
+async def obtener_alertas_encuestas(
+    fecha: str = None,
+    severidad: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene alertas críticas de encuestas sociales"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        datos = await encuestas_sociales.obtener_datos_encuestas(fecha)
+        alertas = datos.get('alertas', [])
+        
+        # Filtrar por severidad si se especifica
+        if severidad:
+            alertas = [a for a in alertas if a['severidad'] == severidad]
+        
+        return {
+            "success": True,
+            "data": {
+                "alertas": alertas,
+                "total": len(alertas),
+                "fecha": fecha or datetime.now().strftime('%Y-%m-%d')
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en alertas encuestas: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/encuestas-sociales/resumen-ejecutivo")
+async def obtener_resumen_ejecutivo_encuestas(
+    fecha_inicio: str = None,
+    fecha_fin: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Genera resumen ejecutivo de encuestas sociales"""
+    try:
+        if fecha_inicio and not _validar_fecha(fecha_inicio):
+            raise HTTPException(status_code=400, detail="Formato de fecha inicio inválido")
+        if fecha_fin and not _validar_fecha(fecha_fin):
+            raise HTTPException(status_code=400, detail="Formato de fecha fin inválido")
+        
+        # Por ahora usar fecha actual
+        datos = await encuestas_sociales.obtener_datos_encuestas(fecha_fin)
+        
+        resumen_ejecutivo = {
+            "periodo": {
+                "inicio": fecha_inicio or datetime.now().strftime('%Y-%m-%d'),
+                "fin": fecha_fin or datetime.now().strftime('%Y-%m-%d')
+            },
+            "metricas_generales": datos['resumen'],
+            "municipios_destacados": {
+                "mejor_humor": max(datos['municipios'], key=lambda x: x['humor_social']['indice_general'])['nombre'],
+                "mayor_adhesion": max(datos['municipios'], key=lambda x: x['adhesion_fr']['muy_alta'] + x['adhesion_fr']['alta'])['nombre'],
+                "mas_critico": max(datos['municipios'], key=lambda x: len(x['alertas']))['nombre'] if any(m['alertas'] for m in datos['municipios']) else "Ninguno"
+            },
+            "alertas_criticas": len([a for a in datos['alertas'] if a['severidad'] == 'alta']),
+            "recomendaciones": [
+                "Reforzar presencia en municipios críticos",
+                "Implementar campaña de comunicación positiva",
+                "Monitorear tendencias negativas de cerca",
+                "Activar plan de contingencia territorial"
+            ]
+        }
+        
+        return {
+            "success": True,
+            "data": resumen_ejecutivo,
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error en resumen ejecutivo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.post("/encuestas-sociales/generar-alerta-damibot")
+async def generar_alerta_damibot_encuestas(
+    fecha: str = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Genera alerta para DAMIBOT basada en datos de encuestas"""
+    try:
+        if fecha and not _validar_fecha(fecha):
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido. Use YYYY-MM-DD")
+        
+        datos = await encuestas_sociales.obtener_datos_encuestas(fecha)
+        alerta = await encuestas_sociales.generar_alerta_damibot(datos)
+        
+        if not alerta:
+            return {
+                "success": True,
+                "data": {
+                    "hay_alerta": False,
+                    "mensaje": "No hay alertas críticas en este momento"
+                },
+                "timestamp": datetime.now().isoformat()
+            }
+        
+        return {
+            "success": True,
+            "data": {
+                "hay_alerta": True,
+                "alerta": alerta
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generando alerta DAMIBOT: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+# ==============================================================================
 # CENTRO DE COMANDO - ENDPOINTS ESPECÍFICOS
 # ==============================================================================
 
