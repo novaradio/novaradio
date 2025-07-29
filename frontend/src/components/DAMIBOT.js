@@ -651,6 +651,31 @@ const DAMIBOT = ({ user, realTimeData }) => {
     queueAlert(alert);
   };
 
+  // Funciones para activar notificaciones emergentes manuales (para testing)
+  const showTestAlert = () => {
+    showEmergentNotification('ALERT', 
+      '⚠️ Alerta de prueba: Detectada actividad sospechosa en redes sociales'
+    );
+  };
+
+  const showTestSummary = () => {
+    showEmergentNotification('SUMMARY', 
+      '📊 Resumen disponible: Análisis completo de actividad diaria listo para revisión'
+    );
+  };
+
+  const showTestStatistics = () => {
+    showEmergentNotification('STATISTICS', 
+      '📈 Estadísticas actualizadas: +25% engagement, 150 menciones nuevas'
+    );
+  };
+
+  const showTestCritical = () => {
+    showEmergentNotification('CRITICAL_UPDATE', 
+      '🚨 Actualización crítica: Sistema detecta campaña coordinada en proceso'
+    );
+  };
+
   if (!isVisible || !currentAlert) {
     // Botón flotante para activar DAMIBOT manualmente
     return (
