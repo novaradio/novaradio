@@ -1091,6 +1091,70 @@ const DAMIBOT = ({ user, realTimeData }) => {
               </div>
             </div>
 
+            {/* Sección de Chat Interactivo */}
+            <div className="mt-6 border-t border-gray-700 pt-4">
+              <h4 className="text-sm font-semibold text-green-400 mb-3 flex items-center">
+                <Bot className="w-4 h-4 mr-2" />
+                Conversación con DAMIBOT
+              </h4>
+              
+              {/* Historial de chat */}
+              <div className="bg-gray-900 rounded-lg p-3 mb-3 max-h-40 overflow-y-auto">
+                {chatHistory.length > 0 ? (
+                  chatHistory.map((message) => (
+                    <div key={message.id} className={`mb-2 flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-xs p-2 rounded-lg text-sm ${
+                        message.type === 'user' 
+                          ? 'bg-blue-600 text-white' 
+                          : message.isError 
+                            ? 'bg-red-900 text-red-400' 
+                            : 'bg-gray-700 text-white'
+                      }`}>
+                        <p className="whitespace-pre-wrap">{message.message}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-sm text-center">
+                    ¡Hola! Puedes hacer preguntas sobre el sistema DAMI.
+                  </p>
+                )}
+                
+                {/* Indicador de carga */}
+                {isLoadingResponse && (
+                  <div className="flex justify-start mb-2">
+                    <div className="bg-gray-700 p-2 rounded-lg">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Input para mensajes */}
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Escribe tu pregunta..."
+                  className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none text-sm"
+                  disabled={isLoadingResponse}
+                />
+                <button
+                  onClick={sendChatMessage}
+                  disabled={isLoadingResponse || !userInput.trim()}
+                  className="bg-green-400 hover:bg-green-300 disabled:bg-gray-600 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg transition-colors text-sm font-semibold"
+                >
+                  {isLoadingResponse ? '...' : 'Enviar'}
+                </button>
+              </div>
+            </div>
+
             {/* Progress indicator si hay más alertas */}
             {alertQueue.length > 0 && (
               <div className="mt-4 pt-4 border-t border-gray-700">
