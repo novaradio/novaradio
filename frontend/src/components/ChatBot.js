@@ -302,21 +302,21 @@ Como OPERADOR tienes acceso a:
       )}
 
       {/* Input */}
-      <div className="p-4 border-t border-gray-700">
+      <div className="p-3 sm:p-4 border-t border-gray-700">
         <div className="flex items-center space-x-2">
           <textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Escribe tu consulta..."
-            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none resize-none"
+            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none resize-none text-sm"
             rows="1"
             disabled={loading}
           />
           <button
             onClick={sendMessage}
             disabled={loading || !inputMessage.trim()}
-            className="bg-green-400 hover:bg-green-300 disabled:bg-gray-600 disabled:cursor-not-allowed text-black p-2 rounded-lg transition-colors"
+            className="bg-green-400 hover:bg-green-300 disabled:bg-gray-600 disabled:cursor-not-allowed text-black p-2 rounded-lg transition-colors flex-shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>
