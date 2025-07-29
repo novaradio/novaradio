@@ -342,7 +342,7 @@ const EncuestasSociales = ({ user }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400 text-sm">Total Respuestas</p>
-              <p className="text-2xl font-bold text-green-400">{resumenGeneral.totalRespuestas}</p>
+              <p className="text-2xl font-bold text-green-400">{resumenGeneral?.totalRespuestas || 0}</p>
             </div>
             <Users className="w-8 h-8 text-green-400" />
           </div>
@@ -352,7 +352,7 @@ const EncuestasSociales = ({ user }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400 text-sm">Adhesión FR</p>
-              <p className="text-2xl font-bold text-blue-400">{resumenGeneral.adhesionFRGeneral}%</p>
+              <p className="text-2xl font-bold text-blue-400">{resumenGeneral?.adhesionFRGeneral || 0}%</p>
             </div>
             <ThumbsUp className="w-8 h-8 text-blue-400" />
           </div>
@@ -362,7 +362,7 @@ const EncuestasSociales = ({ user }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400 text-sm">Municipios Críticos</p>
-              <p className="text-2xl font-bold text-yellow-400">{resumenGeneral.municipiosCriticos}</p>
+              <p className="text-2xl font-bold text-yellow-400">{resumenGeneral?.municipiosCriticos || 0}</p>
             </div>
             <AlertTriangle className="w-8 h-8 text-yellow-400" />
           </div>
@@ -372,7 +372,7 @@ const EncuestasSociales = ({ user }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400 text-sm">Tendencia</p>
-              <p className="text-2xl font-bold text-purple-400 capitalize">{resumenGeneral.tendenciaGeneral}</p>
+              <p className="text-2xl font-bold text-purple-400 capitalize">{resumenGeneral?.tendenciaGeneral || 'Sin datos'}</p>
             </div>
             <TrendingUp className="w-8 h-8 text-purple-400" />
           </div>
