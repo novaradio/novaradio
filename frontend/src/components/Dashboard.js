@@ -89,23 +89,26 @@ const Dashboard = ({ user, onLogout }) => {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
         {/* Top Bar */}
-        <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+        <header className="bg-gray-800 border-b border-gray-700 px-2 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <button
                 onClick={toggleSidebar}
-                className="lg:hidden mr-4 text-gray-400 hover:text-green-400"
+                className="lg:hidden mr-2 sm:mr-4 text-gray-400 hover:text-green-400 text-lg"
               >
                 ☰
               </button>
-              <h1 className="text-xl font-bold text-green-400">
-                🧠 Centro de Monitoreo Inteligente DAMI
+              <h1 className="text-sm sm:text-xl font-bold text-green-400">
+                🧠 Centro DAMI
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-400">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <div className="text-xs sm:text-sm text-gray-400 hidden sm:block">
                 <span className="text-green-400">{user?.username}</span> 
                 ({user?.role})
+              </div>
+              <div className="text-xs sm:text-sm text-gray-400 sm:hidden">
+                <span className="text-green-400">{user?.username}</span>
               </div>
               <div className="w-2 h-2 bg-green-400 rounded-full pulse-green"></div>
             </div>
