@@ -268,11 +268,51 @@ const DAMIBOT = ({ user, realTimeData }) => {
       );
     }, 5000);
 
+    // Generar notificaciones emergentes con datos reales
+    const realDataTimeout = setTimeout(() => {
+      fetchRealTimeDataForNotifications();
+    }, 10000);
+
     return () => {
       clearTimeout(welcomeTimeout);
       clearTimeout(emergentWelcomeTimeout);
+      clearTimeout(realDataTimeout);
     };
   }, [user]);
+
+  // Función para obtener datos reales y generar notificaciones
+  const fetchRealTimeDataForNotifications = async () => {
+    try {
+      const response = await axios.get(`${API}/dashboard/summary`);
+      const data = response.data;
+      
+      // Generar notificaciones basadas en datos reales
+      if (data.active_alerts > 0) {
+        showEmergentNotification('ALERT', 
+          `⚠️ Alerta: ${data.active_alerts} alertas activas requieren atención`
+        );
+      }
+      
+      if (data.recent_social_activity > 100) {
+        showEmergentNotification('STATISTICS', 
+          `📈 Estadísticas: ${data.recent_social_activity} eventos en redes sociales (últimas 24h)`
+        );
+      }
+      
+      if (data.actors_monitored > 5) {
+        showEmergentNotification('SUMMARY', 
+          `📊 Resumen: ${data.actors_monitored} actores políticos bajo monitoreo activo`
+        );
+      }
+      
+    } catch (error) {
+      console.error('Error fetching real-time data:', error);
+      // Fallback a notificación genérica
+      showEmergentNotification('IMPORTANT_DATA', 
+        '🔔 Datos importantes: Sistema DAMI procesando información en tiempo real'
+      );
+    }
+  };
 
   useEffect(() => {
     // Análisis inteligente de datos en tiempo real
