@@ -90,15 +90,15 @@ const DashboardHome = ({ user }) => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
           Dashboard General
         </h1>
-        <p className="text-gray-400">
+        <p className="text-gray-400 text-sm sm:text-base">
           Resumen táctico en tiempo real de actividad política y social
         </p>
         {summary.last_update && (
-          <p className="text-sm text-green-400 mt-2">
+          <p className="text-xs sm:text-sm text-green-400 mt-2">
             Última actualización: {new Date(summary.last_update).toLocaleString('es-ES')}
           </p>
         )}
