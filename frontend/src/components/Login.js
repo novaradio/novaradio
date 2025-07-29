@@ -57,25 +57,25 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-2 sm:p-4">
+      <div className="w-full max-w-md mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Brain className="w-12 h-12 text-green-400 mr-3" />
-            <Shield className="w-12 h-12 text-green-400" />
+            <Brain className="w-8 h-8 sm:w-12 sm:h-12 text-green-400 mr-2 sm:mr-3" />
+            <Shield className="w-8 h-8 sm:w-12 sm:h-12 text-green-400" />
           </div>
-          <h1 className="text-3xl font-bold text-green-400 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">
             🧠 DAMI
           </h1>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-sm sm:text-lg px-2">
             Centro de Monitoreo Inteligente DAMI
           </p>
         </div>
 
         {/* Login Form */}
-        <div className="dami-card">
-          <h2 className="text-2xl font-semibold text-center mb-6 text-white">
+        <div className="dami-card mx-2 sm:mx-0">
+          <h2 className="text-lg sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-white">
             Acceso DAMI
           </h2>
           
