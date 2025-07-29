@@ -83,26 +83,33 @@ body {
     @apply px-4 py-3 text-sm;
   }
   
-  /* Ensure all text is readable */
-  .text-truncate-mobile {
-    @apply truncate;
+  /* Mejoras para los marcadores del mapa de Misiones */
+.semaforo-marker {
+  transition: all 0.2s ease-in-out;
+}
+
+.semaforo-marker:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* Optimización para el mapa en móviles */
+@media (max-width: 768px) {
+  .leaflet-container {
+    height: 400px !important;
   }
   
-  /* Better spacing for cards */
-  .mobile-card-spacing {
-    @apply space-y-2;
+  .semaforo-marker {
+    opacity: 0.9;
   }
-  
-  /* Prevent horizontal overflow */
-  * {
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Ensure grid items don't overflow */
-  .grid > * {
-    min-width: 0;
-  }
+}
+
+/* Asegurar que el mapa sea responsive */
+.mapa-misiones-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
 }
 
 /* Custom scrollbar */
