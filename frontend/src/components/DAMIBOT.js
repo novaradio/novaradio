@@ -852,20 +852,21 @@ const DAMIBOT = ({ user, realTimeData }) => {
 
   return (
     <>
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      {/* Overlay menos invasivo */}
+      <div className="fixed inset-0 bg-black bg-opacity-30 z-40 flex items-center justify-center p-4">
         
-        {/* DAMIBOT Alert */}
+        {/* DAMIBOT Alert - Versión mejorada */}
         <div className={`
-          bg-gray-800 border-2 rounded-lg shadow-2xl max-w-2xl w-full
+          bg-gray-800 border-2 rounded-xl shadow-2xl max-w-xl w-full
           transform transition-all duration-300
-          ${isExpanded ? 'max-h-screen' : 'max-h-96'}
+          ${isExpanded ? 'max-h-screen' : 'max-h-80'}
           ${alertConfig.color === 'red' ? 'border-red-400' :
             alertConfig.color === 'orange' ? 'border-orange-400' :
             alertConfig.color === 'yellow' ? 'border-yellow-400' :
             alertConfig.color === 'blue' ? 'border-blue-400' :
             alertConfig.color === 'purple' ? 'border-purple-400' :
             'border-green-400'}
+          animate-in slide-in-from-bottom-4 fade-in-0 duration-300
         `}>
           
           {/* Header */}
