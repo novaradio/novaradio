@@ -151,28 +151,28 @@ const CentroEstadistico = () => {
               <div className="text-xs sm:text-sm text-gray-400">Total Menciones</div>
             </div>
             
-            <div className="dami-card text-center">
-              <div className="text-3xl mb-2">📈</div>
-              <div className="text-2xl font-bold text-green-400">
+            <div className="dami-card text-center p-3 sm:p-6">
+              <div className="text-2xl sm:text-3xl mb-2">📈</div>
+              <div className="text-lg sm:text-2xl font-bold text-green-400">
                 {estadisticas.estadisticas_generales.resumen_general.menciones_positivas.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-400">Menciones Positivas</div>
+              <div className="text-xs sm:text-sm text-gray-400">Menciones Positivas</div>
             </div>
             
-            <div className="dami-card text-center">
-              <div className="text-3xl mb-2">📉</div>
-              <div className="text-2xl font-bold text-red-400">
+            <div className="dami-card text-center p-3 sm:p-6">
+              <div className="text-2xl sm:text-3xl mb-2">📉</div>
+              <div className="text-lg sm:text-2xl font-bold text-red-400">
                 {estadisticas.estadisticas_generales.resumen_general.menciones_negativas.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-400">Menciones Negativas</div>
+              <div className="text-xs sm:text-sm text-gray-400">Menciones Negativas</div>
             </div>
             
-            <div className="dami-card text-center">
-              <Activity className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">
+            <div className="dami-card text-center p-3 sm:p-6">
+              <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400 mx-auto mb-2" />
+              <div className="text-lg sm:text-2xl font-bold text-white">
                 {estadisticas.estadisticas_generales.resumen_general.engagement_rate}%
               </div>
-              <div className="text-sm text-gray-400">Engagement Rate</div>
+              <div className="text-xs sm:text-sm text-gray-400">Engagement Rate</div>
             </div>
           </div>
 
