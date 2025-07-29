@@ -1038,10 +1038,503 @@ class DAMIBackendTester:
             self.log_test("Mapa Territorial - Fallback Handling", False, f"Exception: {str(e)}")
             return False
     
+    def test_analisis_competencia_completo(self) -> bool:
+        """Test complete political competition analysis endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Análisis Competencia - Completo", False, "Response success flag is False")
+                    return False
+                
+                analisis = data.get("data", {})
+                
+                # Check for required main sections
+                required_sections = [
+                    "resumen_ejecutivo", "analisis_por_partido", "datos_frente_renovador",
+                    "analisis_comparativo", "campañas_coordinadas", "influencia_territorial",
+                    "recomendaciones_estrategicas", "metadata"
+                ]
+                
+                for section in required_sections:
+                    if section not in analisis:
+                        self.log_test("Análisis Competencia - Completo", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate executive summary
+                resumen = analisis.get("resumen_ejecutivo", {})
+                partidos_monitoreados = resumen.get("partidos_monitoreados", 0)
+                if partidos_monitoreados != 4:  # Should monitor 4 political parties
+                    self.log_test("Análisis Competencia - Completo", False, f"Expected 4 parties, got {partidos_monitoreados}")
+                    return False
+                
+                # Validate party analysis contains all 4 parties
+                analisis_partidos = analisis.get("analisis_por_partido", {})
+                expected_parties = ["JUNTOS_POR_EL_CAMBIO", "UNION_POR_LA_PATRIA", "LA_LIBERTAD_AVANZA", "OPOSICION_LOCAL"]
+                
+                for party_id in expected_parties:
+                    if party_id not in analisis_partidos:
+                        self.log_test("Análisis Competencia - Completo", False, f"Missing party analysis: {party_id}")
+                        return False
+                
+                # Validate 3-platform integration in metadata
+                metadata = analisis.get("metadata", {})
+                fuentes = metadata.get("fuentes_datos", [])
+                expected_sources = ["Twitter API v2", "Facebook Graph API", "Instagram Basic API"]
+                
+                for source in expected_sources:
+                    if source not in fuentes:
+                        self.log_test("Análisis Competencia - Completo", False, f"Missing data source: {source}")
+                        return False
+                
+                self.log_test("Análisis Competencia - Completo", True, 
+                             f"Complete analysis validated: {partidos_monitoreados} parties, "
+                             f"{resumen.get('total_menciones_competencia', 0)} total mentions, "
+                             f"threat level: {resumen.get('nivel_amenaza_general', 'N/A')}")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Completo", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Completo", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_resumen(self) -> bool:
+        """Test executive summary with threat levels"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/resumen")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Análisis Competencia - Resumen", False, "Response success flag is False")
+                    return False
+                
+                resumen = data.get("data", {})
+                
+                # Check for required summary fields
+                required_fields = [
+                    "partidos_monitoreados", "total_menciones_competencia", "nivel_amenaza_general",
+                    "campañas_coordinadas_detectadas", "posicion_competitiva", "principal_competidor"
+                ]
+                
+                for field in required_fields:
+                    if field not in resumen:
+                        self.log_test("Análisis Competencia - Resumen", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate threat levels
+                nivel_amenaza = resumen.get("nivel_amenaza_general", "")
+                valid_threat_levels = ["CRÍTICO", "ALTO", "MEDIO", "BAJO", "DESCONOCIDO"]
+                
+                if nivel_amenaza not in valid_threat_levels:
+                    self.log_test("Análisis Competencia - Resumen", False, f"Invalid threat level: {nivel_amenaza}")
+                    return False
+                
+                # Validate competitive position
+                posicion = resumen.get("posicion_competitiva", "")
+                valid_positions = ["DOMINANTE", "COMPETITIVA", "DEFENSIVA", "DESCONOCIDA"]
+                
+                if posicion not in valid_positions:
+                    self.log_test("Análisis Competencia - Resumen", False, f"Invalid competitive position: {posicion}")
+                    return False
+                
+                self.log_test("Análisis Competencia - Resumen", True, 
+                             f"Executive summary validated: {resumen.get('partidos_monitoreados')} parties monitored, "
+                             f"threat level: {nivel_amenaza}, position: {posicion}")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Resumen", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Resumen", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_campañas_coordinadas(self) -> bool:
+        """Test coordinated campaign detection algorithms"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/campañas-coordinadas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Análisis Competencia - Campañas Coordinadas", False, "Response success flag is False")
+                    return False
+                
+                campañas_data = data.get("data", {})
+                
+                # Check for required fields
+                required_fields = ["campañas_detectadas", "total_campañas", "nivel_alerta", "recomendaciones_inmediatas"]
+                
+                for field in required_fields:
+                    if field not in campañas_data:
+                        self.log_test("Análisis Competencia - Campañas Coordinadas", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate campaign detection structure
+                campañas = campañas_data.get("campañas_detectadas", [])
+                if not isinstance(campañas, list):
+                    self.log_test("Análisis Competencia - Campañas Coordinadas", False, "Campaigns should be a list")
+                    return False
+                
+                # Validate campaign structure if campaigns exist
+                for campaña in campañas:
+                    required_campaign_fields = ["tipo_campaña", "partidos_involucrados", "nivel_confianza", "descripcion"]
+                    for field in required_campaign_fields:
+                        if field not in campaña:
+                            self.log_test("Análisis Competencia - Campañas Coordinadas", False, 
+                                         f"Missing campaign field: {field}")
+                            return False
+                
+                # Validate alert level
+                nivel_alerta = campañas_data.get("nivel_alerta", "")
+                valid_alert_levels = ["CRÍTICO", "ALTO", "MEDIO", "BAJO"]
+                
+                if nivel_alerta not in valid_alert_levels:
+                    self.log_test("Análisis Competencia - Campañas Coordinadas", False, 
+                                 f"Invalid alert level: {nivel_alerta}")
+                    return False
+                
+                self.log_test("Análisis Competencia - Campañas Coordinadas", True, 
+                             f"Campaign detection validated: {len(campañas)} campaigns detected, "
+                             f"alert level: {nivel_alerta}")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Campañas Coordinadas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Campañas Coordinadas", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_influencia_territorial(self) -> bool:
+        """Test territorial influence analysis across Misiones municipalities"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/influencia-territorial")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Análisis Competencia - Influencia Territorial", False, "Response success flag is False")
+                    return False
+                
+                influencia = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["analisis_municipal", "resumen_territorial"]
+                
+                for section in required_sections:
+                    if section not in influencia:
+                        self.log_test("Análisis Competencia - Influencia Territorial", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate municipal analysis
+                analisis_municipal = influencia.get("analisis_municipal", {})
+                
+                # Check for key Misiones municipalities
+                expected_municipalities = ["Posadas", "Oberá", "Puerto Iguazú", "Eldorado", "Leandro N. Alem"]
+                found_municipalities = list(analisis_municipal.keys())
+                
+                for municipality in expected_municipalities:
+                    if municipality not in found_municipalities:
+                        self.log_test("Análisis Competencia - Influencia Territorial", False, 
+                                     f"Missing key municipality: {municipality}")
+                        return False
+                
+                # Validate municipality data structure
+                for municipio, datos in analisis_municipal.items():
+                    required_fields = ["influencias", "partido_dominante", "nivel_competencia", "riesgo_alternancia"]
+                    for field in required_fields:
+                        if field not in datos:
+                            self.log_test("Análisis Competencia - Influencia Territorial", False, 
+                                         f"Missing field {field} in municipality {municipio}")
+                            return False
+                    
+                    # Validate influence data includes Frente Renovador
+                    influencias = datos.get("influencias", {})
+                    if "Frente Renovador" not in influencias:
+                        self.log_test("Análisis Competencia - Influencia Territorial", False, 
+                                     f"Missing Frente Renovador influence in {municipio}")
+                        return False
+                
+                # Validate territorial summary
+                resumen = influencia.get("resumen_territorial", {})
+                required_summary_fields = ["municipios_seguros_fr", "municipios_competitivos", "principal_competidor_territorial"]
+                
+                for field in required_summary_fields:
+                    if field not in resumen:
+                        self.log_test("Análisis Competencia - Influencia Territorial", False, 
+                                     f"Missing summary field: {field}")
+                        return False
+                
+                self.log_test("Análisis Competencia - Influencia Territorial", True, 
+                             f"Territorial analysis validated: {len(analisis_municipal)} municipalities analyzed, "
+                             f"{resumen.get('municipios_seguros_fr', 0)} secure municipalities for FR, "
+                             f"main competitor: {resumen.get('principal_competidor_territorial', 'N/A')}")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Influencia Territorial", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Influencia Territorial", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_recomendaciones(self) -> bool:
+        """Test strategic recommendation generation"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/recomendaciones")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Análisis Competencia - Recomendaciones", False, "Response success flag is False")
+                    return False
+                
+                recom_data = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["recomendaciones_por_prioridad", "total_recomendaciones", 
+                                   "accion_inmediata_requerida", "resumen_acciones"]
+                
+                for section in required_sections:
+                    if section not in recom_data:
+                        self.log_test("Análisis Competencia - Recomendaciones", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate priority-based recommendations
+                recom_por_prioridad = recom_data.get("recomendaciones_por_prioridad", {})
+                expected_priorities = ["criticas", "altas", "medias"]
+                
+                for priority in expected_priorities:
+                    if priority not in recom_por_prioridad:
+                        self.log_test("Análisis Competencia - Recomendaciones", False, 
+                                     f"Missing priority level: {priority}")
+                        return False
+                    
+                    # Validate recommendation structure
+                    recommendations = recom_por_prioridad[priority]
+                    if not isinstance(recommendations, list):
+                        self.log_test("Análisis Competencia - Recomendaciones", False, 
+                                     f"Priority {priority} should be a list")
+                        return False
+                    
+                    # Validate individual recommendation structure
+                    for recom in recommendations:
+                        required_fields = ["prioridad", "categoria", "accion", "descripcion"]
+                        for field in required_fields:
+                            if field not in recom:
+                                self.log_test("Análisis Competencia - Recomendaciones", False, 
+                                             f"Missing recommendation field: {field}")
+                                return False
+                
+                # Validate action summary by category
+                resumen_acciones = recom_data.get("resumen_acciones", {})
+                expected_categories = ["comunicacion", "inteligencia", "territorial", "contra_inteligencia"]
+                
+                for category in expected_categories:
+                    if category not in resumen_acciones:
+                        self.log_test("Análisis Competencia - Recomendaciones", False, 
+                                     f"Missing action category: {category}")
+                        return False
+                
+                # Count total recommendations
+                total_recomendaciones = recom_data.get("total_recomendaciones", 0)
+                calculated_total = sum(len(recom_por_prioridad[p]) for p in expected_priorities)
+                
+                if total_recomendaciones != calculated_total:
+                    self.log_test("Análisis Competencia - Recomendaciones", False, 
+                                 f"Total recommendations mismatch: reported {total_recomendaciones}, calculated {calculated_total}")
+                    return False
+                
+                self.log_test("Análisis Competencia - Recomendaciones", True, 
+                             f"Strategic recommendations validated: {total_recomendaciones} total recommendations, "
+                             f"critical: {len(recom_por_prioridad['criticas'])}, "
+                             f"immediate action required: {recom_data.get('accion_inmediata_requerida', False)}")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Recomendaciones", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Recomendaciones", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_party_data_validation(self) -> bool:
+        """Test detailed validation of 4 political parties data"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                analisis = data.get("data", {})
+                analisis_partidos = analisis.get("analisis_por_partido", {})
+                
+                # Expected parties with their characteristics
+                expected_parties = {
+                    "JUNTOS_POR_EL_CAMBIO": "Juntos por el Cambio",
+                    "UNION_POR_LA_PATRIA": "Unión por la Patria", 
+                    "LA_LIBERTAD_AVANZA": "La Libertad Avanza",
+                    "OPOSICION_LOCAL": "Oposición Local Misiones"
+                }
+                
+                for party_id, expected_name in expected_parties.items():
+                    if party_id not in analisis_partidos:
+                        self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                     f"Missing party: {party_id}")
+                        return False
+                    
+                    party_data = analisis_partidos[party_id]
+                    
+                    # Validate party structure
+                    required_sections = ["info_partido", "metricas_generales", "datos_por_plataforma", 
+                                       "analisis_contenido", "riesgo_competitivo"]
+                    
+                    for section in required_sections:
+                        if section not in party_data:
+                            self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                         f"Missing section {section} for party {party_id}")
+                            return False
+                    
+                    # Validate party info
+                    info_partido = party_data.get("info_partido", {})
+                    if info_partido.get("nombre") != expected_name:
+                        self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                     f"Incorrect party name for {party_id}: expected {expected_name}, got {info_partido.get('nombre')}")
+                        return False
+                    
+                    # Validate 3-platform data
+                    datos_plataforma = party_data.get("datos_por_plataforma", {})
+                    expected_platforms = ["twitter", "facebook", "instagram"]
+                    
+                    for platform in expected_platforms:
+                        if platform not in datos_plataforma:
+                            self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                         f"Missing platform {platform} for party {party_id}")
+                            return False
+                        
+                        platform_data = datos_plataforma[platform]
+                        required_metrics = ["menciones", "sentiment", "engagement"]
+                        
+                        for metric in required_metrics:
+                            if metric not in platform_data:
+                                self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                             f"Missing metric {metric} in {platform} for party {party_id}")
+                                return False
+                    
+                    # Validate weighted calculations
+                    metricas = party_data.get("metricas_generales", {})
+                    required_metrics = ["total_menciones", "sentiment_promedio", "engagement_promedio", 
+                                      "nivel_actividad", "tendencia_7dias"]
+                    
+                    for metric in required_metrics:
+                        if metric not in metricas:
+                            self.log_test("Análisis Competencia - Party Data Validation", False, 
+                                         f"Missing general metric {metric} for party {party_id}")
+                            return False
+                
+                self.log_test("Análisis Competencia - Party Data Validation", True, 
+                             f"All 4 political parties validated with complete data structure and 3-platform integration")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Party Data Validation", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Party Data Validation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_analisis_competencia_weighted_calculations(self) -> bool:
+        """Test 3-platform weighted calculations (Twitter: 25%, Facebook: 35%, Instagram: 40%)"""
+        try:
+            response = self.session.get(f"{API_BASE}/analisis-competencia/completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                analisis = data.get("data", {})
+                
+                # Check metadata confirms weighted algorithm
+                metadata = analisis.get("metadata", {})
+                fuentes = metadata.get("fuentes_datos", [])
+                expected_sources = ["Twitter API v2", "Facebook Graph API", "Instagram Basic API"]
+                
+                for source in expected_sources:
+                    if source not in fuentes:
+                        self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                                     f"Missing data source: {source}")
+                        return False
+                
+                # Validate Frente Renovador data uses same weighting
+                datos_fr = analisis.get("datos_frente_renovador", {})
+                fr_platforms = datos_fr.get("datos_por_plataforma", {})
+                
+                if not all(platform in fr_platforms for platform in ["twitter", "facebook", "instagram"]):
+                    self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                                 "Frente Renovador missing platform data")
+                    return False
+                
+                # Check that weighted calculations exist for parties
+                analisis_partidos = analisis.get("analisis_por_partido", {})
+                
+                for party_id, party_data in analisis_partidos.items():
+                    metricas = party_data.get("metricas_generales", {})
+                    platforms = party_data.get("datos_por_plataforma", {})
+                    
+                    # Verify all platforms have data
+                    if not all(platform in platforms for platform in ["twitter", "facebook", "instagram"]):
+                        self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                                     f"Party {party_id} missing platform data")
+                        return False
+                    
+                    # Check weighted metrics exist
+                    if "sentiment_promedio" not in metricas or "engagement_promedio" not in metricas:
+                        self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                                     f"Party {party_id} missing weighted metrics")
+                        return False
+                    
+                    # Verify total mentions is sum of all platforms
+                    expected_total = (platforms["twitter"].get("menciones", 0) + 
+                                    platforms["facebook"].get("menciones", 0) + 
+                                    platforms["instagram"].get("menciones", 0))
+                    
+                    actual_total = metricas.get("total_menciones", 0)
+                    
+                    if expected_total != actual_total:
+                        self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                                     f"Party {party_id} total mentions mismatch: expected {expected_total}, got {actual_total}")
+                        return False
+                
+                self.log_test("Análisis Competencia - Weighted Calculations", True, 
+                             "3-platform weighted calculations validated for all parties (Twitter: 25%, Facebook: 35%, Instagram: 40%)")
+                return True
+            else:
+                self.log_test("Análisis Competencia - Weighted Calculations", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Análisis Competencia - Weighted Calculations", False, f"Exception: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
-        print("DAMI BACKEND TESTING - Centro Estadístico & Informe Diario")
+        print("DAMI BACKEND TESTING - Complete System Validation")
         print("=" * 80)
         print(f"Backend URL: {BACKEND_URL}")
         print(f"API Base: {API_BASE}")
@@ -1095,6 +1588,19 @@ class DAMIBackendTester:
         self.test_mapa_territorial_activity_analysis()
         self.test_mapa_territorial_metadata_verification()
         self.test_mapa_territorial_fallback_handling()
+        
+        print()
+        print("🎯 Testing Análisis de Competencia - Political Intelligence System:")
+        print("-" * 60)
+        
+        # Análisis de Competencia tests - THE MAIN FOCUS
+        self.test_analisis_competencia_completo()
+        self.test_analisis_competencia_resumen()
+        self.test_analisis_competencia_campañas_coordinadas()
+        self.test_analisis_competencia_influencia_territorial()
+        self.test_analisis_competencia_recomendaciones()
+        self.test_analisis_competencia_party_data_validation()
+        self.test_analisis_competencia_weighted_calculations()
         
         print()
         print("Testing Error Handling:")
