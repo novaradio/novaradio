@@ -142,8 +142,8 @@ const Login = ({ onLogin }) => {
         </div>
 
         {/* Demo Credentials */}
-        <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
-          <h3 className="text-sm font-semibold text-green-400 mb-2">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-800 rounded-lg border border-gray-700 mx-2 sm:mx-0 demo-credentials">
+          <h3 className="text-xs sm:text-sm font-semibold text-green-400 mb-2">
             Credenciales de Demostración:
           </h3>
           <div className="text-xs text-gray-400 space-y-1">
