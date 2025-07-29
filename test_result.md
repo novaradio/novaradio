@@ -303,7 +303,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Mapa de Misiones - Real-time Integration with 3 APIs"
     - "Implement WebSockets for real-time updates"
     - "Develop Push Notifications system"
   stuck_tasks: []
