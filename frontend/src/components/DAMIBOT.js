@@ -194,56 +194,35 @@ const DAMIBOT = ({ user, realTimeData }) => {
     }
   };
 
-  // Función para enviar mensaje al chat
-  const sendChatMessage = async () => {
-    if (!userInput.trim() || isLoadingResponse) return;
-    
-    const userMessage = {
-      id: `user_${Date.now()}`,
-      type: 'user',
-      message: userInput,
-      timestamp: new Date()
-    };
-    
-    setChatHistory(prev => [...prev, userMessage]);
-    setUserInput('');
-    setIsLoadingResponse(true);
-    
-    try {
-      const response = await axios.post(`${API}/chat`, {
-        message: userInput,
-        session_id: `damibot_${Date.now()}`
-      });
+  // Función para expandir desde la solapa
+  const expandFromEmergentTab = () => {
+    // Crear alerta completa basada en la solapa emergente
+    if (emergentTab) {
+      const fullAlert = {
+        id: `full_${emergentTab.id}`,
+        type: 'SYSTEM_UPDATE',
+        title: emergentTab.title,
+        message: emergentTab.message,
+        context: {
+          emergent_source: true,
+          original_type: emergentTab.type,
+          timestamp: emergentTab.timestamp
+        },
+        recommendations: generateRecommendationsFromEmergent(emergentTab.type, emergentTab.data),
+        autoClose: false
+      };
       
-      const botMessage = {
-        id: `bot_${Date.now()}`,
+      // Agregar mensaje inicial al chat
+      setChatHistory([{
+        id: `initial_${Date.now()}`,
         type: 'bot',
-        message: response.data.response,
+        message: fullAlert.message,
         timestamp: new Date()
-      };
+      }]);
       
-      setChatHistory(prev => [...prev, botMessage]);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      const errorMessage = {
-        id: `error_${Date.now()}`,
-        type: 'bot',
-        message: 'Disculpa, he tenido un problema técnico. Por favor intenta nuevamente.',
-        timestamp: new Date(),
-        isError: true
-      };
-      setChatHistory(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoadingResponse(false);
+      queueAlert(fullAlert);
     }
-  };
-
-  // Función para manejar Enter en el input
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendChatMessage();
-    }
+    closeEmergentTab();
   };
 
   // Generar recomendaciones basadas en el tipo de emergente
