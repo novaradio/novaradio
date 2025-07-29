@@ -654,18 +654,91 @@ const DAMIBOT = ({ user, realTimeData }) => {
   if (!isVisible || !currentAlert) {
     // Botón flotante para activar DAMIBOT manualmente
     return (
-      <div className="fixed bottom-20 left-6 z-40">
-        <button
-          onClick={showManualHelp}
-          className="bg-blue-500 hover:bg-blue-400 text-white p-3 rounded-full shadow-lg transition-all duration-200 flex items-center group"
-          title="Activar DAMIBOT - Asistente Inteligente"
-        >
-          <Bot className="w-6 h-6" />
-          <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap text-sm font-medium">
-            DAMIBOT
-          </span>
-        </button>
-      </div>
+      <>
+        {/* Solapa emergente proactiva */}
+        {showEmergentTab && emergentTab && (
+          <div className="fixed top-4 right-4 z-50 max-w-md">
+            <div className={`
+              ${emergentTab.bgColor} bg-opacity-90 backdrop-blur-sm
+              ${emergentTab.borderColor} border-2 rounded-lg shadow-2xl
+              transform transition-all duration-300 ease-in-out
+              animate-pulse
+            `}>
+              {/* Header de la solapa */}
+              <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl animate-bounce">
+                    {emergentTab.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-sm">
+                      DAMIBOT
+                    </h3>
+                    <p className="text-gray-300 text-xs">
+                      {emergentTab.title}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={closeEmergentTab}
+                  className="text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-700 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              
+              {/* Contenido de la solapa */}
+              <div className="px-4 pb-4">
+                <p className="text-white text-sm mb-3">
+                  {emergentTab.message}
+                </p>
+                
+                {/* Botones de acción */}
+                <div className="flex space-x-2">
+                  <button
+                    onClick={expandFromEmergentTab}
+                    className="bg-green-500 hover:bg-green-400 text-black px-3 py-1 rounded-md text-xs font-semibold transition-colors flex items-center"
+                  >
+                    <ArrowRight className="w-3 h-3 mr-1" />
+                    Ver más
+                  </button>
+                  <button
+                    onClick={closeEmergentTab}
+                    className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded-md text-xs transition-colors"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+              
+              {/* Barra de progreso de auto-cierre */}
+              <div className="w-full bg-gray-700 h-1">
+                <div 
+                  className="bg-green-400 h-1 transition-all duration-8000 ease-linear"
+                  style={{ 
+                    width: showEmergentTab ? '0%' : '100%',
+                    transition: 'width 8s linear'
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Botón flotante para activar DAMIBOT manualmente */}
+        <div className="fixed bottom-20 left-6 z-40">
+          <button
+            onClick={showManualHelp}
+            className="bg-blue-500 hover:bg-blue-400 text-white p-3 rounded-full shadow-lg transition-all duration-200 flex items-center group"
+            title="Activar DAMIBOT - Asistente Inteligente"
+          >
+            <Bot className="w-6 h-6" />
+            <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap text-sm font-medium">
+              DAMIBOT
+            </span>
+          </button>
+        </div>
+      </>
     );
   }
 
