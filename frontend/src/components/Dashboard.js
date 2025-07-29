@@ -14,6 +14,7 @@ import CentroEstadistico from './CentroEstadistico';
 import InformeDiario from './InformeDiario';
 import MapaMisiones from './MapaMisiones';
 import AnalisisCompetencia from './AnalisisCompetencia';
+import EncuestasSociales from './EncuestasSociales';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
