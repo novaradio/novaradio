@@ -172,13 +172,13 @@ const DAMIBOT = ({ user, realTimeData }) => {
     setEmergentTab(notification);
     setShowEmergentTab(true);
 
-    // Auto-cerrar después de 8 segundos
+    // Auto-cerrar después de 5 segundos (más rápido)
     if (emergentTabTimeoutRef.current) {
       clearTimeout(emergentTabTimeoutRef.current);
     }
     emergentTabTimeoutRef.current = setTimeout(() => {
       setShowEmergentTab(false);
-    }, 8000);
+    }, 5000);
   };
 
   // Función para cerrar solapa emergente
