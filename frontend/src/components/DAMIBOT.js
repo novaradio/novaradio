@@ -870,40 +870,6 @@ const DAMIBOT = ({ user, realTimeData }) => {
             </span>
           </button>
         </div>
-
-        {/* Botones de prueba para notificaciones emergentes (solo para testing) */}
-        {user?.role === 'administrator' && (
-          <div className="fixed bottom-40 left-6 z-40 space-y-2">
-            <button
-              onClick={showTestAlert}
-              className="bg-red-500 hover:bg-red-400 text-white p-2 rounded-full shadow-lg transition-all duration-200 text-xs"
-              title="Prueba: Alerta"
-            >
-              ⚠️
-            </button>
-            <button
-              onClick={showTestSummary}
-              className="bg-blue-500 hover:bg-blue-400 text-white p-2 rounded-full shadow-lg transition-all duration-200 text-xs"
-              title="Prueba: Resumen"
-            >
-              📊
-            </button>
-            <button
-              onClick={showTestStatistics}
-              className="bg-green-500 hover:bg-green-400 text-white p-2 rounded-full shadow-lg transition-all duration-200 text-xs"
-              title="Prueba: Estadísticas"
-            >
-              📈
-            </button>
-            <button
-              onClick={showTestCritical}
-              className="bg-purple-500 hover:bg-purple-400 text-white p-2 rounded-full shadow-lg transition-all duration-200 text-xs"
-              title="Prueba: Crítico"
-            >
-              🚨
-            </button>
-          </div>
-        )}
       </>
     );
   }
