@@ -353,23 +353,19 @@ const DAMIBOT = ({ user, realTimeData }) => {
       const currentTime = new Date();
       const randomChance = Math.random();
       
-      if (randomChance > 0.7) { // 30% probabilidad cada minuto (más frecuente)
+      if (randomChance > 0.9) { // 10% probabilidad cada minuto (menos invasivo)
         const emergentNotifications = [
           {
             type: 'STATISTICS',
-            message: `📈 Estadísticas actualizadas: ${Math.floor(Math.random() * 150) + 50} menciones en redes sociales`
+            message: `📈 ${Math.floor(Math.random() * 150) + 50} eventos procesados`
           },
           {
             type: 'SUMMARY',
-            message: `📊 Resumen disponible: Actividad ${Math.random() > 0.5 ? 'estable' : 'moderada'} en territorio`
+            message: `📊 Actividad territorial: ${Math.random() > 0.5 ? 'Normal' : 'Monitoreando'}`
           },
           {
             type: 'IMPORTANT_DATA',
-            message: `🔔 Datos importantes: ${Math.floor(Math.random() * 10) + 5} actores monitoreados activamente`
-          },
-          {
-            type: 'ALERT',
-            message: `⚠️ Alerta: Detectada actividad inusual en redes sociales`
+            message: `🔔 ${Math.floor(Math.random() * 10) + 5} actores bajo seguimiento`
           }
         ];
         
