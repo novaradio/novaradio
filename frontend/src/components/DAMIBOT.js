@@ -225,6 +225,58 @@ const DAMIBOT = ({ user, realTimeData }) => {
     closeEmergentTab();
   };
 
+  // Función para enviar mensaje al chat
+  const sendChatMessage = async () => {
+    if (!userInput.trim() || isLoadingResponse) return;
+    
+    const userMessage = {
+      id: `user_${Date.now()}`,
+      type: 'user',
+      message: userInput,
+      timestamp: new Date()
+    };
+    
+    setChatHistory(prev => [...prev, userMessage]);
+    setUserInput('');
+    setIsLoadingResponse(true);
+    
+    try {
+      const response = await axios.post(`${API}/chat`, {
+        message: userInput,
+        session_id: `damibot_${Date.now()}`
+      });
+      
+      const botMessage = {
+        id: `bot_${Date.now()}`,
+        type: 'bot',
+        message: response.data.response,
+        timestamp: new Date()
+      };
+      
+      setChatHistory(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage = {
+        id: `error_${Date.now()}`,
+        type: 'bot',
+        message: 'Disculpa, he tenido un problema técnico. Por favor intenta nuevamente.',
+        timestamp: new Date(),
+        isError: true
+      };
+      setChatHistory(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoadingResponse(false);
+    }
+  };
+
+  // Función para manejar Enter en el input
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChatMessage();
+    }
+  };
+
   // Generar recomendaciones basadas en el tipo de emergente
   const generateRecommendationsFromEmergent = (type, data) => {
     switch (type) {
