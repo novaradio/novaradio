@@ -313,7 +313,7 @@ const DAMIBOT = ({ user, realTimeData }) => {
       const currentTime = new Date();
       const randomChance = Math.random();
       
-      if (randomChance > 0.85) { // 15% probabilidad cada minuto
+      if (randomChance > 0.7) { // 30% probabilidad cada minuto (más frecuente)
         const emergentNotifications = [
           {
             type: 'STATISTICS',
@@ -326,6 +326,10 @@ const DAMIBOT = ({ user, realTimeData }) => {
           {
             type: 'IMPORTANT_DATA',
             message: `🔔 Datos importantes: ${Math.floor(Math.random() * 10) + 5} actores monitoreados activamente`
+          },
+          {
+            type: 'ALERT',
+            message: `⚠️ Alerta: Detectada actividad inusual en redes sociales`
           }
         ];
         
