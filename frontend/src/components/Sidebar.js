@@ -10,6 +10,7 @@ import {
   Brain,
   Shield,
   User,
+  Users,
   Bot,
   TrendingUp,
   Heart,
@@ -19,7 +20,8 @@ import {
   Command,
   BarChart3,
   FileText,
-  Target
+  Target,
+  Zap
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
