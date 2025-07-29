@@ -104,15 +104,15 @@ body {
 
 /* DAMI specific styles */
 .dami-card {
-  @apply bg-gray-800 border border-gray-700 rounded-lg p-6 hover:border-green-400 transition-colors duration-200;
+  @apply bg-gray-800 border border-gray-700 rounded-lg p-3 sm:p-6 hover:border-green-400 transition-colors duration-200;
 }
 
 .dami-button {
-  @apply bg-green-400 text-black px-6 py-2 rounded-lg font-semibold hover:bg-green-300 transition-colors duration-200;
+  @apply bg-green-400 text-black px-4 py-2 sm:px-6 sm:py-2 rounded-lg font-semibold hover:bg-green-300 transition-colors duration-200 text-sm sm:text-base;
 }
 
 .dami-button-secondary {
-  @apply bg-gray-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 border border-gray-600 transition-colors duration-200;
+  @apply bg-gray-700 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-lg font-semibold hover:bg-gray-600 border border-gray-600 transition-colors duration-200 text-sm sm:text-base;
 }
 
 .dami-input {
