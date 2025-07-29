@@ -196,26 +196,39 @@ Como OPERADOR tienes acceso a:
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 h-96 sm:h-96 bg-gray-800 border border-gray-700 rounded-lg shadow-2xl flex flex-col max-w-[calc(100vw-3rem)]">
+    <div className={`fixed z-50 bg-gray-800 border border-gray-700 rounded-lg shadow-2xl flex flex-col ${
+      isFullScreen 
+        ? 'inset-4 sm:inset-8' 
+        : 'bottom-6 right-6 w-80 sm:w-96 h-96 sm:h-[32rem] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-3rem)]'
+    }`}>
       {/* Header */}
       <div className="bg-gray-700 p-3 sm:p-4 rounded-t-lg border-b border-gray-600">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center mr-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center">
               <Bot className="w-5 h-5 text-black" />
             </div>
             <div>
-              <h3 className="text-white font-semibold">DAMI Bot</h3>
-              <p className="text-xs text-gray-400">Asistente IA</p>
+              <h3 className="text-white font-semibold text-sm sm:text-base">DAMI Bot</h3>
+              <p className="text-gray-400 text-xs">Asistente IA</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full pulse-green"></div>
+            <button
+              onClick={() => setIsFullScreen(!isFullScreen)}
+              className="text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-600 transition-colors sm:block hidden"
+            >
+              {isFullScreen ? (
+                <Minimize2 className="w-4 h-4" />
+              ) : (
+                <Maximize2 className="w-4 h-4" />
+              )}
+            </button>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-gray-400 hover:text-white"
+              className="text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-600 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
