@@ -82,6 +82,27 @@ body {
   .dami-button {
     @apply px-4 py-3 text-sm;
   }
+  
+  /* Ensure all text is readable */
+  .text-truncate-mobile {
+    @apply truncate;
+  }
+  
+  /* Better spacing for cards */
+  .mobile-card-spacing {
+    @apply space-y-2;
+  }
+  
+  /* Prevent horizontal overflow */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure grid items don't overflow */
+  .grid > * {
+    min-width: 0;
+  }
 }
 
 /* Custom scrollbar */
