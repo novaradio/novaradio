@@ -250,7 +250,7 @@ const EncuestasSociales = ({ user }) => {
     }
   };
 
-  const municipiosFiltrados = encuestasData.filter(municipio => 
+  const municipiosFiltrados = (encuestasData || []).filter(municipio => 
     filtroRegion === 'todos' || municipio.region === filtroRegion
   );
 
