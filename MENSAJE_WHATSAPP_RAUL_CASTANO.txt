@@ -6,7 +6,7 @@ Frente Renovador de la Concordia Social
 🔐 ACCESO DEMO INMEDIATO:
 • Usuario: luis
 • Contraseña: claveDAMI2025
-• URL: http://localhost:3000
+• URL: https://f7446471-c339-42f4-a954-5fea8b0dcecb.preview.emergentagent.com
 
 📊 DATOS REALES OPERATIVOS:
 ✅ 872 menciones procesadas en tiempo real
