@@ -213,8 +213,8 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">
+        <nav className="flex-1 p-4 overflow-y-auto max-h-screen">
+          <ul className="space-y-2 pb-20">{/* Added padding bottom for mobile */}
             {navigationItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentPath === item.path || 
