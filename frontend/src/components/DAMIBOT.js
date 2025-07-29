@@ -261,7 +261,17 @@ const DAMIBOT = ({ user, realTimeData }) => {
       showWelcomeAlert();
     }, 2000);
 
-    return () => clearTimeout(welcomeTimeout);
+    // Mostrar notificación emergente de bienvenida
+    const emergentWelcomeTimeout = setTimeout(() => {
+      showEmergentNotification('IMPORTANT_DATA', 
+        `¡Tengo datos importantes para ti, ${user?.username}! Sistema DAMI operativo y monitoreando.`
+      );
+    }, 5000);
+
+    return () => {
+      clearTimeout(welcomeTimeout);
+      clearTimeout(emergentWelcomeTimeout);
+    };
   }, [user]);
 
   useEffect(() => {
@@ -274,13 +284,19 @@ const DAMIBOT = ({ user, realTimeData }) => {
       triggers.forEach(trigger => {
         if (trigger.type === 'CRITICAL_SOCIAL_POST' || trigger.type === 'HIGH_SOCIAL_ACTIVITY') {
           showIntelligentAlert(trigger);
+          // También mostrar solapa emergente para eventos críticos
+          if (trigger.type === 'CRITICAL_SOCIAL_POST') {
+            showEmergentNotification('ALERT', 
+              `⚠️ Alerta: Detectado post crítico en ${trigger.data?.platform || 'redes sociales'}`
+            );
+          }
         }
       });
     }
   }, [realTimeData]);
 
   useEffect(() => {
-    // Generar alertas contextuales inteligentes
+    // Generar alertas contextuales inteligentes y notificaciones emergentes
     const contextualTimeout = setInterval(() => {
       // Generar alertas basadas en contexto y tiempo
       const contextualAlerts = DAMIBOTTriggers.generateContextualAlerts({
@@ -291,6 +307,30 @@ const DAMIBOT = ({ user, realTimeData }) => {
       if (contextualAlerts.length > 0 && Math.random() > 0.6) { // 40% probabilidad
         const selectedAlert = contextualAlerts[Math.floor(Math.random() * contextualAlerts.length)];
         showContextualAlert(selectedAlert);
+      }
+      
+      // Generar notificaciones emergentes proactivas
+      const now = new Date();
+      const randomChance = Math.random();
+      
+      if (randomChance > 0.85) { // 15% probabilidad cada minuto
+        const emergentNotifications = [
+          {
+            type: 'STATISTICS',
+            message: `📈 Estadísticas actualizadas: ${Math.floor(Math.random() * 150) + 50} menciones en redes sociales`
+          },
+          {
+            type: 'SUMMARY',
+            message: `📊 Resumen disponible: Actividad ${Math.random() > 0.5 ? 'estable' : 'moderada'} en territorio`
+          },
+          {
+            type: 'IMPORTANT_DATA',
+            message: `🔔 Datos importantes: ${Math.floor(Math.random() * 10) + 5} actores monitoreados activamente`
+          }
+        ];
+        
+        const randomNotification = emergentNotifications[Math.floor(Math.random() * emergentNotifications.length)];
+        showEmergentNotification(randomNotification.type, randomNotification.message);
       }
       
       // Alertas automáticas por horario
