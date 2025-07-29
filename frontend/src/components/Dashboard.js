@@ -139,10 +139,7 @@ const Dashboard = ({ user, onLogout }) => {
           </Routes>
         </main>
 
-        {/* Floating Chat Bot */}
-        <ChatBot user={user} />
-
-        {/* DAMIBOT - Intelligent Emergent Assistant */}
+        {/* DAMIBOT - Unified Intelligent Assistant */}
         <DAMIBOT user={user} realTimeData={realTimeData} />
       </div>
 
