@@ -38,6 +38,11 @@ const DAMIBOT = ({ user, realTimeData }) => {
   const [showEmergentTab, setShowEmergentTab] = useState(false);
   const emergentTabTimeoutRef = useRef(null);
 
+  // Estados para el chat interactivo
+  const [userInput, setUserInput] = useState('');
+  const [isLoadingResponse, setIsLoadingResponse] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+
   // Tipos de alertas que DAMIBOT puede mostrar
   const alertTypes = {
     NEW_CRITICAL_ACTOR: {
