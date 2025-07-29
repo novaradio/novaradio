@@ -937,14 +937,14 @@ const DAMIBOT = ({ user, realTimeData }) => {
             </div>
 
             {/* Recomendaciones */}
-            {recommendations.length > 0 && (
+            {currentAlert.recommendations && currentAlert.recommendations.length > 0 && (
               <div className="mb-6">
                 <h5 className="text-green-400 font-semibold mb-3 flex items-center">
                   <Brain className="w-4 h-4 mr-2" />
                   Recomendaciones IA
                 </h5>
                 <div className="space-y-2">
-                  {recommendations.map((rec, index) => (
+                  {currentAlert.recommendations.map((rec, index) => (
                     <div key={index} className="flex items-start space-x-2">
                       <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
                       <span className="text-gray-300 text-sm">{rec}</span>
