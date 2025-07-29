@@ -858,15 +858,15 @@ const DAMIBOT = ({ user, realTimeData }) => {
         )}
         
         {/* Botón flotante para activar DAMIBOT manualmente */}
-        <div className="fixed bottom-20 left-6 z-40">
+        <div className="fixed bottom-6 right-6 z-40">
           <button
             onClick={showManualHelp}
-            className="bg-blue-500 hover:bg-blue-400 text-white p-3 rounded-full shadow-lg transition-all duration-200 flex items-center group"
-            title="Activar DAMIBOT - Asistente Inteligente"
+            className="bg-green-500 hover:bg-green-400 text-white p-4 rounded-full shadow-xl transition-all duration-200 flex items-center group pulse-green"
+            title="DAMIBOT - Asistente IA Analítico"
           >
             <Bot className="w-6 h-6" />
             <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap text-sm font-medium">
-              DAMIBOT
+              DAMIBOT IA
             </span>
           </button>
         </div>
