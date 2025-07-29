@@ -33,6 +33,55 @@ body {
     -webkit-overflow-scrolling: touch;
     max-height: 100vh;
   }
+  
+  /* Login form mobile optimization */
+  .dami-card {
+    @apply mx-2 px-4 py-6;
+  }
+  
+  /* Reduce font sizes for mobile */
+  h1 {
+    @apply text-2xl;
+  }
+  
+  h2 {
+    @apply text-xl;
+  }
+  
+  /* Better mobile spacing */
+  .mobile-spacing {
+    @apply px-2 py-4;
+  }
+}
+
+/* Smaller screens optimization */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .dami-card {
+    @apply mx-1 px-3 py-4;
+  }
+  
+  /* Even smaller fonts for very small screens */
+  h1 {
+    @apply text-xl;
+  }
+  
+  h2 {
+    @apply text-lg;
+  }
+  
+  /* Compact demo credentials */
+  .demo-credentials {
+    @apply text-xs p-2;
+  }
+  
+  /* Better button sizing */
+  .dami-button {
+    @apply px-4 py-3 text-sm;
+  }
 }
 
 /* Custom scrollbar */
