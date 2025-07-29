@@ -180,18 +180,18 @@ const CentroEstadistico = () => {
           {(estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter || 
             estadisticas.estadisticas_generales.resumen_general.datos_reales_facebook) && (
             <div className="dami-card">
-              <div className="flex items-center justify-center p-4 bg-green-900 bg-opacity-30 border border-green-400 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 font-semibold">📡 DATOS REALES ACTIVOS</span>
-                  <div className="text-sm text-gray-300 flex items-center space-x-4">
-                    {estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter && (
-                      <span>🐦 Twitter: {estadisticas.estadisticas_generales.resumen_general.twitter_tweets} tweets</span>
-                    )}
-                    {estadisticas.estadisticas_generales.resumen_general.datos_reales_facebook && (
-                      <span>📘 Facebook: {estadisticas.estadisticas_generales.resumen_general.facebook_posts} posts</span>
-                    )}
-                  </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center p-3 sm:p-4 bg-green-900 bg-opacity-30 border border-green-400 rounded-lg">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-0">
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 font-semibold text-sm sm:text-base">📡 DATOS REALES ACTIVOS</span>
+                </div>
+                <div className="text-xs sm:text-sm text-gray-300 flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-4">
+                  {estadisticas.estadisticas_generales.resumen_general.datos_reales_twitter && (
+                    <span>🐦 Twitter: {estadisticas.estadisticas_generales.resumen_general.twitter_tweets} tweets</span>
+                  )}
+                  {estadisticas.estadisticas_generales.resumen_general.datos_reales_facebook && (
+                    <span>📘 Facebook: {estadisticas.estadisticas_generales.resumen_general.facebook_posts} posts</span>
+                  )}
                 </div>
               </div>
             </div>
