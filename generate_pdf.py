@@ -378,7 +378,7 @@ def create_dami_pdf():
     """, normal_style))
     
     story.append(Spacer(1, 1*inch))
-    story.append(Paragraph("___", TA_CENTER))
+    story.append(Paragraph("___________________________________", normal_style))
     story.append(Paragraph("Documento preparado para Raúl Castaño", normal_style))
     story.append(Paragraph("Frente Renovador de la Concordia Social", normal_style))
     story.append(Paragraph("Centro de Monitoreo Inteligente DAMI - 2025", normal_style))
