@@ -723,28 +723,25 @@ const DAMIBOT = ({ user, realTimeData }) => {
     // Botón flotante para activar DAMIBOT manualmente
     return (
       <>
-        {/* Solapa emergente proactiva */}
+        {/* Solapa emergente proactiva - Versión mejorada */}
         {showEmergentTab && emergentTab && (
-          <div className="fixed top-4 right-4 z-50 max-w-md">
+          <div className="fixed top-4 right-4 z-40 max-w-sm">
             <div className={`
-              ${emergentTab.bgColor} bg-opacity-90 backdrop-blur-sm
-              ${emergentTab.borderColor} border-2 rounded-lg shadow-2xl
-              transform transition-all duration-300 ease-in-out
-              animate-pulse
+              bg-gray-800 bg-opacity-95 backdrop-blur-md
+              border-l-4 ${emergentTab.borderColor.replace('border-', 'border-l-')}
+              rounded-r-lg shadow-xl
+              transform transition-all duration-500 ease-in-out
+              ${showEmergentTab ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
             `}>
-              {/* Header de la solapa */}
-              <div className="p-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="text-2xl animate-bounce">
-                    {emergentTab.icon}
+              {/* Header compacto */}
+              <div className="px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <Bot className="w-4 h-4 text-black" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-sm">
-                      DAMIBOT
-                    </h3>
-                    <p className="text-gray-300 text-xs">
-                      {emergentTab.title}
-                    </p>
+                    <h3 className="text-white font-semibold text-sm">DAMIBOT</h3>
+                    <p className="text-gray-400 text-xs">{emergentTab.title}</p>
                   </div>
                 </div>
                 <button
@@ -755,34 +752,40 @@ const DAMIBOT = ({ user, realTimeData }) => {
                 </button>
               </div>
               
-              {/* Contenido de la solapa */}
-              <div className="px-4 pb-4">
-                <p className="text-white text-sm mb-3">
-                  {emergentTab.message}
-                </p>
+              {/* Contenido compacto */}
+              <div className="px-4 pb-3">
+                <div className="flex items-start space-x-2 mb-3">
+                  <div className="text-lg">{emergentTab.icon}</div>
+                  <p className="text-white text-sm flex-1">{emergentTab.message}</p>
+                </div>
                 
-                {/* Botones de acción */}
+                {/* Botones de acción compactos */}
                 <div className="flex space-x-2">
                   <button
                     onClick={expandFromEmergentTab}
-                    className="bg-green-500 hover:bg-green-400 text-black px-3 py-1 rounded-md text-xs font-semibold transition-colors flex items-center"
+                    className="bg-green-500 hover:bg-green-400 text-black px-3 py-1 rounded text-xs font-medium transition-colors flex items-center"
                   >
-                    <ArrowRight className="w-3 h-3 mr-1" />
-                    Ver más
+                    <Eye className="w-3 h-3 mr-1" />
+                    Detalles
                   </button>
                   <button
                     onClick={closeEmergentTab}
-                    className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded-md text-xs transition-colors"
+                    className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-xs transition-colors"
                   >
-                    Cerrar
+                    OK
                   </button>
                 </div>
               </div>
               
-              {/* Barra de progreso de auto-cierre */}
-              <div className="w-full bg-gray-700 h-1">
+              {/* Indicador de progreso más sutil */}
+              <div className="w-full bg-gray-700 h-1 rounded-b-lg overflow-hidden">
                 <div 
-                  className="bg-green-400 h-1 transition-all duration-8000 ease-linear"
+                  className={`h-1 transition-all duration-8000 ease-linear ${
+                    emergentTab.color === 'red' ? 'bg-red-400' :
+                    emergentTab.color === 'blue' ? 'bg-blue-400' :
+                    emergentTab.color === 'yellow' ? 'bg-yellow-400' :
+                    'bg-green-400'
+                  }`}
                   style={{ 
                     width: showEmergentTab ? '0%' : '100%',
                     transition: 'width 8s linear'
