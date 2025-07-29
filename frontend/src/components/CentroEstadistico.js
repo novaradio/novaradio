@@ -142,13 +142,13 @@ const CentroEstadistico = () => {
       {selectedTab === 'resumen' && estadisticas && (
         <div className="space-y-6">
           {/* Métricas Principales */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="dami-card text-center">
-              <Users className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
+            <div className="dami-card text-center p-3 sm:p-6">
+              <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400 mx-auto mb-2" />
+              <div className="text-lg sm:text-2xl font-bold text-white">
                 {estadisticas.estadisticas_generales.resumen_general.total_menciones.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-400">Total Menciones</div>
+              <div className="text-xs sm:text-sm text-gray-400">Total Menciones</div>
             </div>
             
             <div className="dami-card text-center">
