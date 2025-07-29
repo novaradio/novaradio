@@ -89,46 +89,49 @@ const CentroEstadistico = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="dami-card mb-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex space-x-4">
+      <div className="dami-card mb-4 sm:mb-6">
+        <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
+          <div className="flex flex-wrap gap-2 sm:space-x-4 sm:flex-nowrap">
             {[
-              { id: 'resumen', label: 'Resumen General', icon: Activity },
-              { id: 'redes', label: 'Por Red Social', icon: MessageSquare },
-              { id: 'tendencias', label: 'Tendencias', icon: TrendingUp },
-              { id: 'alertas', label: 'Alertas', icon: AlertTriangle }
+              { id: 'resumen', label: 'Resumen', shortLabel: 'Resumen', icon: Activity },
+              { id: 'redes', label: 'Por Red', shortLabel: 'Redes', icon: MessageSquare },
+              { id: 'tendencias', label: 'Tendencias', shortLabel: 'Trend', icon: TrendingUp },
+              { id: 'alertas', label: 'Alertas', shortLabel: 'Alert', icon: AlertTriangle }
             ].map(tab => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedTab(tab.id)}
-                  className={`flex items-center px-4 py-2 rounded-lg transition ${
+                  className={`flex items-center px-2 py-2 sm:px-4 sm:py-2 rounded-lg transition text-xs sm:text-sm ${
                     selectedTab === tab.id 
                       ? 'bg-green-600 text-white' 
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {tab.label}
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.shortLabel}</span>
                 </button>
               );
             })}
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
             <button
               onClick={cargarEstadisticas}
               disabled={loading}
-              className="flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm transition disabled:opacity-50"
+              className="flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-blue-600 hover:bg-blue-700 rounded text-xs sm:text-sm transition disabled:opacity-50"
             >
-              <RefreshCw className={`w-4 h-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
-              Actualizar
+              <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">Actualizar</span>
+              <span className="sm:hidden">Update</span>
             </button>
             {lastUpdate && (
-              <span className="text-sm text-gray-400">
-                <Clock className="w-4 h-4 inline mr-1" />
-                {lastUpdate}
+              <span className="text-xs sm:text-sm text-gray-400">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1" />
+                <span className="hidden sm:inline">{lastUpdate}</span>
+                <span className="sm:hidden">{lastUpdate.split(':').slice(0,2).join(':')}</span>
               </span>
             )}
           </div>
