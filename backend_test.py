@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, List
 
 # Get backend URL from environment
-BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://f7446471-c339-42f4-a954-5fea8b0dcecb.preview.emergentagent.com')
+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://478d5fd7-fcdd-4c6a-903b-1f150b089569.preview.emergentagent.com')
 API_BASE = f"{BACKEND_URL}/api"
 
 class DAMIBackendTester:
