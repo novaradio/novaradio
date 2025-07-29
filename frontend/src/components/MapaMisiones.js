@@ -255,50 +255,6 @@ const MapaMisiones = () => {
       }
     };
   };
-    // Simular diferentes niveles de actividad
-    const baseActivity = Math.random();
-    let nivelActividad, colorSemaforo, tipoActividad, detalleActividad;
-    
-    // Posadas y municipios grandes tienen más actividad
-    const esMunicipioPrincipal = ['Posadas', 'Oberá', 'Puerto Iguazú', 'Eldorado'].includes(municipio.nombre);
-    const factorSize = esMunicipioPrincipal ? 0.3 : 0;
-    
-    const actividadFinal = Math.min(1, baseActivity + factorSize);
-    
-    if (actividadFinal > 0.7) {
-      nivelActividad = 'ALTO';
-      colorSemaforo = 'red';
-      tipoActividad = Math.random() > 0.5 ? 'negativa' : 'crítica';
-      detalleActividad = tipoActividad === 'crítica' ? 
-        'Campaña de desinformación activa detectada' :
-        'Alta actividad opositora en redes sociales';
-    } else if (actividadFinal > 0.4) {
-      nivelActividad = 'MEDIO';
-      colorSemaforo = 'orange';
-      tipoActividad = 'moderada';
-      detalleActividad = 'Actividad normal con algunos puntos de atención';
-    } else {
-      nivelActividad = 'BAJO';
-      colorSemaforo = 'green';
-      tipoActividad = 'positiva';
-      detalleActividad = 'Actividad favorable al Frente Renovador';
-    }
-    
-    return {
-      nivelActividad,
-      colorSemaforo,
-      tipoActividad,
-      detalleActividad,
-      porcentajeActividad: Math.round(actividadFinal * 100),
-      mentionesPositivas: Math.floor(Math.random() * 50) + (tipoActividad === 'positiva' ? 20 : 0),
-      mentionesNegativas: Math.floor(Math.random() * 30) + (tipoActividad === 'crítica' ? 25 : 0),
-      influencia: Math.floor(actividadFinal * 1000) + 100,
-      ultimaActualizacion: new Date().toLocaleTimeString(),
-      alertas: tipoActividad === 'crítica' ? ['Desinformación detectada', 'Actividad coordinada'] : 
-               tipoActividad === 'negativa' ? ['Críticas en aumento'] : 
-               ['Sin alertas activas']
-    };
-  };
 
   const getSemaforoColor = (color) => {
     switch(color) {
