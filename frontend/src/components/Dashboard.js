@@ -116,7 +116,7 @@ const Dashboard = ({ user, onLogout }) => {
         </header>
 
         {/* Page Content */}
-        <main className="p-6">
+        <main className="p-2 sm:p-6">
           <Routes>
             <Route path="/" element={<DashboardHome user={user} />} />
             <Route path="/centro-comando" element={<CentroComando user={user} />} />
