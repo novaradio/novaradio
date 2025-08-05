@@ -372,7 +372,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "FASE 3: Automatización Avanzada - Backend Implementation"
+    - "FASE 2: IA Predictiva Avanzada - Backend Implementation"
+    - "FASE 2: IA Predictiva Avanzada - Frontend Implementation"
+    - "FASE 3: Automatización Avanzada - Frontend Implementation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
