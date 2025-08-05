@@ -1933,6 +1933,622 @@ class DAMIBackendTester:
         except Exception as e:
             self.log_test("Automatización - Resumen Completo", False, f"Exception: {str(e)}")
             return False
+    
+    def test_youtube_search_channels(self) -> bool:
+        """Test YouTube search channels endpoint"""
+        try:
+            # Test with specific query
+            response = self.session.get(f"{API_BASE}/youtube/search-channels?query=Frente Renovador&max_results=10")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Search Channels", False, "Response success flag is False")
+                    return False
+                
+                youtube_data = data.get("data", {})
+                
+                # Validate response structure
+                required_fields = ["query", "total_results", "channels_found", "channels", "search_timestamp", "api_status"]
+                for field in required_fields:
+                    if field not in youtube_data:
+                        self.log_test("YouTube - Search Channels", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate channels data
+                channels = youtube_data.get("channels", [])
+                if not isinstance(channels, list):
+                    self.log_test("YouTube - Search Channels", False, "Channels should be a list")
+                    return False
+                
+                # Validate channel structure
+                for channel in channels:
+                    required_channel_fields = ["channel_id", "title", "description", "subscriber_count", "view_count", "video_count", "growth_metrics"]
+                    for field in required_channel_fields:
+                        if field not in channel:
+                            self.log_test("YouTube - Search Channels", False, f"Missing channel field: {field}")
+                            return False
+                
+                # Validate growth metrics
+                if channels:
+                    growth_metrics = channels[0].get("growth_metrics", {})
+                    required_growth_fields = ["subscribers_formatted", "views_formatted", "avg_views_per_video"]
+                    for field in required_growth_fields:
+                        if field not in growth_metrics:
+                            self.log_test("YouTube - Search Channels", False, f"Missing growth metric: {field}")
+                            return False
+                
+                self.log_test("YouTube - Search Channels", True, 
+                             f"Found {len(channels)} channels for query '{youtube_data.get('query')}', API status: {youtube_data.get('api_status')}")
+                return True
+            else:
+                self.log_test("YouTube - Search Channels", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Search Channels", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_search_videos(self) -> bool:
+        """Test YouTube search videos endpoint"""
+        try:
+            # Test with specific query and parameters
+            response = self.session.get(f"{API_BASE}/youtube/search-videos?query=Misiones política&max_results=15&days_back=30")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Search Videos", False, "Response success flag is False")
+                    return False
+                
+                youtube_data = data.get("data", {})
+                
+                # Validate response structure
+                required_fields = ["query", "videos_found", "period", "videos", "statistics"]
+                for field in required_fields:
+                    if field not in youtube_data:
+                        self.log_test("YouTube - Search Videos", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate videos data
+                videos = youtube_data.get("videos", [])
+                if not isinstance(videos, list):
+                    self.log_test("YouTube - Search Videos", False, "Videos should be a list")
+                    return False
+                
+                # Validate video structure
+                for video in videos:
+                    required_video_fields = ["video_id", "title", "description", "channel_id", "channel_title", 
+                                           "published_at", "view_count", "like_count", "comment_count", 
+                                           "engagement_rate", "performance"]
+                    for field in required_video_fields:
+                        if field not in video:
+                            self.log_test("YouTube - Search Videos", False, f"Missing video field: {field}")
+                            return False
+                
+                # Validate statistics
+                statistics = youtube_data.get("statistics", {})
+                required_stats = ["total_views", "total_likes", "total_comments", "avg_views_per_video", 
+                                "avg_engagement", "viral_videos", "trending_channels"]
+                for field in required_stats:
+                    if field not in statistics:
+                        self.log_test("YouTube - Search Videos", False, f"Missing statistic: {field}")
+                        return False
+                
+                # Validate performance ratings
+                performance_ratings = [v.get("performance") for v in videos]
+                valid_ratings = ["viral", "alto", "moderado", "bajo"]
+                for rating in performance_ratings:
+                    if rating not in valid_ratings:
+                        self.log_test("YouTube - Search Videos", False, f"Invalid performance rating: {rating}")
+                        return False
+                
+                self.log_test("YouTube - Search Videos", True, 
+                             f"Found {len(videos)} videos, {statistics.get('viral_videos', 0)} viral, avg engagement: {statistics.get('avg_engagement', 0)}")
+                return True
+            else:
+                self.log_test("YouTube - Search Videos", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Search Videos", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_channel_analytics(self) -> bool:
+        """Test YouTube channel analytics endpoint"""
+        try:
+            # Use a simulated channel ID
+            channel_id = "UC_test_channel_123"
+            response = self.session.get(f"{API_BASE}/youtube/channel/{channel_id}/analytics?days_back=30")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Channel Analytics", False, "Response success flag is False")
+                    return False
+                
+                analytics_data = data.get("data", {})
+                
+                # Validate response structure
+                required_sections = ["channel_id", "analysis_period", "growth_metrics", "engagement_metrics", 
+                                   "trending_videos", "recommendations"]
+                for section in required_sections:
+                    if section not in analytics_data:
+                        self.log_test("YouTube - Channel Analytics", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate analysis period
+                period = analytics_data.get("analysis_period", {})
+                required_period_fields = ["start", "end", "days"]
+                for field in required_period_fields:
+                    if field not in period:
+                        self.log_test("YouTube - Channel Analytics", False, f"Missing period field: {field}")
+                        return False
+                
+                # Validate growth metrics
+                growth = analytics_data.get("growth_metrics", {})
+                required_growth_fields = ["subscriber_growth", "view_growth", "video_count_growth", 
+                                        "growth_percentage", "growth_trend"]
+                for field in required_growth_fields:
+                    if field not in growth:
+                        self.log_test("YouTube - Channel Analytics", False, f"Missing growth field: {field}")
+                        return False
+                
+                # Validate engagement metrics
+                engagement = analytics_data.get("engagement_metrics", {})
+                required_engagement_fields = ["engagement_rate", "engagement_level", "performance_rating"]
+                for field in required_engagement_fields:
+                    if field not in engagement:
+                        self.log_test("YouTube - Channel Analytics", False, f"Missing engagement field: {field}")
+                        return False
+                
+                # Validate engagement levels
+                engagement_level = engagement.get("engagement_level")
+                valid_levels = ["alto", "medio", "bajo"]
+                if engagement_level not in valid_levels:
+                    self.log_test("YouTube - Channel Analytics", False, f"Invalid engagement level: {engagement_level}")
+                    return False
+                
+                # Validate recommendations
+                recommendations = analytics_data.get("recommendations", [])
+                if not isinstance(recommendations, list) or len(recommendations) == 0:
+                    self.log_test("YouTube - Channel Analytics", False, "No recommendations provided")
+                    return False
+                
+                self.log_test("YouTube - Channel Analytics", True, 
+                             f"Analytics for {channel_id}: {growth.get('growth_percentage')}% growth, "
+                             f"{engagement.get('engagement_rate')}% engagement, {len(recommendations)} recommendations")
+                return True
+            else:
+                self.log_test("YouTube - Channel Analytics", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Channel Analytics", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_political_trends(self) -> bool:
+        """Test YouTube political trends endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/political-trends")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Political Trends", False, "Response success flag is False")
+                    return False
+                
+                trends_data = data.get("data", {})
+                
+                # Validate response structure
+                required_sections = ["analysis_timestamp", "trending_topics", "top_political_channels", 
+                                   "viral_political_content", "sentiment_analysis", "geographic_analysis", "key_insights"]
+                for section in required_sections:
+                    if section not in trends_data:
+                        self.log_test("YouTube - Political Trends", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate trending topics
+                trending_topics = trends_data.get("trending_topics", [])
+                if not isinstance(trending_topics, list):
+                    self.log_test("YouTube - Political Trends", False, "Trending topics should be a list")
+                    return False
+                
+                for topic in trending_topics:
+                    required_topic_fields = ["term", "video_count", "total_views", "avg_engagement", 
+                                           "popularity_score", "trend_status"]
+                    for field in required_topic_fields:
+                        if field not in topic:
+                            self.log_test("YouTube - Political Trends", False, f"Missing topic field: {field}")
+                            return False
+                
+                # Validate sentiment analysis
+                sentiment = trends_data.get("sentiment_analysis", {})
+                required_sentiment_fields = ["overall_sentiment", "sentiment_distribution", "sentiment_trend", "interpretation"]
+                for field in required_sentiment_fields:
+                    if field not in sentiment:
+                        self.log_test("YouTube - Political Trends", False, f"Missing sentiment field: {field}")
+                        return False
+                
+                # Validate sentiment distribution
+                distribution = sentiment.get("sentiment_distribution", {})
+                required_dist_fields = ["positive", "negative", "neutral"]
+                for field in required_dist_fields:
+                    if field not in distribution:
+                        self.log_test("YouTube - Political Trends", False, f"Missing distribution field: {field}")
+                        return False
+                
+                # Validate geographic analysis
+                geographic = trends_data.get("geographic_analysis", {})
+                required_geo_fields = ["municipal_data", "top_mentioned_cities", "sentiment_by_region"]
+                for field in required_geo_fields:
+                    if field not in geographic:
+                        self.log_test("YouTube - Political Trends", False, f"Missing geographic field: {field}")
+                        return False
+                
+                # Validate key insights
+                insights = trends_data.get("key_insights", [])
+                if not isinstance(insights, list) or len(insights) == 0:
+                    self.log_test("YouTube - Political Trends", False, "No key insights provided")
+                    return False
+                
+                self.log_test("YouTube - Political Trends", True, 
+                             f"Trends analysis: {len(trending_topics)} topics, sentiment: {sentiment.get('sentiment_trend')}, "
+                             f"{len(insights)} insights, geographic data for {len(geographic.get('municipal_data', {}))} cities")
+                return True
+            else:
+                self.log_test("YouTube - Political Trends", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Political Trends", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_dashboard(self) -> bool:
+        """Test YouTube dashboard endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/dashboard")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Dashboard", False, "Response success flag is False")
+                    return False
+                
+                dashboard_data = data.get("data", {})
+                
+                # Validate response structure
+                required_sections = ["overview", "real_time_metrics", "top_performers", 
+                                   "geographic_insights", "alerts", "recommendations"]
+                for section in required_sections:
+                    if section not in dashboard_data:
+                        self.log_test("YouTube - Dashboard", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate overview
+                overview = dashboard_data.get("overview", {})
+                required_overview_fields = ["channels_monitored", "videos_analyzed", "avg_political_sentiment", 
+                                          "last_update", "api_status", "coverage"]
+                for field in required_overview_fields:
+                    if field not in overview:
+                        self.log_test("YouTube - Dashboard", False, f"Missing overview field: {field}")
+                        return False
+                
+                # Validate real-time metrics
+                realtime = dashboard_data.get("real_time_metrics", {})
+                required_realtime_fields = ["videos_last_24h", "avg_views_24h", "trending_now", 
+                                          "hot_topics", "sentiment_shift"]
+                for field in required_realtime_fields:
+                    if field not in realtime:
+                        self.log_test("YouTube - Dashboard", False, f"Missing realtime field: {field}")
+                        return False
+                
+                # Validate sentiment shift
+                sentiment_shift = realtime.get("sentiment_shift", {})
+                required_shift_fields = ["current", "trend", "status"]
+                for field in required_shift_fields:
+                    if field not in sentiment_shift:
+                        self.log_test("YouTube - Dashboard", False, f"Missing sentiment shift field: {field}")
+                        return False
+                
+                # Validate top performers
+                performers = dashboard_data.get("top_performers", {})
+                required_performer_fields = ["viral_content", "growing_channels"]
+                for field in required_performer_fields:
+                    if field not in performers:
+                        self.log_test("YouTube - Dashboard", False, f"Missing performer field: {field}")
+                        return False
+                
+                # Validate alerts
+                alerts = dashboard_data.get("alerts", [])
+                if not isinstance(alerts, list):
+                    self.log_test("YouTube - Dashboard", False, "Alerts should be a list")
+                    return False
+                
+                for alert in alerts:
+                    required_alert_fields = ["type", "message", "priority"]
+                    for field in required_alert_fields:
+                        if field not in alert:
+                            self.log_test("YouTube - Dashboard", False, f"Missing alert field: {field}")
+                            return False
+                
+                # Validate recommendations
+                recommendations = dashboard_data.get("recommendations", [])
+                if not isinstance(recommendations, list) or len(recommendations) == 0:
+                    self.log_test("YouTube - Dashboard", False, "No recommendations provided")
+                    return False
+                
+                self.log_test("YouTube - Dashboard", True, 
+                             f"Dashboard: {overview.get('channels_monitored')} channels, {overview.get('videos_analyzed')} videos, "
+                             f"sentiment: {sentiment_shift.get('status')}, {len(alerts)} alerts, {len(recommendations)} recommendations")
+                return True
+            else:
+                self.log_test("YouTube - Dashboard", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Dashboard", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_configure_api_key(self) -> bool:
+        """Test YouTube API key configuration (admin only)"""
+        try:
+            # Test with valid API key
+            api_key_data = {
+                "api_key": "test_youtube_api_key_example_12345_abcdefghijklmnopqrstuvwxyz"
+            }
+            
+            response = self.session.post(f"{API_BASE}/youtube/configure-api-key", json=api_key_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - Configure API Key", False, "Response success flag is False")
+                    return False
+                
+                config_data = data.get("data", {})
+                
+                # Validate response structure
+                required_fields = ["message", "api_key_preview", "status", "configured_by", "timestamp"]
+                for field in required_fields:
+                    if field not in config_data:
+                        self.log_test("YouTube - Configure API Key", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate API key preview format
+                api_key_preview = config_data.get("api_key_preview", "")
+                if not api_key_preview or "..." not in api_key_preview:
+                    self.log_test("YouTube - Configure API Key", False, "Invalid API key preview format")
+                    return False
+                
+                # Validate status
+                if config_data.get("status") != "configurada":
+                    self.log_test("YouTube - Configure API Key", False, f"Unexpected status: {config_data.get('status')}")
+                    return False
+                
+                self.log_test("YouTube - Configure API Key", True, 
+                             f"API key configured by {config_data.get('configured_by')}, preview: {api_key_preview}")
+                return True
+            elif response.status_code == 403:
+                # This is expected if user doesn't have admin role
+                self.log_test("YouTube - Configure API Key", True, 
+                             "Correctly rejected non-admin user (403 Forbidden)")
+                return True
+            else:
+                self.log_test("YouTube - Configure API Key", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - Configure API Key", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_api_status(self) -> bool:
+        """Test YouTube API status endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/api-status")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube - API Status", False, "Response success flag is False")
+                    return False
+                
+                status_data = data.get("data", {})
+                
+                # Validate response structure
+                required_fields = ["api_configured", "api_key_preview", "service_status", 
+                                 "features_available", "quota_info", "last_check"]
+                for field in required_fields:
+                    if field not in status_data:
+                        self.log_test("YouTube - API Status", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate features available
+                features = status_data.get("features_available", [])
+                expected_features = [
+                    "Búsqueda de canales políticos",
+                    "Búsqueda de videos", 
+                    "Analytics de canales",
+                    "Tendencias políticas",
+                    "Dashboard completo"
+                ]
+                
+                for feature in expected_features:
+                    if feature not in features:
+                        self.log_test("YouTube - API Status", False, f"Missing feature: {feature}")
+                        return False
+                
+                # Validate quota info
+                quota_info = status_data.get("quota_info", {})
+                required_quota_fields = ["daily_limit", "current_usage", "reset_time"]
+                for field in required_quota_fields:
+                    if field not in quota_info:
+                        self.log_test("YouTube - API Status", False, f"Missing quota field: {field}")
+                        return False
+                
+                # Validate service status
+                service_status = status_data.get("service_status", "")
+                valid_statuses = ["Conectado", "Modo simulación"]
+                if service_status not in valid_statuses:
+                    self.log_test("YouTube - API Status", False, f"Invalid service status: {service_status}")
+                    return False
+                
+                self.log_test("YouTube - API Status", True, 
+                             f"API configured: {status_data.get('api_configured')}, "
+                             f"status: {service_status}, {len(features)} features available")
+                return True
+            else:
+                self.log_test("YouTube - API Status", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube - API Status", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_simulation_mode(self) -> bool:
+        """Test YouTube simulation mode functionality"""
+        try:
+            # Test that simulation mode provides coherent data
+            # Get API status first
+            status_response = self.session.get(f"{API_BASE}/youtube/api-status")
+            if status_response.status_code != 200:
+                self.log_test("YouTube - Simulation Mode", False, "Could not get API status")
+                return False
+            
+            status_data = status_response.json().get("data", {})
+            is_simulation = not status_data.get("api_configured", False)
+            
+            # Test search channels in simulation mode
+            channels_response = self.session.get(f"{API_BASE}/youtube/search-channels?query=Frente Renovador&max_results=5")
+            if channels_response.status_code != 200:
+                self.log_test("YouTube - Simulation Mode", False, "Channels search failed")
+                return False
+            
+            channels_data = channels_response.json().get("data", {})
+            channels = channels_data.get("channels", [])
+            
+            # Test search videos in simulation mode
+            videos_response = self.session.get(f"{API_BASE}/youtube/search-videos?query=Misiones&max_results=5")
+            if videos_response.status_code != 200:
+                self.log_test("YouTube - Simulation Mode", False, "Videos search failed")
+                return False
+            
+            videos_data = videos_response.json().get("data", {})
+            videos = videos_data.get("videos", [])
+            
+            # Test political trends in simulation mode
+            trends_response = self.session.get(f"{API_BASE}/youtube/political-trends")
+            if trends_response.status_code != 200:
+                self.log_test("YouTube - Simulation Mode", False, "Political trends failed")
+                return False
+            
+            trends_data = trends_response.json().get("data", {})
+            
+            # Validate simulation data coherence
+            if len(channels) == 0:
+                self.log_test("YouTube - Simulation Mode", False, "No simulated channels returned")
+                return False
+            
+            if len(videos) == 0:
+                self.log_test("YouTube - Simulation Mode", False, "No simulated videos returned")
+                return False
+            
+            # Check that simulated data has realistic values
+            for channel in channels:
+                if channel.get("subscriber_count", 0) <= 0:
+                    self.log_test("YouTube - Simulation Mode", False, "Invalid simulated subscriber count")
+                    return False
+                if channel.get("view_count", 0) <= 0:
+                    self.log_test("YouTube - Simulation Mode", False, "Invalid simulated view count")
+                    return False
+            
+            for video in videos:
+                if video.get("view_count", 0) < 0:
+                    self.log_test("YouTube - Simulation Mode", False, "Invalid simulated video view count")
+                    return False
+                if not video.get("title"):
+                    self.log_test("YouTube - Simulation Mode", False, "Empty simulated video title")
+                    return False
+            
+            # Check sentiment analysis in trends
+            sentiment = trends_data.get("sentiment_analysis", {})
+            if "overall_sentiment" not in sentiment:
+                self.log_test("YouTube - Simulation Mode", False, "Missing sentiment analysis")
+                return False
+            
+            # Check geographic data
+            geographic = trends_data.get("geographic_analysis", {})
+            municipal_data = geographic.get("municipal_data", {})
+            expected_cities = ["Posadas", "Puerto Iguazú", "Oberá"]
+            
+            for city in expected_cities:
+                if city not in municipal_data:
+                    self.log_test("YouTube - Simulation Mode", False, f"Missing geographic data for {city}")
+                    return False
+            
+            self.log_test("YouTube - Simulation Mode", True, 
+                         f"Simulation mode working: {len(channels)} channels, {len(videos)} videos, "
+                         f"sentiment: {sentiment.get('sentiment_trend', 'N/A')}, "
+                         f"geographic data for {len(municipal_data)} cities")
+            return True
+            
+        except Exception as e:
+            self.log_test("YouTube - Simulation Mode", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_parameter_validation(self) -> bool:
+        """Test YouTube endpoints parameter validation"""
+        try:
+            # Test max_results validation (should fail with > 50)
+            response = self.session.get(f"{API_BASE}/youtube/search-channels?max_results=100")
+            if response.status_code != 400:
+                self.log_test("YouTube - Parameter Validation", False, "Should reject max_results > 50")
+                return False
+            
+            # Test days_back validation (should fail with > 365)
+            response = self.session.get(f"{API_BASE}/youtube/search-videos?days_back=400")
+            if response.status_code != 400:
+                self.log_test("YouTube - Parameter Validation", False, "Should reject days_back > 365")
+                return False
+            
+            # Test channel analytics days_back validation
+            response = self.session.get(f"{API_BASE}/youtube/channel/test123/analytics?days_back=400")
+            if response.status_code != 400:
+                self.log_test("YouTube - Parameter Validation", False, "Should reject analytics days_back > 365")
+                return False
+            
+            # Test API key configuration with empty key
+            response = self.session.post(f"{API_BASE}/youtube/configure-api-key", json={"api_key": ""})
+            if response.status_code != 400:
+                self.log_test("YouTube - Parameter Validation", False, "Should reject empty API key")
+                return False
+            
+            # Test API key configuration with short key
+            response = self.session.post(f"{API_BASE}/youtube/configure-api-key", json={"api_key": "short"})
+            if response.status_code != 400:
+                self.log_test("YouTube - Parameter Validation", False, "Should reject short API key")
+                return False
+            
+            self.log_test("YouTube - Parameter Validation", True, "All parameter validations working correctly")
+            return True
+            
+        except Exception as e:
+            self.log_test("YouTube - Parameter Validation", False, f"Exception: {str(e)}")
+            return False
 
     def run_all_tests(self):
         """Run all backend tests"""
