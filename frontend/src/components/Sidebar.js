@@ -79,6 +79,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'NLP, ML y Análisis Avanzado'
     },
     { 
+      id: 'automatizacion', 
+      label: 'Automatización Avanzada', 
+      icon: Bot, 
+      path: '/dashboard/automatizacion',
+      description: 'FASE 3: Respuestas, Reportes IA, Alertas'
+    },
+    { 
       id: 'dashboard', 
       label: 'Dashboard General', 
       icon: LayoutDashboard, 
