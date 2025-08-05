@@ -21,7 +21,8 @@ import {
   BarChart3,
   FileText,
   Target,
-  Zap
+  Zap,
+  Youtube
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
