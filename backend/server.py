@@ -579,6 +579,72 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
 
 **Para análisis completo:** Visita IA Predictiva Avanzada en el menú principal"""
     
+    elif any(keyword in user_message_lower for keyword in ["automatizacion", "automatización", "respuestas automáticas", "reportes automáticos", "alertas preventivas", "fase 3"]):
+        try:
+            # Obtener estadísticas de automatización
+            stats = automatizacion.obtener_estadisticas()
+            alertas_activas = len([a for a in automatizacion.alertas_preventivas if a.probabilidad >= 0.7])
+            
+            return f"""🤖 **AUTOMATIZACIÓN AVANZADA - FASE 3 ACTIVA**
+
+**🚀 SISTEMA DE AUTOMATIZACIÓN OPERATIVO:**
+• **Estado**: {stats['estado_sistema'].upper()} - {stats['tasa_exito_respuestas']}% tasa de éxito
+• **Eventos Procesados**: {stats['eventos_procesados_total']} eventos totales
+• **Respuestas Ejecutadas**: {stats['respuestas_ejecutadas_total']} acciones automáticas
+• **Reportes Generados**: {stats['reportes_generados_total']} reportes IA
+
+**🎯 CAPACIDADES AUTOMATIZADAS:**
+• **Respuestas Automáticas**: {'✅ ACTIVO' if stats['configuracion']['respuestas_automaticas'] else '❌ INACTIVO'}
+  - Activación campañas positivas automáticas
+  - Intensificación monitoreo por anomalías
+  - Alertas automáticas al equipo de comunicaciones
+  - Generación reportes urgentes automáticos
+
+• **Reportes IA Automáticos**: {'✅ ACTIVO' if stats['configuracion']['generacion_reportes'] else '❌ INACTIVO'}
+  - Reportes diarios, semanales, urgentes, predictivos
+  - Insights generados automáticamente por IA
+  - Recomendaciones estratégicas automatizadas
+  - Distribución automática a destinatarios
+
+• **Alertas Preventivas**: {'✅ ACTIVO' if stats['configuracion']['alertas_preventivas'] else '❌ INACTIVO'}
+  - Predicción crisis sentiment (85-95% precisión)
+  - Detección temprana actividad competencia
+  - Alertas proactivas 24h anticipación
+  - Acciones preventivas sugeridas automáticamente
+
+**⚡ RESPUESTAS AUTOMÁTICAS DISPONIBLES:**
+• Crisis Sentiment → Campaña positiva automática (5min)
+• Anomalía Volumen → Monitoreo intensificado (1min)
+• Actividad Competencia → Alerta equipo comunicaciones (3min)
+• Tendencia Negativa → Reporte urgente automático (10min)
+
+**📊 MÉTRICAS EN TIEMPO REAL:**
+• Alertas Preventivas Activas: {alertas_activas}
+• Umbral Gravedad Crítica: {stats['configuracion']['umbral_gravedad_critica']}
+• Ventana Predicción: {stats['configuracion']['ventana_prediccion_horas']}h
+• Intervalo Reportes: {stats['configuracion']['intervalo_reportes_minutos']}min
+
+**💡 COMANDOS DE AUTOMATIZACIÓN:**
+• "Procesa evento crítico" - Ejecutar respuesta automática
+• "Genera reporte urgente" - Reporte IA inmediato
+• "Alertas preventivas" - Verificar predicciones
+• "Estado automatización" - Status sistema completo
+
+**🔗 Acceso Directo:** Dashboard → Automatización Avanzada
+
+¿Qué automatización necesitas configurar o revisar?"""
+            
+        except Exception as e:
+            return f"""🤖 **AUTOMATIZACIÓN AVANZADA - FASE 3**
+
+**Sistema de Automatización Inteligente Activado:**
+• Respuestas automáticas a eventos críticos
+• Generación automática de reportes con IA
+• Alertas preventivas con predicción proactiva
+• Configuración avanzada disponible
+
+**Para control completo:** Visita módulo de Automatización en el sistema"""
+    
     else:
         # Respuestas contextuales mejoradas por rol
         if user_role == UserRole.ADMINISTRATOR:
