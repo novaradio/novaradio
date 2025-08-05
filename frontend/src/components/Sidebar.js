@@ -65,8 +65,15 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: '78 municipios en tiempo real'
     },
     { 
+      id: 'dashboard-ejecutivo', 
+      label: 'Dashboard Ejecutivo', 
+      icon: Brain, 
+      path: '/dashboard/dashboard-ejecutivo',
+      description: 'Vista unificada IA'
+    },
+    { 
       id: 'dashboard', 
-      label: 'Dashboard', 
+      label: 'Dashboard General', 
       icon: LayoutDashboard, 
       path: '/dashboard',
       description: 'Resumen general'
