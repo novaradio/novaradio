@@ -2927,6 +2927,477 @@ async def obtener_resumen_automatizacion(
         logger.error(f"Error obteniendo resumen de automatización: {e}")
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
+# ==============================================================================
+# YOUTUBE API v3 INTEGRATION - ENDPOINTS COMPLETOS
+# ==============================================================================
+
+@api_router.get("/youtube/search-channels")
+async def buscar_canales_youtube(
+    query: str = None,
+    max_results: int = 20,
+    current_user: dict = Depends(get_current_user)
+):
+    """Busca canales políticos en YouTube"""
+    try:
+        if max_results > 50:
+            raise HTTPException(status_code=400, detail="Máximo 50 resultados por búsqueda")
+        
+        # Buscar canales
+        search_result = await youtube_service.search_political_channels(
+            query=query,
+            max_results=max_results,
+            region_code="AR"
+        )
+        
+        return {
+            "success": True,
+            "data": {
+                "query": search_result.query,
+                "total_results": search_result.total_results,
+                "channels_found": len(search_result.channels),
+                "channels": [
+                    {
+                        "channel_id": ch.channel_id,
+                        "title": ch.channel_title,
+                        "description": ch.description[:200],
+                        "subscriber_count": ch.subscriber_count,
+                        "view_count": ch.view_count,
+                        "video_count": ch.video_count,
+                        "thumbnail_url": ch.thumbnail_url,
+                        "country": ch.country,
+                        "published_at": ch.published_at,
+                        "growth_metrics": {
+                            "subscribers_formatted": f"{ch.subscriber_count:,}",
+                            "views_formatted": f"{ch.view_count:,}",
+                            "avg_views_per_video": round(ch.view_count / max(ch.video_count, 1), 0)
+                        }
+                    } for ch in search_result.channels
+                ],
+                "search_timestamp": search_result.search_timestamp.isoformat(),
+                "api_status": "Using placeholder API key" if youtube_service.api_key == 'YOUR_YOUTUBE_API_KEY_HERE' else "Connected to YouTube API"
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error buscando canales YouTube: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/youtube/search-videos")
+async def buscar_videos_youtube(
+    query: str = None,
+    max_results: int = 20,
+    days_back: int = 30,
+    current_user: dict = Depends(get_current_user)
+):
+    """Busca videos políticos en YouTube"""
+    try:
+        if max_results > 50:
+            raise HTTPException(status_code=400, detail="Máximo 50 resultados por búsqueda")
+        
+        if days_back > 365:
+            raise HTTPException(status_code=400, detail="Máximo 365 días hacia atrás")
+        
+        # Calcular fecha de inicio
+        published_after = datetime.now() - timedelta(days=days_back)
+        
+        # Buscar videos
+        videos = await youtube_service.search_political_videos(
+            query=query,
+            max_results=max_results,
+            published_after=published_after
+        )
+        
+        # Calcular estadísticas
+        total_views = sum([v.view_count for v in videos])
+        total_likes = sum([v.like_count for v in videos])
+        total_comments = sum([v.comment_count for v in videos])
+        avg_engagement = (total_likes + total_comments) / max(len(videos), 1)
+        
+        return {
+            "success": True,
+            "data": {
+                "query": query or "términos políticos predefinidos",
+                "videos_found": len(videos),
+                "period": f"Últimos {days_back} días",
+                "videos": [
+                    {
+                        "video_id": v.video_id,
+                        "title": v.title,
+                        "description": v.description[:300],
+                        "channel_id": v.channel_id,
+                        "channel_title": v.channel_title,
+                        "published_at": v.published_at,
+                        "view_count": v.view_count,
+                        "like_count": v.like_count,
+                        "comment_count": v.comment_count,
+                        "duration": v.duration,
+                        "thumbnail_url": v.thumbnail_url,
+                        "tags": v.tags[:10],  # Limitar tags
+                        "engagement_rate": round(((v.like_count + v.comment_count) / max(v.view_count, 1)) * 100, 2),
+                        "performance": "viral" if v.view_count > 50000 else "alto" if v.view_count > 10000 else "moderado" if v.view_count > 1000 else "bajo"
+                    } for v in videos
+                ],
+                "statistics": {
+                    "total_views": total_views,
+                    "total_likes": total_likes,
+                    "total_comments": total_comments,
+                    "avg_views_per_video": round(total_views / max(len(videos), 1), 0),
+                    "avg_engagement": round(avg_engagement, 0),
+                    "viral_videos": len([v for v in videos if v.view_count > 50000]),
+                    "trending_channels": list(set([v.channel_title for v in videos]))[:10]
+                }
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error buscando videos YouTube: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/youtube/channel/{channel_id}/analytics")
+async def obtener_analytics_canal(
+    channel_id: str,
+    days_back: int = 30,
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene analytics detallados de un canal específico"""
+    try:
+        if days_back > 365:
+            raise HTTPException(status_code=400, detail="Máximo 365 días hacia atrás")
+        
+        # Obtener analytics del canal
+        analytics = await youtube_service.get_channel_analytics(channel_id, days_back)
+        
+        return {
+            "success": True,
+            "data": {
+                "channel_id": analytics.channel_id,
+                "analysis_period": {
+                    "start": analytics.period_start.isoformat(),
+                    "end": analytics.period_end.isoformat(),
+                    "days": days_back
+                },
+                "growth_metrics": {
+                    "subscriber_growth": analytics.subscriber_growth,
+                    "view_growth": analytics.view_growth,
+                    "video_count_growth": analytics.video_count_growth,
+                    "growth_percentage": analytics.growth_percentage,
+                    "growth_trend": "positivo" if analytics.growth_percentage > 0 else "negativo" if analytics.growth_percentage < 0 else "estable"
+                },
+                "engagement_metrics": {
+                    "engagement_rate": analytics.engagement_rate,
+                    "engagement_level": "alto" if analytics.engagement_rate > 5 else "medio" if analytics.engagement_rate > 2 else "bajo",
+                    "performance_rating": "excelente" if analytics.engagement_rate > 8 else "bueno" if analytics.engagement_rate > 5 else "regular" if analytics.engagement_rate > 2 else "bajo"
+                },
+                "trending_videos": [
+                    {
+                        "video_id": v.video_id,
+                        "title": v.title,
+                        "view_count": v.view_count,
+                        "like_count": v.like_count,
+                        "comment_count": v.comment_count,
+                        "published_at": v.published_at
+                    } for v in analytics.trending_videos[:5]
+                ],
+                "recommendations": [
+                    "Mantener consistencia en publicaciones" if analytics.video_count_growth < 2 else "Excelente ritmo de publicación",
+                    "Optimizar engagement con audiencia" if analytics.engagement_rate < 3 else "Buen nivel de engagement",
+                    "Analizar contenido viral para replicar éxito" if len(analytics.trending_videos) > 0 else "Enfocar en crear contenido más atractivo",
+                    "Aprovechar crecimiento positivo" if analytics.growth_percentage > 0 else "Revisar estrategia de contenido"
+                ]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error obteniendo analytics del canal {channel_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/youtube/political-trends")
+async def obtener_tendencias_politicas(
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene análisis de tendencias políticas en YouTube"""
+    try:
+        # Obtener tendencias políticas
+        trends = await youtube_service.get_political_trends()
+        
+        # Procesar datos para respuesta
+        trending_topics = sorted(trends["trending_topics"], key=lambda x: x["total_views"], reverse=True)
+        top_channels = trends["top_channels"][:10]
+        viral_videos = trends["viral_videos"][:15]
+        
+        return {
+            "success": True,
+            "data": {
+                "analysis_timestamp": trends["timestamp"].isoformat(),
+                "trending_topics": [
+                    {
+                        "term": topic["term"],
+                        "video_count": topic["video_count"],
+                        "total_views": topic["total_views"],
+                        "avg_engagement": round(topic["avg_engagement"], 0),
+                        "popularity_score": round((topic["total_views"] + topic["avg_engagement"]) / 1000, 1),
+                        "trend_status": "viral" if topic["total_views"] > 500000 else "alto" if topic["total_views"] > 100000 else "moderado"
+                    } for topic in trending_topics
+                ],
+                "top_political_channels": [
+                    {
+                        "channel_id": ch.channel_id,
+                        "title": ch.channel_title,
+                        "subscriber_count": ch.subscriber_count,
+                        "view_count": ch.view_count,
+                        "video_count": ch.video_count,
+                        "influence_score": round((ch.subscriber_count + ch.view_count/1000) / 1000, 1),
+                        "category": "mega" if ch.subscriber_count > 100000 else "grande" if ch.subscriber_count > 50000 else "mediano" if ch.subscriber_count > 10000 else "pequeño"
+                    } for ch in top_channels
+                ],
+                "viral_political_content": [
+                    {
+                        "video_id": v.video_id,
+                        "title": v.title,
+                        "channel_title": v.channel_title,
+                        "view_count": v.view_count,
+                        "like_count": v.like_count,
+                        "comment_count": v.comment_count,
+                        "published_at": v.published_at,
+                        "viral_score": round((v.view_count + v.like_count * 10 + v.comment_count * 20) / 1000, 1)
+                    } for v in viral_videos
+                ],
+                "sentiment_analysis": {
+                    "overall_sentiment": trends["sentiment_analysis"]["average_sentiment"],
+                    "sentiment_distribution": {
+                        "positive": trends["sentiment_analysis"]["positive_videos"],
+                        "negative": trends["sentiment_analysis"]["negative_videos"],
+                        "neutral": trends["sentiment_analysis"]["neutral_videos"]
+                    },
+                    "sentiment_trend": trends["sentiment_analysis"]["sentiment_trend"],
+                    "interpretation": (
+                        "El sentiment político en YouTube es mayoritariamente positivo" if trends["sentiment_analysis"]["average_sentiment"] > 0.3 else
+                        "El sentiment político en YouTube es negativo, requiere atención" if trends["sentiment_analysis"]["average_sentiment"] < -0.3 else
+                        "El sentiment político en YouTube es neutral, situación estable"
+                    )
+                },
+                "geographic_analysis": {
+                    "municipal_data": trends["geographic_data"],
+                    "top_mentioned_cities": sorted(
+                        [(city, data["mentions"]) for city, data in trends["geographic_data"].items()], 
+                        key=lambda x: x[1], reverse=True
+                    )[:5],
+                    "sentiment_by_region": {
+                        city: {
+                            "sentiment_score": data["sentiment"],
+                            "sentiment_label": "positivo" if data["sentiment"] > 0.2 else "negativo" if data["sentiment"] < -0.2 else "neutral",
+                            "mention_count": data["mentions"]
+                        } for city, data in trends["geographic_data"].items()
+                    }
+                },
+                "key_insights": [
+                    f"Término más popular: {trending_topics[0]['term'] if trending_topics else 'N/A'}",
+                    f"Canal más influyente: {top_channels[0].channel_title if top_channels else 'N/A'}",
+                    f"Sentiment general: {trends['sentiment_analysis']['sentiment_trend']}",
+                    f"Videos virales detectados: {len([v for v in viral_videos if v.view_count > 50000])}",
+                    f"Ciudad con más menciones: {max(trends['geographic_data'].items(), key=lambda x: x[1]['mentions'])[0] if trends['geographic_data'] else 'N/A'}"
+                ]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo tendencias políticas: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/youtube/dashboard")
+async def obtener_dashboard_youtube(
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene dashboard completo de YouTube para DAMI"""
+    try:
+        # Obtener datos consolidados
+        trends = await youtube_service.get_political_trends()
+        recent_videos = await youtube_service.search_political_videos(max_results=10)
+        
+        # Calcular métricas del dashboard
+        total_channels_monitored = len(trends["top_channels"])
+        total_videos_analyzed = len(trends["viral_videos"])
+        avg_sentiment = trends["sentiment_analysis"]["average_sentiment"]
+        
+        # Videos más relevantes últimas 24h
+        recent_24h = [v for v in recent_videos if 
+                     (datetime.now() - datetime.fromisoformat(v.published_at.replace('Z', '+00:00').replace('+00:00', ''))).days <= 1]
+        
+        return {
+            "success": True,
+            "data": {
+                "overview": {
+                    "channels_monitored": total_channels_monitored,
+                    "videos_analyzed": total_videos_analyzed,
+                    "avg_political_sentiment": round(avg_sentiment, 2),
+                    "last_update": datetime.now().isoformat(),
+                    "api_status": "Simulado" if youtube_service.api_key == 'YOUR_YOUTUBE_API_KEY_HERE' else "Conectado",
+                    "coverage": "Política Misiones - Argentina"
+                },
+                "real_time_metrics": {
+                    "videos_last_24h": len(recent_24h),
+                    "avg_views_24h": round(sum([v.view_count for v in recent_24h]) / max(len(recent_24h), 1), 0),
+                    "trending_now": recent_24h[:3] if recent_24h else recent_videos[:3],
+                    "hot_topics": [topic["term"] for topic in trends["trending_topics"][:5]],
+                    "sentiment_shift": {
+                        "current": round(avg_sentiment, 2),
+                        "trend": "estable",  # En implementación real, comparar con datos históricos
+                        "status": "favorable" if avg_sentiment > 0.2 else "crítico" if avg_sentiment < -0.2 else "neutral"
+                    }
+                },
+                "top_performers": {
+                    "viral_content": [
+                        {
+                            "title": v.title[:50] + "..." if len(v.title) > 50 else v.title,
+                            "channel": v.channel_title,
+                            "views": v.view_count,
+                            "engagement": v.like_count + v.comment_count,
+                            "published": v.published_at
+                        } for v in sorted(trends["viral_videos"], key=lambda x: x.view_count, reverse=True)[:5]
+                    ],
+                    "growing_channels": [
+                        {
+                            "title": ch.channel_title,
+                            "subscribers": ch.subscriber_count,
+                            "growth_estimate": "+" + str(random.randint(100, 2000)),  # Simulado
+                            "category": "político"
+                        } for ch in trends["top_channels"][:5]
+                    ]
+                },
+                "geographic_insights": {
+                    "regional_activity": trends["geographic_data"],
+                    "hotspots": [
+                        city for city, data in sorted(
+                            trends["geographic_data"].items(), 
+                            key=lambda x: x[1]["mentions"], 
+                            reverse=True
+                        )[:3]
+                    ],
+                    "sentiment_map": {
+                        city: data["sentiment"] for city, data in trends["geographic_data"].items()
+                    }
+                },
+                "alerts": [
+                    {
+                        "type": "info",
+                        "message": f"Se detectaron {len(recent_24h)} videos políticos en las últimas 24h",
+                        "priority": "baja"
+                    },
+                    {
+                        "type": "sentiment",
+                        "message": f"Sentiment político: {trends['sentiment_analysis']['sentiment_trend']}",
+                        "priority": "media" if abs(avg_sentiment) > 0.3 else "baja"
+                    },
+                    {
+                        "type": "engagement",
+                        "message": f"Videos virales detectados: {len([v for v in trends['viral_videos'] if v.view_count > 50000])}",
+                        "priority": "alta" if len([v for v in trends['viral_videos'] if v.view_count > 50000]) > 5 else "media"
+                    }
+                ],
+                "recommendations": [
+                    "Monitorear canales con crecimiento acelerado",
+                    "Analizar contenido viral para insights estratégicos",
+                    "Seguimiento detallado de sentiment en municipios clave",
+                    "Identificar influencers emergentes en política local"
+                ]
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo dashboard YouTube: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.post("/youtube/configure-api-key")
+async def configurar_api_key_youtube(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Configura la API key de YouTube (solo administradores)"""
+    try:
+        # Solo administradores pueden configurar API keys
+        if current_user.get("role") != "administrator":
+            raise HTTPException(status_code=403, detail="Solo administradores pueden configurar API keys")
+        
+        api_key = request.get("api_key", "").strip()
+        if not api_key:
+            raise HTTPException(status_code=400, detail="API key es requerida")
+        
+        if len(api_key) < 30:
+            raise HTTPException(status_code=400, detail="API key inválida (muy corta)")
+        
+        # Actualizar API key en el servicio
+        youtube_service.api_key = api_key
+        
+        # Guardar en variable de entorno (solo para la sesión actual)
+        os.environ['YOUTUBE_API_KEY'] = api_key
+        
+        return {
+            "success": True,
+            "data": {
+                "message": "API key de YouTube configurada exitosamente",
+                "api_key_preview": api_key[:10] + "..." + api_key[-5:],
+                "status": "configurada",
+                "configured_by": current_user.get("username"),
+                "timestamp": datetime.now().isoformat()
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error configurando API key YouTube: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@api_router.get("/youtube/api-status")
+async def obtener_status_api_youtube(
+    current_user: dict = Depends(get_current_user)
+):
+    """Obtiene el status de la API de YouTube"""
+    try:
+        is_configured = youtube_service.api_key != 'YOUR_YOUTUBE_API_KEY_HERE'
+        
+        return {
+            "success": True,
+            "data": {
+                "api_configured": is_configured,
+                "api_key_preview": (
+                    youtube_service.api_key[:10] + "..." + youtube_service.api_key[-5:] 
+                    if is_configured else "No configurada"
+                ),
+                "service_status": "Conectado" if is_configured else "Modo simulación",
+                "features_available": [
+                    "Búsqueda de canales políticos",
+                    "Búsqueda de videos",
+                    "Analytics de canales",
+                    "Tendencias políticas",
+                    "Dashboard completo"
+                ],
+                "quota_info": {
+                    "daily_limit": "10,000 unidades" if is_configured else "Ilimitado (simulado)",
+                    "current_usage": "N/A",
+                    "reset_time": "Medianoche UTC" if is_configured else "N/A"
+                },
+                "last_check": datetime.now().isoformat()
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo status API YouTube: {e}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
