@@ -1603,6 +1603,19 @@ class DAMIBackendTester:
         self.test_analisis_competencia_weighted_calculations()
         
         print()
+        print("🤖 Testing FASE 3: AUTOMATIZACIÓN AVANZADA:")
+        print("-" * 50)
+        
+        # FASE 3: Automatización Avanzada tests
+        self.test_automatizacion_procesar_evento_critico()
+        self.test_automatizacion_generar_reporte_urgente()
+        self.test_automatizacion_alertas_preventivas()
+        self.test_automatizacion_estadisticas()
+        self.test_automatizacion_configurar_admin_only()
+        self.test_automatizacion_cambiar_estado_admin_only()
+        self.test_automatizacion_resumen_completo()
+        
+        print()
         print("Testing Error Handling:")
         print("-" * 40)
         
