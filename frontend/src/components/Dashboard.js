@@ -120,6 +120,7 @@ const Dashboard = ({ user, onLogout }) => {
         <main className="p-2 sm:p-6">
           <Routes>
             <Route path="/" element={<DashboardHome user={user} />} />
+            <Route path="/dashboard-ejecutivo" element={<DashboardEjecutivo user={user} />} />
             <Route path="/centro-comando" element={<CentroComando user={user} />} />
             <Route path="/centro-estadistico" element={<CentroEstadistico user={user} />} />
             <Route path="/informe-diario" element={<InformeDiario user={user} />} />
