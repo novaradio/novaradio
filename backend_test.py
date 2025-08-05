@@ -2549,6 +2549,347 @@ class DAMIBackendTester:
         except Exception as e:
             self.log_test("YouTube - Parameter Validation", False, f"Exception: {str(e)}")
             return False
+    
+    # ========== REAL YOUTUBE API TESTS (USER'S PRIORITY REQUEST) ==========
+    
+    def test_youtube_api_status_real_key(self) -> bool:
+        """Test YouTube API status endpoint - should show 'Conectado' with real API key"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/api-status")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube API Status - Real Key", False, "Response success flag is False")
+                    return False
+                
+                status_data = data.get("data", {})
+                
+                # Check if API is configured (should be true with real API key)
+                api_configured = status_data.get("api_configured", False)
+                service_status = status_data.get("service_status", "")
+                api_key_preview = status_data.get("api_key_preview", "")
+                
+                # With real API key, should show "Conectado" instead of "Modo simulación"
+                if api_configured and service_status == "Conectado":
+                    self.log_test("YouTube API Status - Real Key", True, 
+                                 f"✅ REAL API CONNECTED: Status={service_status}, Key={api_key_preview}")
+                    return True
+                elif service_status == "Modo simulación":
+                    self.log_test("YouTube API Status - Real Key", False, 
+                                 f"❌ STILL IN SIMULATION MODE: Status={service_status}, Key={api_key_preview}")
+                    return False
+                else:
+                    self.log_test("YouTube API Status - Real Key", True, 
+                                 f"API Status: {service_status}, Configured: {api_configured}, Key: {api_key_preview}")
+                    return True
+            else:
+                self.log_test("YouTube API Status - Real Key", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube API Status - Real Key", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_search_channels_real_data(self) -> bool:
+        """Test YouTube channel search with REAL data - Frente Renovador Misiones"""
+        try:
+            params = {
+                "query": "Frente Renovador Misiones",
+                "max_results": 5
+            }
+            response = self.session.get(f"{API_BASE}/youtube/search-channels", params=params)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube Search Channels - Real Data", False, "Response success flag is False")
+                    return False
+                
+                search_data = data.get("data", {})
+                channels = search_data.get("channels", [])
+                api_status = search_data.get("api_status", "")
+                
+                if not channels:
+                    self.log_test("YouTube Search Channels - Real Data", False, "No channels returned")
+                    return False
+                
+                # Check if we're getting real data vs simulation
+                if api_status == "Using placeholder API key":
+                    self.log_test("YouTube Search Channels - Real Data", False, 
+                                 f"❌ STILL USING PLACEHOLDER API KEY - Not real data")
+                    return False
+                
+                # Validate channel structure and check for real data indicators
+                real_data_indicators = 0
+                for channel in channels:
+                    required_fields = ["channel_id", "title", "subscriber_count", "view_count", "video_count"]
+                    for field in required_fields:
+                        if field not in channel:
+                            self.log_test("YouTube Search Channels - Real Data", False, f"Missing field: {field}")
+                            return False
+                    
+                    # Real YouTube channels have specific patterns
+                    channel_id = channel.get("channel_id", "")
+                    if channel_id.startswith("UC") and len(channel_id) > 20:
+                        real_data_indicators += 1
+                    
+                    # Real channels have realistic subscriber counts
+                    subs = channel.get("subscriber_count", 0)
+                    views = channel.get("view_count", 0)
+                    if subs > 0 and views > subs * 10:  # Realistic view-to-subscriber ratio
+                        real_data_indicators += 1
+                
+                # Check if we got real YouTube data
+                first_channel = channels[0]
+                channel_title = first_channel.get("title", "")
+                
+                if real_data_indicators >= 2:
+                    self.log_test("YouTube Search Channels - Real Data", True, 
+                                 f"✅ REAL YOUTUBE DATA: Found {len(channels)} channels. "
+                                 f"First: '{channel_title}' ({first_channel.get('subscriber_count'):,} subs, "
+                                 f"{first_channel.get('view_count'):,} views)")
+                    return True
+                else:
+                    self.log_test("YouTube Search Channels - Real Data", False, 
+                                 f"❌ DATA APPEARS SIMULATED: Channels returned but patterns suggest simulation. "
+                                 f"First channel: '{channel_title}'")
+                    return False
+            else:
+                self.log_test("YouTube Search Channels - Real Data", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube Search Channels - Real Data", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_search_videos_real_data(self) -> bool:
+        """Test YouTube video search with REAL data - política Misiones Argentina"""
+        try:
+            params = {
+                "query": "política Misiones Argentina",
+                "max_results": 10,
+                "days_back": 30
+            }
+            response = self.session.get(f"{API_BASE}/youtube/search-videos", params=params)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube Search Videos - Real Data", False, "Response success flag is False")
+                    return False
+                
+                search_data = data.get("data", {})
+                videos = search_data.get("videos", [])
+                statistics = search_data.get("statistics", {})
+                
+                if not videos:
+                    self.log_test("YouTube Search Videos - Real Data", False, "No videos returned")
+                    return False
+                
+                # Validate video structure and check for real data
+                real_data_indicators = 0
+                total_views = 0
+                total_likes = 0
+                total_comments = 0
+                
+                for video in videos:
+                    required_fields = ["video_id", "title", "channel_title", "view_count", "like_count", "comment_count"]
+                    for field in required_fields:
+                        if field not in video:
+                            self.log_test("YouTube Search Videos - Real Data", False, f"Missing field: {field}")
+                            return False
+                    
+                    # Real YouTube videos have specific patterns
+                    video_id = video.get("video_id", "")
+                    if len(video_id) == 11:  # YouTube video IDs are 11 characters
+                        real_data_indicators += 1
+                    
+                    # Accumulate metrics
+                    total_views += video.get("view_count", 0)
+                    total_likes += video.get("like_count", 0)
+                    total_comments += video.get("comment_count", 0)
+                    
+                    # Real videos have realistic engagement ratios
+                    views = video.get("view_count", 0)
+                    likes = video.get("like_count", 0)
+                    if views > 0 and likes > 0 and (likes / views) < 0.1:  # Realistic like ratio
+                        real_data_indicators += 1
+                
+                # Check for viral videos (>50k views)
+                viral_videos = [v for v in videos if v.get("view_count", 0) > 50000]
+                
+                # Determine if data is real
+                if real_data_indicators >= 5 and total_views > 0:
+                    self.log_test("YouTube Search Videos - Real Data", True, 
+                                 f"✅ REAL YOUTUBE DATA: Found {len(videos)} videos. "
+                                 f"Total views: {total_views:,}, likes: {total_likes:,}, "
+                                 f"comments: {total_comments:,}, viral videos: {len(viral_videos)}")
+                    return True
+                else:
+                    self.log_test("YouTube Search Videos - Real Data", False, 
+                                 f"❌ DATA APPEARS SIMULATED: Videos returned but patterns suggest simulation. "
+                                 f"Real indicators: {real_data_indicators}, Total views: {total_views}")
+                    return False
+            else:
+                self.log_test("YouTube Search Videos - Real Data", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube Search Videos - Real Data", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_political_trends_real_data(self) -> bool:
+        """Test YouTube political trends with REAL data analysis"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/political-trends")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube Political Trends - Real Data", False, "Response success flag is False")
+                    return False
+                
+                trends_data = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["trending_topics", "sentiment_analysis", "geographic_analysis", "key_insights"]
+                for section in required_sections:
+                    if section not in trends_data:
+                        self.log_test("YouTube Political Trends - Real Data", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate trending topics with real data indicators
+                trending_topics = trends_data.get("trending_topics", [])
+                if not trending_topics:
+                    self.log_test("YouTube Political Trends - Real Data", False, "No trending topics found")
+                    return False
+                
+                # Check for realistic data patterns
+                real_data_indicators = 0
+                for topic in trending_topics:
+                    video_count = topic.get("video_count", 0)
+                    total_views = topic.get("total_views", 0)
+                    
+                    # Real data should have varied, realistic numbers
+                    if video_count > 0 and total_views > video_count * 100:
+                        real_data_indicators += 1
+                
+                # Validate sentiment analysis
+                sentiment = trends_data.get("sentiment_analysis", {})
+                required_sentiment_fields = ["overall_sentiment", "sentiment_distribution", "sentiment_trend"]
+                for field in required_sentiment_fields:
+                    if field not in sentiment:
+                        self.log_test("YouTube Political Trends - Real Data", False, f"Missing sentiment field: {field}")
+                        return False
+                
+                # Validate geographic data for Misiones cities
+                geographic = trends_data.get("geographic_analysis", {})
+                municipal_data = geographic.get("municipal_data", {})
+                expected_cities = ["Posadas", "Puerto Iguazú", "Oberá"]
+                found_cities = [city for city in expected_cities if city in municipal_data]
+                
+                if len(found_cities) < 2:
+                    self.log_test("YouTube Political Trends - Real Data", False, 
+                                 f"Missing geographic data for key cities. Found: {found_cities}")
+                    return False
+                
+                # Check for real vs simulated patterns
+                insights = trends_data.get("key_insights", [])
+                
+                if real_data_indicators >= 2 and len(insights) > 0:
+                    self.log_test("YouTube Political Trends - Real Data", True, 
+                                 f"✅ REAL TRENDS DATA: {len(trending_topics)} topics, "
+                                 f"sentiment: {sentiment.get('sentiment_trend', 'N/A')}, "
+                                 f"cities: {len(municipal_data)}, insights: {len(insights)}")
+                    return True
+                else:
+                    self.log_test("YouTube Political Trends - Real Data", False, 
+                                 f"❌ DATA APPEARS SIMULATED: Real indicators: {real_data_indicators}")
+                    return False
+            else:
+                self.log_test("YouTube Political Trends - Real Data", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube Political Trends - Real Data", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_youtube_dashboard_real_data(self) -> bool:
+        """Test YouTube dashboard with REAL data metrics"""
+        try:
+            response = self.session.get(f"{API_BASE}/youtube/dashboard")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("YouTube Dashboard - Real Data", False, "Response success flag is False")
+                    return False
+                
+                dashboard_data = data.get("data", {})
+                
+                # Check for required dashboard sections
+                required_sections = ["overview", "real_time_metrics", "top_performers", "alerts", "recommendations"]
+                for section in required_sections:
+                    if section not in dashboard_data:
+                        self.log_test("YouTube Dashboard - Real Data", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate overview metrics
+                overview = dashboard_data.get("overview", {})
+                required_metrics = ["channels_monitored", "videos_analyzed", "total_views", "avg_political_sentiment"]
+                for metric in required_metrics:
+                    if metric not in overview:
+                        self.log_test("YouTube Dashboard - Real Data", False, f"Missing metric: {metric}")
+                        return False
+                
+                # Check for real data indicators
+                channels_monitored = overview.get("channels_monitored", 0)
+                videos_analyzed = overview.get("videos_analyzed", 0)
+                total_views = overview.get("total_views", 0)
+                
+                # Real-time metrics validation
+                realtime = dashboard_data.get("real_time_metrics", {})
+                sentiment_shift = realtime.get("sentiment_shift", {})
+                
+                if channels_monitored > 0 and videos_analyzed > 0:
+                    # Validate alerts and recommendations
+                    alerts = dashboard_data.get("alerts", [])
+                    recommendations = dashboard_data.get("recommendations", [])
+                    
+                    # Check if data looks real vs simulated
+                    if total_views > videos_analyzed * 1000:  # Realistic view distribution
+                        self.log_test("YouTube Dashboard - Real Data", True, 
+                                     f"✅ REAL DASHBOARD DATA: {channels_monitored} channels, "
+                                     f"{videos_analyzed} videos, {total_views:,} total views, "
+                                     f"sentiment: {sentiment_shift.get('status', 'N/A')}, "
+                                     f"{len(alerts)} alerts, {len(recommendations)} recommendations")
+                        return True
+                    else:
+                        self.log_test("YouTube Dashboard - Real Data", False, 
+                                     f"❌ DATA APPEARS SIMULATED: Unrealistic metrics distribution")
+                        return False
+                else:
+                    self.log_test("YouTube Dashboard - Real Data", False, 
+                                 f"❌ NO REAL DATA: Zero channels or videos monitored")
+                    return False
+            else:
+                self.log_test("YouTube Dashboard - Real Data", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("YouTube Dashboard - Real Data", False, f"Exception: {str(e)}")
+            return False
 
     def run_all_tests(self):
         """Run all backend tests"""
