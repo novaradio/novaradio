@@ -2906,6 +2906,35 @@ class DAMIBackendTester:
             return False
         
         print()
+        print("🎯 PRIORITY: Testing YouTube API with REAL API KEY:")
+        print("-" * 60)
+        print("🔑 Expected API Key: AIzaSyCaxdvGCcVFGZdvlcKPTqlhdFj-GSC7XdY")
+        print("🎯 Goal: Verify REAL YouTube data instead of simulation")
+        print()
+        
+        # YouTube API tests (USER'S PRIORITY REQUEST)
+        self.test_youtube_api_status_real_key()
+        self.test_youtube_search_channels_real_data()
+        self.test_youtube_search_videos_real_data()
+        self.test_youtube_political_trends_real_data()
+        self.test_youtube_dashboard_real_data()
+        
+        print()
+        print("Testing YouTube API Functionality (General):")
+        print("-" * 40)
+        
+        # General YouTube tests
+        self.test_youtube_search_channels()
+        self.test_youtube_search_videos()
+        self.test_youtube_channel_analytics()
+        self.test_youtube_political_trends()
+        self.test_youtube_dashboard()
+        self.test_youtube_configure_api_key()
+        self.test_youtube_api_status()
+        self.test_youtube_simulation_mode()
+        self.test_youtube_parameter_validation()
+        
+        print()
         print("Testing Centro Estadístico Endpoints:")
         print("-" * 40)
         
