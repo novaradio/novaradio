@@ -2906,6 +2906,21 @@ class DAMIBackendTester:
             return False
         
         print()
+        print("🔥 PRIORITY: Testing Facebook Graph API Integration:")
+        print("-" * 60)
+        print("🔑 Facebook Access Token: 718756950794070|EybKV2tc5c9qQQZiwQdpDWf0gnA")
+        print("🎯 Goal: Verify Facebook API connectivity and weighted calculations")
+        print()
+        
+        # Facebook Graph API Integration tests (USER'S PRIORITY REQUEST)
+        self.test_facebook_api_token_verification()
+        self.test_facebook_mapa_territorial_integration()
+        self.test_facebook_weighted_calculation()
+        self.test_facebook_api_methods_functionality()
+        self.test_facebook_error_handling_fallback()
+        self.test_facebook_frente_renovador_focus()
+        
+        print()
         print("🎯 PRIORITY: Testing YouTube API with REAL API KEY:")
         print("-" * 60)
         print("🔑 Expected API Key: AIzaSyCaxdvGCcVFGZdvlcKPTqlhdFj-GSC7XdY")
