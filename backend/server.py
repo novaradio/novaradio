@@ -37,10 +37,12 @@ from ai_modules.encuestas_sociales_backend import encuestas_sociales
 from ai_modules.dashboard_ejecutivo_backend import dashboard_ejecutivo
 from ai_modules.ia_predictiva_avanzada import ia_predictiva
 from ai_modules.automatizacion_avanzada import automatizacion
-from integrations.youtube_api import youtube_service
 
-# Load environment variables
+# Load environment variables FIRST
 load_dotenv()
+
+# Import YouTube service AFTER environment loading
+from integrations.youtube_api import youtube_service
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
