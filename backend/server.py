@@ -36,6 +36,7 @@ from ai_modules.analisis_competencia_backend import analisis_competencia
 from ai_modules.encuestas_sociales_backend import encuestas_sociales
 from ai_modules.dashboard_ejecutivo_backend import dashboard_ejecutivo
 from ai_modules.ia_predictiva_avanzada import ia_predictiva
+from ai_modules.automatizacion_avanzada import automatizacion
 
 # Load environment variables
 load_dotenv()
