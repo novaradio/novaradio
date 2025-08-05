@@ -17,6 +17,7 @@ import EncuestasSociales from './EncuestasSociales';
 import DashboardEjecutivo from './DashboardEjecutivo';
 import IAPredictiva from './IAPredictiva';
 import AutomatizacionAvanzada from './AutomatizacionAvanzada';
+import YouTubeAnalytics from './YouTubeAnalytics';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
