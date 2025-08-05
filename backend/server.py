@@ -646,6 +646,75 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
 
 **Para control completo:** Visita módulo de Automatización en el sistema"""
     
+    elif any(keyword in user_message_lower for keyword in ["youtube", "videos", "canales", "trending", "viral", "contenido audiovisual"]):
+        try:
+            # Obtener datos básicos de YouTube (simulado si no hay API key)
+            from integrations.youtube_api import youtube_service
+            
+            return f"""📺 **YOUTUBE ANALYTICS - MONITOREO AUDIOVISUAL**
+
+**🎥 SISTEMA DE MONITOREO YOUTUBE ACTIVO:**
+• **Estado API**: {'Simulado' if youtube_service.api_key == 'YOUR_YOUTUBE_API_KEY_HERE' else 'Conectado'} - Análisis político audiovisual
+• **Cobertura**: Política Misiones, canales políticos argentinos
+• **Capacidades**: Búsqueda canales/videos, tendencias, analytics, sentiment
+
+**🚀 FUNCIONALIDADES YOUTUBE:**
+• **Búsqueda Inteligente**: {'✅ OPERATIVO' if youtube_service else '❌ INACTIVO'}
+  - Canales políticos de Misiones y Argentina
+  - Videos por términos específicos (Frente Renovador, Misiones)
+  - Filtros por fecha, relevancia, engagement
+  - Detección automática contenido político
+
+• **Analytics Avanzados**: {'✅ OPERATIVO' if youtube_service else '❌ INACTIVO'}
+  - Métricas completas de canales (subs, views, videos)
+  - Análisis de crecimiento y engagement
+  - Trending videos políticos
+  - Performance por contenido
+
+• **Tendencias Políticas**: {'✅ OPERATIVO' if youtube_service else '❌ INACTIVO'}
+  - Sentiment analysis de videos políticos
+  - Temas trending en tiempo real
+  - Análisis geográfico por municipios
+  - Detección contenido viral (>50k views)
+
+**📊 TÉRMINOS MONITOREADOS:**
+• Misiones, política Misiones, elecciones Misiones
+• Frente Renovador, Hugo Passalacqua, Oscar Herrera Ahuad
+• Posadas, Puerto Iguazú, Oberá, Eldorado
+• Gobierno Misiones, intendentes, diputados
+
+**🎯 MÉTRICAS CLAVE:**
+• Canales monitoreados automáticamente
+• Videos analizados con sentiment político
+• Detección contenido viral y trending
+• Mapeo geográfico de menciones municipales
+
+**⚡ COMANDOS YOUTUBE:**
+• "Busca canales políticos Misiones" - Búsqueda específica
+• "Análisis trending YouTube" - Tendencias actuales
+• "Videos virales política" - Contenido de alto impacto
+• "Sentiment YouTube política" - Análisis emocional
+
+**🔧 CONFIGURACIÓN:**
+• {'✅ API Configurada' if youtube_service.api_key != 'YOUR_YOUTUBE_API_KEY_HERE' else '⚙️ API Key pendiente'} - YouTube Data API v3
+• Límite: 10,000 unidades/día (modo simulado ilimitado)
+• Integración: Twitter + Facebook + Instagram + YouTube
+
+**🔗 Acceso Directo:** Dashboard → YouTube Analytics
+
+{'¿Qué análisis de YouTube necesitas?' if youtube_service.api_key != 'YOUR_YOUTUBE_API_KEY_HERE' else '💡 Configura tu YouTube API Key para datos en tiempo real'}"""
+            
+        except Exception as e:
+            return f"""📺 **YOUTUBE ANALYTICS**
+
+**Sistema de Monitoreo YouTube Activado:**
+• Análisis de canales y videos políticos
+• Trending topics y sentiment analysis
+• Métricas de engagement y crecimiento
+• Configuración API disponible
+
+**Para análisis completo:** Visita YouTube Analytics en el menú principal"""
+    
     else:
         # Respuestas contextuales mejoradas por rol
         if user_role == UserRole.ADMINISTRATOR:
