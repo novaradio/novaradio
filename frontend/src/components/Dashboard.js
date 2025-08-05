@@ -15,6 +15,7 @@ import MapaMisiones from './MapaMisiones';
 import AnalisisCompetencia from './AnalisisCompetencia';
 import EncuestasSociales from './EncuestasSociales';
 import DashboardEjecutivo from './DashboardEjecutivo';
+import IAPredictiva from './IAPredictiva';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
