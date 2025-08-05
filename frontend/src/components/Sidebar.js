@@ -86,6 +86,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'FASE 3: Respuestas, Reportes IA, Alertas'
     },
     { 
+      id: 'youtube-analytics', 
+      label: 'YouTube Analytics', 
+      icon: Youtube, 
+      path: '/dashboard/youtube-analytics',
+      description: 'Monitoreo político en YouTube'
+    },
+    { 
       id: 'dashboard', 
       label: 'Dashboard General', 
       icon: LayoutDashboard, 
