@@ -318,8 +318,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Implement WebSockets for real-time updates"
-    - "Develop Push Notifications system"
+    - "FASE 2: IA Predictiva Avanzada - Backend Implementation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
