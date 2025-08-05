@@ -1530,6 +1530,409 @@ class DAMIBackendTester:
         except Exception as e:
             self.log_test("Análisis Competencia - Weighted Calculations", False, f"Exception: {str(e)}")
             return False
+    
+    def test_automatizacion_procesar_evento_critico(self) -> bool:
+        """Test processing critical event with automatic response"""
+        try:
+            evento_data = {
+                "tipo": "anomalia",
+                "descripcion": "Caída abrupta de sentiment",
+                "gravedad": 0.8,
+                "contexto": {"cambio_sentiment": -0.4},
+                "origen_modulo": "ia_predictiva"
+            }
+            
+            response = self.session.post(f"{API_BASE}/automatizacion/procesar-evento", json=evento_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Procesar Evento Crítico", False, "Response success flag is False")
+                    return False
+                
+                evento_data = data.get("data", {})
+                evento_procesado = evento_data.get("evento_procesado", {})
+                respuesta_automatica = evento_data.get("respuesta_automatica", {})
+                
+                # Validate event processing
+                required_event_fields = ["id", "tipo", "gravedad", "timestamp"]
+                for field in required_event_fields:
+                    if field not in evento_procesado:
+                        self.log_test("Automatización - Procesar Evento Crítico", False, f"Missing event field: {field}")
+                        return False
+                
+                # Validate automatic response structure
+                required_response_fields = ["ejecutada", "mensaje"]
+                for field in required_response_fields:
+                    if field not in respuesta_automatica:
+                        self.log_test("Automatización - Procesar Evento Crítico", False, f"Missing response field: {field}")
+                        return False
+                
+                # For critical events (gravedad >= 0.8), should trigger automatic response
+                gravedad = evento_procesado.get("gravedad", 0)
+                ejecutada = respuesta_automatica.get("ejecutada", False)
+                
+                self.log_test("Automatización - Procesar Evento Crítico", True, 
+                             f"Event processed: gravedad={gravedad}, response executed={ejecutada}")
+                return True
+            else:
+                self.log_test("Automatización - Procesar Evento Crítico", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Procesar Evento Crítico", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_generar_reporte_urgente(self) -> bool:
+        """Test generating urgent report with IA"""
+        try:
+            reporte_data = {
+                "tipo_reporte": "urgente",
+                "contexto": {"situacion": "crisis"}
+            }
+            
+            response = self.session.post(f"{API_BASE}/automatizacion/generar-reporte", json=reporte_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Generar Reporte Urgente", False, "Response success flag is False")
+                    return False
+                
+                reporte_data = data.get("data", {})
+                reporte = reporte_data.get("reporte", {})
+                estadisticas = reporte_data.get("estadisticas", {})
+                
+                # Validate report structure
+                required_report_fields = ["id", "tipo", "titulo", "timestamp", "prioridad", "contenido", "insights_ia", "recomendaciones"]
+                for field in required_report_fields:
+                    if field not in reporte:
+                        self.log_test("Automatización - Generar Reporte Urgente", False, f"Missing report field: {field}")
+                        return False
+                
+                # Validate report type
+                if reporte.get("tipo") != "urgente":
+                    self.log_test("Automatización - Generar Reporte Urgente", False, f"Expected 'urgente' type, got {reporte.get('tipo')}")
+                    return False
+                
+                # Validate IA insights and recommendations
+                insights = reporte.get("insights_ia", [])
+                recomendaciones = reporte.get("recomendaciones", [])
+                
+                if not isinstance(insights, list) or len(insights) == 0:
+                    self.log_test("Automatización - Generar Reporte Urgente", False, "No IA insights generated")
+                    return False
+                
+                if not isinstance(recomendaciones, list) or len(recomendaciones) == 0:
+                    self.log_test("Automatización - Generar Reporte Urgente", False, "No recommendations generated")
+                    return False
+                
+                # Validate statistics
+                required_stats = ["tiempo_generacion", "fuentes_consultadas", "insights_generados", "recomendaciones_generadas"]
+                for stat in required_stats:
+                    if stat not in estadisticas:
+                        self.log_test("Automatización - Generar Reporte Urgente", False, f"Missing statistic: {stat}")
+                        return False
+                
+                self.log_test("Automatización - Generar Reporte Urgente", True, 
+                             f"Report generated: {len(insights)} insights, {len(recomendaciones)} recommendations")
+                return True
+            else:
+                self.log_test("Automatización - Generar Reporte Urgente", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Generar Reporte Urgente", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_alertas_preventivas(self) -> bool:
+        """Test preventive alerts with high probability"""
+        try:
+            response = self.session.get(f"{API_BASE}/automatizacion/alertas-preventivas?activas_solo=true")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Alertas Preventivas", False, "Response success flag is False")
+                    return False
+                
+                alertas_data = data.get("data", {})
+                alertas = alertas_data.get("alertas", [])
+                estadisticas = alertas_data.get("estadisticas", {})
+                
+                # Validate alerts structure
+                if not isinstance(alertas, list):
+                    self.log_test("Automatización - Alertas Preventivas", False, "Alerts should be a list")
+                    return False
+                
+                # Validate alert structure if alerts exist
+                for alerta in alertas:
+                    required_alert_fields = ["id", "timestamp", "prediccion_timestamp", "tipo", "descripcion", 
+                                           "probabilidad", "confianza_modelo", "acciones_preventivas", "estado"]
+                    for field in required_alert_fields:
+                        if field not in alerta:
+                            self.log_test("Automatización - Alertas Preventivas", False, f"Missing alert field: {field}")
+                            return False
+                    
+                    # Validate probability range
+                    probabilidad = alerta.get("probabilidad", 0)
+                    if not (0.0 <= probabilidad <= 1.0):
+                        self.log_test("Automatización - Alertas Preventivas", False, f"Invalid probability: {probabilidad}")
+                        return False
+                    
+                    # For active alerts, probability should be >= 0.7
+                    if alerta.get("estado") == "activa" and probabilidad < 0.7:
+                        self.log_test("Automatización - Alertas Preventivas", False, f"Active alert with low probability: {probabilidad}")
+                        return False
+                
+                # Validate statistics
+                required_stats = ["total_alertas", "alertas_activas", "alta_probabilidad", "probabilidad_promedio"]
+                for stat in required_stats:
+                    if stat not in estadisticas:
+                        self.log_test("Automatización - Alertas Preventivas", False, f"Missing statistic: {stat}")
+                        return False
+                
+                self.log_test("Automatización - Alertas Preventivas", True, 
+                             f"Found {len(alertas)} alerts, {estadisticas.get('alertas_activas', 0)} active, "
+                             f"avg probability: {estadisticas.get('probabilidad_promedio', 0)}")
+                return True
+            else:
+                self.log_test("Automatización - Alertas Preventivas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Alertas Preventivas", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_estadisticas(self) -> bool:
+        """Test complete automation statistics"""
+        try:
+            response = self.session.get(f"{API_BASE}/automatizacion/estadisticas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Estadísticas", False, "Response success flag is False")
+                    return False
+                
+                stats = data.get("data", {})
+                
+                # Validate main statistics sections
+                required_sections = ["estado_sistema", "configuracion", "rendimiento", "salud_sistema"]
+                for section in required_sections:
+                    if section not in stats:
+                        self.log_test("Automatización - Estadísticas", False, f"Missing statistics section: {section}")
+                        return False
+                
+                # Validate configuration section
+                configuracion = stats.get("configuracion", {})
+                required_config = ["respuestas_automaticas", "generacion_reportes", "alertas_preventivas", 
+                                 "umbral_gravedad_critica"]
+                for config in required_config:
+                    if config not in configuracion:
+                        self.log_test("Automatización - Estadísticas", False, f"Missing configuration: {config}")
+                        return False
+                
+                # Validate performance metrics
+                rendimiento = stats.get("rendimiento", {})
+                required_performance = ["eventos_por_hora", "tiempo_respuesta_promedio", "alertas_por_dia"]
+                for metric in required_performance:
+                    if metric not in rendimiento:
+                        self.log_test("Automatización - Estadísticas", False, f"Missing performance metric: {metric}")
+                        return False
+                
+                # Validate system health
+                salud = stats.get("salud_sistema", {})
+                required_health = ["estado", "disponibilidad"]
+                for health in required_health:
+                    if health not in salud:
+                        self.log_test("Automatización - Estadísticas", False, f"Missing health metric: {health}")
+                        return False
+                
+                self.log_test("Automatización - Estadísticas", True, 
+                             f"System state: {stats.get('estado_sistema')}, "
+                             f"availability: {salud.get('disponibilidad')}")
+                return True
+            else:
+                self.log_test("Automatización - Estadísticas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Estadísticas", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_configurar_admin_only(self) -> bool:
+        """Test automation configuration (Admin only)"""
+        try:
+            config_data = {
+                "configuracion": {
+                    "respuestas_automaticas": True,
+                    "umbral_gravedad_critica": 0.9
+                }
+            }
+            
+            response = self.session.post(f"{API_BASE}/automatizacion/configurar", json=config_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Configurar (Admin)", False, "Response success flag is False")
+                    return False
+                
+                config_response = data.get("data", {})
+                
+                # Validate configuration response structure
+                required_fields = ["configuracion_aplicada", "configuracion_actual", "mensaje"]
+                for field in required_fields:
+                    if field not in config_response:
+                        self.log_test("Automatización - Configurar (Admin)", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate applied configuration
+                config_aplicada = config_response.get("configuracion_aplicada", {})
+                if "respuestas_automaticas" not in config_aplicada:
+                    self.log_test("Automatización - Configurar (Admin)", False, "Configuration not applied")
+                    return False
+                
+                self.log_test("Automatización - Configurar (Admin)", True, 
+                             f"Configuration updated: {list(config_aplicada.keys())}")
+                return True
+            elif response.status_code == 403:
+                # This is expected if user doesn't have admin role
+                self.log_test("Automatización - Configurar (Admin)", True, 
+                             "Correctly rejected non-admin user (403 Forbidden)")
+                return True
+            else:
+                self.log_test("Automatización - Configurar (Admin)", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Configurar (Admin)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_cambiar_estado_admin_only(self) -> bool:
+        """Test changing automation state (Admin only)"""
+        try:
+            estado_data = {
+                "estado": "activo"
+            }
+            
+            response = self.session.post(f"{API_BASE}/automatizacion/cambiar-estado", json=estado_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Cambiar Estado (Admin)", False, "Response success flag is False")
+                    return False
+                
+                estado_response = data.get("data", {})
+                
+                # Validate state change response
+                required_fields = ["estado_actual", "mensaje", "timestamp_cambio", "usuario"]
+                for field in required_fields:
+                    if field not in estado_response:
+                        self.log_test("Automatización - Cambiar Estado (Admin)", False, f"Missing field: {field}")
+                        return False
+                
+                # Validate state value
+                estado_actual = estado_response.get("estado_actual")
+                valid_states = ["activo", "pausado", "mantenimiento"]
+                if estado_actual not in valid_states:
+                    self.log_test("Automatización - Cambiar Estado (Admin)", False, f"Invalid state: {estado_actual}")
+                    return False
+                
+                self.log_test("Automatización - Cambiar Estado (Admin)", True, 
+                             f"State changed to: {estado_actual}")
+                return True
+            elif response.status_code == 403:
+                # This is expected if user doesn't have admin role
+                self.log_test("Automatización - Cambiar Estado (Admin)", True, 
+                             "Correctly rejected non-admin user (403 Forbidden)")
+                return True
+            else:
+                self.log_test("Automatización - Cambiar Estado (Admin)", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Cambiar Estado (Admin)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_automatizacion_resumen_completo(self) -> bool:
+        """Test complete automation summary"""
+        try:
+            response = self.session.get(f"{API_BASE}/automatizacion/resumen-completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Automatización - Resumen Completo", False, "Response success flag is False")
+                    return False
+                
+                resumen = data.get("data", {})
+                
+                # Validate main summary sections
+                required_sections = ["sistema", "actividad_reciente", "alertas_preventivas", "capacidades"]
+                for section in required_sections:
+                    if section not in resumen:
+                        self.log_test("Automatización - Resumen Completo", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate system information
+                sistema = resumen.get("sistema", {})
+                required_system_fields = ["estado", "version", "tasa_exito"]
+                for field in required_system_fields:
+                    if field not in sistema:
+                        self.log_test("Automatización - Resumen Completo", False, f"Missing system field: {field}")
+                        return False
+                
+                # Validate recent activity
+                actividad = resumen.get("actividad_reciente", {})
+                required_activity = ["eventos_procesados_24h", "respuestas_automaticas_24h", "reportes_generados_semana"]
+                for activity in required_activity:
+                    if activity not in actividad:
+                        self.log_test("Automatización - Resumen Completo", False, f"Missing activity metric: {activity}")
+                        return False
+                
+                # Validate capabilities
+                capacidades = resumen.get("capacidades", {})
+                required_capabilities = ["respuestas_automaticas", "generacion_reportes", "alertas_preventivas"]
+                for capability in required_capabilities:
+                    if capability not in capacidades:
+                        self.log_test("Automatización - Resumen Completo", False, f"Missing capability: {capability}")
+                        return False
+                    
+                    # Each capability should have 'activo' field
+                    cap_data = capacidades[capability]
+                    if "activo" not in cap_data:
+                        self.log_test("Automatización - Resumen Completo", False, f"Missing 'activo' field in {capability}")
+                        return False
+                
+                self.log_test("Automatización - Resumen Completo", True, 
+                             f"System: {sistema.get('estado')}, "
+                             f"Events 24h: {actividad.get('eventos_procesados_24h', 0)}, "
+                             f"Success rate: {sistema.get('tasa_exito', 0)}%")
+                return True
+            else:
+                self.log_test("Automatización - Resumen Completo", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Automatización - Resumen Completo", False, f"Exception: {str(e)}")
+            return False
 
     def run_all_tests(self):
         """Run all backend tests"""
