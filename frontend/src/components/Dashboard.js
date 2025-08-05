@@ -14,6 +14,7 @@ import InformeDiario from './InformeDiario';
 import MapaMisiones from './MapaMisiones';
 import AnalisisCompetencia from './AnalisisCompetencia';
 import EncuestasSociales from './EncuestasSociales';
+import DashboardEjecutivo from './DashboardEjecutivo';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
