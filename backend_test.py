@@ -2635,6 +2635,21 @@ class DAMIBackendTester:
         self.test_automatizacion_resumen_completo()
         
         print()
+        print("📺 Testing YouTube API v3 Integration:")
+        print("-" * 50)
+        
+        # YouTube API v3 Integration tests
+        self.test_youtube_search_channels()
+        self.test_youtube_search_videos()
+        self.test_youtube_channel_analytics()
+        self.test_youtube_political_trends()
+        self.test_youtube_dashboard()
+        self.test_youtube_configure_api_key()
+        self.test_youtube_api_status()
+        self.test_youtube_simulation_mode()
+        self.test_youtube_parameter_validation()
+        
+        print()
         print("Testing Error Handling:")
         print("-" * 40)
         
