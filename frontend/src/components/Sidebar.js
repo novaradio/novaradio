@@ -72,6 +72,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'Vista unificada IA'
     },
     { 
+      id: 'ia-predictiva', 
+      label: 'IA Predictiva Avanzada', 
+      icon: Zap, 
+      path: '/dashboard/ia-predictiva',
+      description: 'NLP, ML y Análisis Avanzado'
+    },
+    { 
       id: 'dashboard', 
       label: 'Dashboard General', 
       icon: LayoutDashboard, 
