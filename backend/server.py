@@ -468,7 +468,31 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
                 asyncio.set_event_loop(loop)
             
             # Simular datos de inteligencia súper avanzada
-            inteligencia_completa = generar_inteligencia_simulada()
+            inteligencia_completa = {
+                "situacion_general": "VIGILANCIA",
+                "predicciones_ml": [
+                    {"tipo": "📺 PREDICCIÓN MEDIA", "probabilidad": 91, "evento": "Pico de engagement político esperado"},
+                    {"tipo": "⚠️ PREDICCIÓN RIESGO", "probabilidad": 76, "evento": "Posible coordinación opositora detectada"},
+                    {"tipo": "🎯 PREDICCIÓN TERRITORIAL", "probabilidad": 83, "evento": "Ventana de oportunidad en región Norte"}
+                ],
+                "prioridades_algoritmica": [
+                    {"nivel": "🚨 CRÍTICO", "titulo": "Desinformación viral detectada"},
+                    {"nivel": "⚡ URGENTE", "titulo": "Trend negativo en YouTube político"},
+                    {"nivel": "📈 OPORTUNIDAD", "titulo": "Hashtag #MisionesAvanza trending positivo"}
+                ],
+                "automatizacion_estado": [
+                    {"estado": "✅ EJECUTANDO", "accion": "Escudo anti-fake news automático"},
+                    {"estado": "🔄 PROCESANDO", "accion": "Monitoreo 24/7 redes sociales"},
+                    {"estado": "⚡ LISTO", "accion": "Campaña respuesta automática"}
+                ],
+                "metricas_clave": {
+                    "sentiment_publico": 0.69,
+                    "ataques_activos": 2,
+                    "prediccion_confianza": 0.87
+                },
+                "fuentes_datos": 5,
+                "ultima_actualizacion": datetime.now().strftime("%H:%M:%S")
+            }
             
             situacion = inteligencia_completa.get('situacion_general', 'CONTROLADO')
             predicciones = inteligencia_completa.get('predicciones_ml', [])
