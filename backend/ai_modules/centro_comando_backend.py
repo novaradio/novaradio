@@ -150,7 +150,8 @@ class SituacionAnalyzer:
         # Simular fluctuaciones realistas del sentiment
         base_sentiment = 0.65  # 65% base de apoyo
         fluctuacion = random.uniform(-0.15, 0.15)  # ±15% de fluctuación
-        return max(0.3, min(0.85, base_sentiment + fluctuacion))
+        # Simplificar sentiment para porcentaje claro - Solo 2 decimales max
+        return round(max(0.3, min(0.85, base_sentiment + fluctuacion)), 2)
     
     def _evaluar_amenazas_territoriales(self) -> List[Dict[str, Any]]:
         """Evaluar amenazas en territorios específicos"""
