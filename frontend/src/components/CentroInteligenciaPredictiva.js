@@ -380,21 +380,21 @@ const CentroInteligenciaPredictiva = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            {/* Ranking General */}
+            {/* Ranking General ACTUALIZADO */}
             <div>
-              <h4 className="text-lg font-semibold text-orange-200 mb-3">🏆 RANKING GENERAL</h4>
+              <h4 className="text-lg font-semibold text-orange-200 mb-3">🏆 RANKING PARTIDOS MISIONES 2025</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded border border-green-500">
                   <div className="flex items-center">
                     <span className="text-2xl mr-3">🥇</span>
                     <div>
-                      <div className="font-bold text-green-300">FRENTE RENOVADOR</div>
-                      <div className="text-xs text-gray-400">Hugo Passalacqua</div>
+                      <div className="font-bold text-green-300">FRENTE RENOVADOR CONCORDIA</div>
+                      <div className="text-xs text-gray-400">Hugo Passalacqua - Carlos Rovira</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-green-400 font-bold text-xl">67%</div>
-                    <div className="text-xs text-green-300">+3% vs ayer</div>
+                    <div className="text-green-400 font-bold text-xl">42%</div>
+                    <div className="text-xs text-green-300">7 bancas obtenidas</div>
                   </div>
                 </div>
                 
@@ -402,13 +402,13 @@ const CentroInteligenciaPredictiva = () => {
                   <div className="flex items-center">
                     <span className="text-2xl mr-3">🥈</span>
                     <div>
-                      <div className="font-bold text-yellow-300">UCR MISIONES</div>
-                      <div className="text-xs text-gray-400">Oposición principal</div>
+                      <div className="font-bold text-yellow-300">LA LIBERTAD AVANZA</div>
+                      <div className="text-xs text-gray-400">Diego Hartfield (Milei)</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-yellow-400 font-bold text-xl">19%</div>
-                    <div className="text-xs text-red-300">-2% vs ayer</div>
+                    <div className="text-yellow-400 font-bold text-xl">28%</div>
+                    <div className="text-xs text-yellow-300">5 bancas obtenidas</div>
                   </div>
                 </div>
                 
@@ -416,91 +416,138 @@ const CentroInteligenciaPredictiva = () => {
                   <div className="flex items-center">
                     <span className="text-2xl mr-3">🥉</span>
                     <div>
-                      <div className="font-bold text-orange-300">PJ MISIONES</div>
-                      <div className="text-xs text-gray-400">Tercera fuerza</div>
+                      <div className="font-bold text-orange-300">POR LA VIDA Y VALORES</div>
+                      <div className="text-xs text-gray-400">Ramón Amarilla</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-orange-400 font-bold text-xl">8%</div>
-                    <div className="text-xs text-gray-300">=0% vs ayer</div>
+                    <div className="text-orange-400 font-bold text-xl">18%</div>
+                    <div className="text-xs text-orange-300">4 bancas obtenidas</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded border border-blue-500">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-3">4️⃣</span>
+                    <div>
+                      <div className="font-bold text-blue-300">PARTIDO AGRARIO SOCIAL</div>
+                      <div className="text-xs text-gray-400">Héctor "Cacho" Bárbaro</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-blue-400 font-bold text-xl">8%</div>
+                    <div className="text-xs text-blue-300">2 bancas obtenidas</div>
                   </div>
                 </div>
                 
                 <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded border border-gray-500">
                   <div className="flex items-center">
-                    <span className="text-2xl mr-3">4️⃣</span>
+                    <span className="text-2xl mr-3">5️⃣</span>
                     <div>
-                      <div className="font-bold text-gray-300">OTROS</div>
-                      <div className="text-xs text-gray-400">Fuerzas menores</div>
+                      <div className="font-bold text-gray-300">OTROS PARTIDOS</div>
+                      <div className="text-xs text-gray-400">Libertario, Unidos Futuro, etc.</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-gray-400 font-bold text-xl">6%</div>
-                    <div className="text-xs text-gray-400">-1% vs ayer</div>
+                    <div className="text-gray-400 font-bold text-xl">4%</div>
+                    <div className="text-xs text-gray-400">2 bancas total</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Figuras Políticas */}
+            {/* Figuras Políticas ACTUALIZADAS */}
             <div>
-              <h4 className="text-lg font-semibold text-orange-200 mb-3">👤 FIGURAS MÁS MENCIONADAS</h4>
+              <h4 className="text-lg font-semibold text-orange-200 mb-3">👤 FIGURAS POLÍTICAS CLAVE MISIONES</h4>
               <div className="space-y-3">
                 <div className="bg-black bg-opacity-40 p-3 rounded border border-cyan-500">
-                  <div className="font-bold text-cyan-300">Hugo Passalacqua (FR)</div>
-                  <div className="text-xs text-gray-400 mb-1">Gobernador • Frente Renovador</div>
+                  <div className="font-bold text-cyan-300">Hugo Passalacqua (FRC)</div>
+                  <div className="text-xs text-gray-400 mb-1">Gobernador Actual • Frente Renovador</div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-gray-300">1,247 menciones</span>
-                    <span className="text-cyan-400 font-bold">89% positivo</span>
+                    <span className="text-sm text-gray-300">1,847 menciones</span>
+                    <span className="text-cyan-400 font-bold">82% positivo</span>
+                  </div>
+                </div>
+                
+                <div className="bg-black bg-opacity-40 p-3 rounded border border-green-500">
+                  <div className="font-bold text-green-300">Carlos Rovira (FRC)</div>
+                  <div className="text-xs text-gray-400 mb-1">Líder Histórico • Frente Renovador</div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-300">1,234 menciones</span>
+                    <span className="text-green-400 font-bold">78% positivo</span>
                   </div>
                 </div>
                 
                 <div className="bg-black bg-opacity-40 p-3 rounded border border-yellow-500">
-                  <div className="font-bold text-yellow-300">Referente UCR</div>
-                  <div className="text-xs text-gray-400 mb-1">Oposición Principal</div>
+                  <div className="font-bold text-yellow-300">Diego Hartfield (LLA)</div>
+                  <div className="text-xs text-gray-400 mb-1">Candidato Milei • La Libertad Avanza</div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-gray-300">431 menciones</span>
-                    <span className="text-red-400 font-bold">31% positivo</span>
+                    <span className="text-sm text-gray-300">987 menciones</span>
+                    <span className="text-red-400 font-bold">34% positivo</span>
                   </div>
                 </div>
                 
                 <div className="bg-black bg-opacity-40 p-3 rounded border border-orange-500">
-                  <div className="font-bold text-orange-300">Figura PJ</div>
-                  <div className="text-xs text-gray-400 mb-1">Tercera Fuerza</div>
+                  <div className="font-bold text-orange-300">Sebastián Macías (FRC)</div>
+                  <div className="text-xs text-gray-400 mb-1">Candidato 2025 • Ing. Vialidad</div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-gray-300">187 menciones</span>
-                    <span className="text-yellow-400 font-bold">48% positivo</span>
+                    <span className="text-sm text-gray-300">654 menciones</span>
+                    <span className="text-green-400 font-bold">71% positivo</span>
+                  </div>
+                </div>
+                
+                <div className="bg-black bg-opacity-40 p-3 rounded border border-purple-500">
+                  <div className="font-bold text-purple-300">Héctor "Cacho" Bárbaro (PAyS)</div>
+                  <div className="text-xs text-gray-400 mb-1">Partido Agrario Social • Productores</div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-300">432 menciones</span>
+                    <span className="text-yellow-400 font-bold">58% positivo</span>
+                  </div>
+                </div>
+                
+                <div className="bg-black bg-opacity-40 p-3 rounded border border-red-500">
+                  <div className="font-bold text-red-300">Nicolás "Santi" Koch</div>
+                  <div className="text-xs text-gray-400 mb-1">Unidos Futuro • Radicalismo</div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-300">321 menciones</span>
+                    <span className="text-red-400 font-bold">29% positivo</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Tendencias y Acciones */}
+            {/* Tendencias y Acciones ACTUALIZADAS */}
             <div>
-              <h4 className="text-lg font-semibold text-orange-200 mb-3">📈 QUÉ HACER AHORA</h4>
+              <h4 className="text-lg font-semibold text-orange-200 mb-3">📈 ANÁLISIS ESTRATÉGICO 2025</h4>
               <div className="space-y-3">
                 <div className="bg-green-900 bg-opacity-30 p-3 rounded border border-green-500">
-                  <div className="font-bold text-green-300 mb-1">✅ MANTENER</div>
-                  <div className="text-sm text-gray-300">Liderazgo sólido en Posadas y Puerto Iguazú</div>
-                  <div className="text-xs text-green-400 mt-1">Acción: Continuar gestión visible</div>
-                </div>
-                
-                <div className="bg-red-900 bg-opacity-30 p-3 rounded border border-red-500">
-                  <div className="font-bold text-red-300 mb-1">🚨 URGENTE</div>
-                  <div className="text-sm text-gray-300">Reforzar Apóstoles, San Vicente, Concepción</div>
-                  <div className="text-xs text-red-400 mt-1">Acción: Gira territorial inmediata</div>
+                  <div className="font-bold text-green-300 mb-1">✅ FORTALEZA FR</div>
+                  <div className="text-sm text-gray-300">Liderazgo consolidado con 7/20 bancas</div>
+                  <div className="text-xs text-green-400 mt-1">Acción: Mantener gestión visible, preparar 2027</div>
                 </div>
                 
                 <div className="bg-yellow-900 bg-opacity-30 p-3 rounded border border-yellow-500">
-                  <div className="font-bold text-yellow-300 mb-1">⚡ AMPLIFICAR</div>
-                  <div className="text-sm text-gray-300">YouTube funcionando bien, duplicar contenido</div>
-                  <div className="text-xs text-yellow-400 mt-1">Acción: +3 videos semanales</div>
+                  <div className="font-bold text-yellow-300 mb-1">⚠️ AMENAZA LLA</div>
+                  <div className="text-sm text-gray-300">La Libertad Avanza creció fuerte (5 bancas)</div>
+                  <div className="text-xs text-yellow-400 mt-1">Acción: Contranarrativa anti-Milei personalizada</div>
+                </div>
+                
+                <div className="bg-red-900 bg-opacity-30 p-3 rounded border border-red-500">
+                  <div className="font-bold text-red-300 mb-1">🚨 FRAGMENTACIÓN</div>
+                  <div className="text-sm text-gray-300">10+ partidos compitiendo, voto disperso</div>
+                  <div className="text-xs text-red-400 mt-1">Acción: Coaliciones estratégicas pre-2027</div>
                 </div>
                 
                 <div className="bg-blue-900 bg-opacity-30 p-3 rounded border border-blue-500">
-                  <div className="font-bold text-blue-300 mb-1">📊 APROVECHAR</div>
-                  <div className="text-sm text-gray-300">UCR bajando (-2%), momento de contraste</div>
-                  <div className="text-xs text-blue-400 mt-1">Acción: Campaña comparativa</div>
+                  <div className="font-bold text-blue-300 mb-1">🎯 OPORTUNIDAD</div>
+                  <div className="text-sm text-gray-300">Passalacqua (82% positivo) líder consolidado</div>
+                  <div className="text-xs text-blue-400 mt-1">Acción: Aprovechar imagen para fortalecer FRC</div>
+                </div>
+                
+                <div className="bg-purple-900 bg-opacity-30 p-3 rounded border border-purple-500">
+                  <div className="font-bold text-purple-300 mb-1">📊 COMPETENCIA 2027</div>
+                  <div className="text-sm text-gray-300">Hartfield vs Macías probable polarización</div>
+                  <div className="text-xs text-purple-400 mt-1">Acción: Posicionar Macías como continuidad exitosa</div>
                 </div>
               </div>
             </div>
