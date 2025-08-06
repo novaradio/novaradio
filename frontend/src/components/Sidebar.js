@@ -39,6 +39,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       description: 'IA Predictiva + Análisis + Automatización + Estadísticas Completas'
     },
     { 
+      id: 'estrategias-campana-ia', 
+      label: '⚔️ Estrategias Campaña IA', 
+      icon: Target, 
+      path: '/dashboard/estrategias-campana-ia',
+      description: 'Contramedidas oposición + Análisis medios + IA autónoma'
+    },
+    { 
       id: 'centro-comando', 
       label: '⚡ Centro de Comando', 
       icon: Zap, 
