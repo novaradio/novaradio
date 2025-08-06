@@ -245,7 +245,7 @@ const CentroComando = () => {
             <div className="text-2xl font-bold text-red-400">
               🎯 {situacionActual.ataquesPrincipales || 0}
             </div>
-            <div className="text-sm text-gray-400 mt-2">Ataques Activos</div>
+            <div className="text-sm text-gray-400 mt-2">Nos Están Atacando</div>
             <button 
               onClick={() => setShowExplanation('ataques')}
               className="absolute top-2 right-2 text-gray-400 hover:text-white"
@@ -254,8 +254,8 @@ const CentroComando = () => {
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
               <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
-                <div className="font-bold text-red-400 mb-1">Ataques Políticos Detectados</div>
-                <div className="text-gray-300">Campañas negativas, críticas coordinadas o desinformación dirigida contra Frente Renovador</div>
+                <div className="font-bold text-red-400 mb-1">Ataques en Redes Sociales</div>
+                <div className="text-gray-300">Cuántas veces están hablando mal de nosotros de forma coordinada. Si es más de 3, necesitamos actuar.</div>
               </div>
             </div>
           </div>
@@ -264,7 +264,7 @@ const CentroComando = () => {
             <div className="text-2xl font-bold text-orange-400">
               📰 {situacionActual.desinformacionActiva || 0}
             </div>
-            <div className="text-sm text-gray-400 mt-2">Desinformación Detectada</div>
+            <div className="text-sm text-gray-400 mt-2">Noticias Falsas</div>
             <button 
               onClick={() => setShowExplanation('desinformacion')}
               className="absolute top-2 right-2 text-gray-400 hover:text-white"
@@ -273,8 +273,8 @@ const CentroComando = () => {
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
               <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
-                <div className="font-bold text-orange-400 mb-1">Noticias Falsas Activas</div>
-                <div className="text-gray-300">Información falsa, rumores maliciosos o datos tergiversados circulando en redes sociales</div>
+                <div className="font-bold text-orange-400 mb-1">Mentiras Sobre Nosotros</div>
+                <div className="text-gray-300">Cuántas noticias falsas están circulando. Si es más de 2, alguien está mintiendo adrede.</div>
               </div>
             </div>
           </div>
@@ -283,7 +283,7 @@ const CentroComando = () => {
             <div className={`text-2xl font-bold ${situacionActual.sentimientoPublico >= 60 ? 'text-green-400' : situacionActual.sentimientoPublico >= 40 ? 'text-yellow-400' : 'text-red-400'}`}>
               {situacionActual.sentimientoPublico >= 60 ? '😊' : situacionActual.sentimientoPublico >= 40 ? '😐' : '😟'} {situacionActual.sentimientoPublico || 0}%
             </div>
-            <div className="text-sm text-gray-400 mt-2">Apoyo Público</div>
+            <div className="text-sm text-gray-400 mt-2">La Gente Nos Quiere</div>
             <button 
               onClick={() => setShowExplanation('apoyo')}
               className="absolute top-2 right-2 text-gray-400 hover:text-white"
@@ -292,12 +292,12 @@ const CentroComando = () => {
             </button>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
               <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
-                <div className="font-bold text-blue-400 mb-1">Sentimiento Público Actual</div>
+                <div className="font-bold text-blue-400 mb-1">¿Nos Apoyan o No?</div>
                 <div className="text-gray-300">
-                  Porcentaje de menciones positivas vs negativas sobre Frente Renovador en redes sociales. 
-                  <br/>• +60%: Muy favorable
-                  <br/>• 40-59%: Favorable 
-                  <br/>• -40%: Desfavorable
+                  De cada 100 comentarios sobre nosotros:
+                  <br/>• 😊 60+ nos apoyan = Muy bien
+                  <br/>• 😐 40-59 nos apoyan = Bien 
+                  <br/>• 😟 Menos de 40 = Mal
                 </div>
               </div>
             </div>
