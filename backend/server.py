@@ -3719,6 +3719,183 @@ async def obtener_status_api_youtube(
         
     except Exception as e:
         logger.error(f"Error obteniendo status API YouTube: {e}")
+# ====================
+# ESTRATEGIAS CAMPAÑA CON IA AUTÓNOMA - CONTRAMEDIDAS OPOSICIÓN
+# ====================
+
+@api_router.get("/estrategias-campana-ia/contramedidas-completas")
+async def get_estrategias_contramedidas_completas(current_user: User = Depends(get_current_user)):
+    """
+    Estrategias completas con IA para contrarrestar oposición
+    Incluye análisis de medios, contramedidas específicas, presupuestos optimizados
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó estrategias contramedidas IA")
+        
+        estrategias = await estrategias_campana_ia.obtener_estrategias_contramedidas_completas()
+        
+        return {
+            "success": True,
+            "data": estrategias,
+            "sistema": "IA Autónoma + Manual",
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en estrategias campaña IA: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo estrategias: {str(e)}")
+
+@api_router.get("/estrategias-campana-ia/analisis-medios")
+async def get_analisis_efectividad_medios(current_user: User = Depends(get_current_user)):
+    """
+    Análisis detallado efectividad medios (TV, Radio, Redes, Digital)
+    Porcentajes, ROI, costos, recomendaciones de asignación presupuesto
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó análisis efectividad medios")
+        
+        estrategias = await estrategias_campana_ia.obtener_estrategias_contramedidas_completas()
+        
+        analisis_medios = {
+            "efectividad_por_medio": estrategias["efectividad_medios"],
+            "plan_optimizado": estrategias["plan_medios_optimizado"],
+            "recomendaciones_criticas": [rec for rec in estrategias["recomendaciones_criticas"] 
+                                      if rec["categoria"] in ["ASIGNACIÓN MEDIOS", "MEDIOS RURALES", "OPTIMIZACIÓN DIGITAL"]],
+            "roi_comparativo": {
+                "radio": {"roi": 9.1, "recomendacion": "MÁXIMA INVERSIÓN"},
+                "redes_sociales": {"roi": 8.9, "recomendacion": "ALTA INVERSIÓN"},
+                "television": {"roi": 7.8, "recomendacion": "INVERSIÓN ESTÁNDAR"},
+                "medios_digitales": {"roi": 7.3, "recomendacion": "INVERSIÓN MODERADA"},
+                "medios_graficos": {"roi": 2.8, "recomendacion": "INVERSIÓN MÍNIMA"}
+            },
+            "distribucion_recomendada": {
+                "radio": "28% - Mayor penetración + credibilidad",
+                "television": "32% - Alcance masivo adultos",
+                "redes_sociales": "25% - Segmentación precisa",
+                "medios_digitales": "10% - Formadores opinión",
+                "medios_graficos": "3% - Protocolo institucional",
+                "reserva_contingencia": "2% - Oportunidades"
+            }
+        }
+        
+        return {
+            "success": True,
+            "data": analisis_medios,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en análisis medios: {e}")
+        raise HTTPException(status_code=500, detail=f"Error analizando medios: {str(e)}")
+
+@api_router.get("/estrategias-campana-ia/recomendaciones-ejecutivas")
+async def get_recomendaciones_ejecutivas_decision(current_user: User = Depends(get_current_user)):
+    """
+    Recomendaciones específicas para tomadores de decisiones
+    Qué hacer, cómo hacerlo, cuándo decidir, con qué presupuesto
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó recomendaciones ejecutivas")
+        
+        estrategias = await estrategias_campana_ia.obtener_estrategias_contramedidas_completas()
+        
+        recomendaciones_ejecutivas = {
+            "decisiones_criticas_pendientes": estrategias["recomendaciones_criticas"],
+            "cronograma_implementacion": estrategias["cronograma_implementacion"],
+            "presupuesto_total": estrategias["plan_medios_optimizado"]["presupuesto_total_recomendado"],
+            "sistema_ia_autonoma": {
+                "beneficios": [
+                    "Detección amenazas 2 horas antes que humanos",
+                    "Optimización automática presupuesto medios",
+                    "Respuesta inmediata a ataques (15 minutos)",
+                    "Ahorro 15-25% presupuesto total"
+                ],
+                "implementacion": {
+                    "costo": "8 millones (una vez)",
+                    "tiempo": "1 semana",
+                    "roi": "300% primer mes",
+                    "decision_requerida": "GO/NO GO inmediata"
+                }
+            },
+            "acciones_inmediatas_48h": [
+                {
+                    "accion": "Aumentar presupuesto radio a 28%",
+                    "razon": "ROI más alto (9.1) + máxima penetración (94.6%)",
+                    "decision": "CRÍTICA - aprobar en 48h"
+                },
+                {
+                    "accion": "Lanzar campaña anti-Hartfield",
+                    "razon": "Atacar su inexperiencia antes que consolide base",
+                    "presupuesto": "15 millones en 4 semanas",
+                    "decision": "CRÍTICA - decidir en 72h"
+                },
+                {
+                    "accion": "Implementar sistema IA detección",
+                    "razon": "Anticiparse 2 horas a cualquier crisis",
+                    "costo": "8 millones",
+                    "decision": "ALTA - autorizar implementación"
+                }
+            ],
+            "kpis_seguimiento": estrategias["kpis_seguimiento"],
+            "dashboard_control": estrategias["dashboard_control"]
+        }
+        
+        return {
+            "success": True,
+            "data": recomendaciones_ejecutivas,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en recomendaciones ejecutivas: {e}")
+        raise HTTPException(status_code=500, detail=f"Error generando recomendaciones: {str(e)}")
+
+@api_router.get("/estrategias-campana-ia/contramedidas-por-rival") 
+async def get_contramedidas_por_rival_especifico(rival: str = None, current_user: User = Depends(get_current_user)):
+    """
+    Estrategias específicas contra cada rival individual
+    Parámetro: rival (hartfield, barbaro, koch) o todos si no se especifica
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó contramedidas vs {rival}")
+        
+        estrategias = await estrategias_campana_ia.obtener_estrategias_contramedidas_completas()
+        
+        if rival and rival.lower() in ['hartfield', 'barbaro', 'koch']:
+            if rival.lower() == 'hartfield':
+                rival_data = estrategias["analisis_por_oponente"]["diego_hartfield_lla"]
+            elif rival.lower() == 'barbaro':
+                rival_data = estrategias["analisis_por_oponente"]["cacho_barbaro_pays"]  
+            else:  # koch
+                rival_data = estrategias["analisis_por_oponente"]["nicolas_koch_ufuturo"]
+            
+            return {
+                "success": True,
+                "data": {
+                    "rival_seleccionado": rival,
+                    "estrategia_especifica": rival_data
+                },
+                "timestamp": datetime.utcnow().isoformat(),
+                "user": current_user.username
+            }
+        else:
+            return {
+                "success": True,
+                "data": {
+                    "contramedidas_todos_rivales": estrategias["analisis_por_oponente"],
+                    "resumen_estrategico": {
+                        "hartfield": "ATACAR INEXPERIENCIA - Campaña redes 30% + TV testimoniales",
+                        "barbaro": "MOSTRAR OBRAS RURALES - Radio interior 50% + testimoniales productores", 
+                        "koch": "COOPTAR IDEAS + EXPERIENCIA - Redes 60% + propuestas innovadoras"
+                    }
+                },
+                "timestamp": datetime.utcnow().isoformat(),
+                "user": current_user.username
+            }
+            
+    except Exception as e:
+        logger.error(f"Error en contramedidas por rival: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo contramedidas: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
 # ====================
