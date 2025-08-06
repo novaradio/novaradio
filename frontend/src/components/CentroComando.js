@@ -204,26 +204,92 @@ const CentroComando = () => {
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="text-center p-4 bg-gray-800 rounded-lg">
-            <div className={`text-2xl font-bold px-3 py-1 rounded ${getNivelAmenazaColor(situacionActual.nivelAmenaza)}`}>
-              {situacionActual.nivelAmenaza || 'CARGANDO...'}
+          <div className="text-center p-4 bg-gray-800 rounded-lg relative group">
+            <div className={`text-2xl font-bold px-3 py-1 rounded ${getNivelAmenazaColor(situacionActual.nivelAmenaza)} cursor-help`}
+                 onClick={() => setShowExplanation('nivel-amenaza')}>
+              {explicacionesNivel[situacionActual.nivelAmenaza]?.icon || '🔄'} {situacionActual.nivelAmenaza || 'CARGANDO...'}
             </div>
             <div className="text-sm text-gray-400 mt-2">Nivel de Amenaza</div>
+            <button 
+              onClick={() => setShowExplanation('nivel-amenaza')}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </button>
+            {situacionActual.nivelAmenaza && explicacionesNivel[situacionActual.nivelAmenaza] && (
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
+                <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
+                  <div className="font-bold text-yellow-400 mb-1">
+                    {explicacionesNivel[situacionActual.nivelAmenaza].significado}
+                  </div>
+                  <div className="text-gray-300">
+                    {explicacionesNivel[situacionActual.nivelAmenaza].queHacer}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           
-          <div className="text-center p-4 bg-gray-800 rounded-lg">
-            <div className="text-2xl font-bold text-red-400">{situacionActual.ataquesPrincipales || 0}</div>
+          <div className="text-center p-4 bg-gray-800 rounded-lg relative group">
+            <div className="text-2xl font-bold text-red-400">
+              🎯 {situacionActual.ataquesPrincipales || 0}
+            </div>
             <div className="text-sm text-gray-400 mt-2">Ataques Activos</div>
+            <button 
+              onClick={() => setShowExplanation('ataques')}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
+              <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
+                <div className="font-bold text-red-400 mb-1">Ataques Políticos Detectados</div>
+                <div className="text-gray-300">Campañas negativas, críticas coordinadas o desinformación dirigida contra Frente Renovador</div>
+              </div>
+            </div>
           </div>
           
-          <div className="text-center p-4 bg-gray-800 rounded-lg">
-            <div className="text-2xl font-bold text-orange-400">{situacionActual.desinformacionActiva || 0}</div>
+          <div className="text-center p-4 bg-gray-800 rounded-lg relative group">
+            <div className="text-2xl font-bold text-orange-400">
+              📰 {situacionActual.desinformacionActiva || 0}
+            </div>
             <div className="text-sm text-gray-400 mt-2">Desinformación Detectada</div>
+            <button 
+              onClick={() => setShowExplanation('desinformacion')}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
+              <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
+                <div className="font-bold text-orange-400 mb-1">Noticias Falsas Activas</div>
+                <div className="text-gray-300">Información falsa, rumores maliciosos o datos tergiversados circulando en redes sociales</div>
+              </div>
+            </div>
           </div>
           
-          <div className="text-center p-4 bg-gray-800 rounded-lg">
-            <div className="text-2xl font-bold text-blue-400">{situacionActual.sentimientoPublico || 0}%</div>
+          <div className="text-center p-4 bg-gray-800 rounded-lg relative group">
+            <div className={`text-2xl font-bold ${situacionActual.sentimientoPublico >= 60 ? 'text-green-400' : situacionActual.sentimientoPublico >= 40 ? 'text-yellow-400' : 'text-red-400'}`}>
+              {situacionActual.sentimientoPublico >= 60 ? '😊' : situacionActual.sentimientoPublico >= 40 ? '😐' : '😟'} {situacionActual.sentimientoPublico || 0}%
+            </div>
             <div className="text-sm text-gray-400 mt-2">Apoyo Público</div>
+            <button 
+              onClick={() => setShowExplanation('apoyo')}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
+              <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
+                <div className="font-bold text-blue-400 mb-1">Sentimiento Público Actual</div>
+                <div className="text-gray-300">
+                  Porcentaje de menciones positivas vs negativas sobre Frente Renovador en redes sociales. 
+                  <br/>• +60%: Muy favorable
+                  <br/>• 40-59%: Favorable 
+                  <br/>• -40%: Desfavorable
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
