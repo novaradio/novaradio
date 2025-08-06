@@ -4139,6 +4139,250 @@ class DAMIBackendTester:
             self.log_test("Estrategias Campaña - Data Validation", False, f"Exception: {str(e)}")
             return False
 
+    def test_estrategias_campana_contramedidas_completas(self) -> bool:
+        """Test estrategias campaña IA contramedidas completas endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/estrategias-campana-ia/contramedidas-completas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Estrategias Campaña - Contramedidas Completas", False, "Response success flag is False")
+                    return False
+                
+                contramedidas = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["resumen_ejecutivo", "contramedidas_por_rival", "presupuesto_total", "sistema_ia_autonoma"]
+                for section in required_sections:
+                    if section not in contramedidas:
+                        self.log_test("Estrategias Campaña - Contramedidas Completas", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate budget (should be 180M)
+                presupuesto = contramedidas.get("presupuesto_total", {})
+                monto_total = presupuesto.get("monto_total_pesos", 0)
+                if monto_total != 180000000:  # 180M pesos
+                    self.log_test("Estrategias Campaña - Contramedidas Completas", False, f"Expected 180M budget, got {monto_total}")
+                    return False
+                
+                # Validate 3 opponents
+                contramedidas_rivales = contramedidas.get("contramedidas_por_rival", {})
+                expected_rivals = ["Diego Hartfield", "Cacho Bárbaro", "Nicolás Koch"]
+                for rival in expected_rivals:
+                    if rival not in contramedidas_rivales:
+                        self.log_test("Estrategias Campaña - Contramedidas Completas", False, f"Missing rival: {rival}")
+                        return False
+                
+                self.log_test("Estrategias Campaña - Contramedidas Completas", True, 
+                             f"Contramedidas validated: 3 rivals, 180M budget, AI system operational")
+                return True
+            else:
+                self.log_test("Estrategias Campaña - Contramedidas Completas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Estrategias Campaña - Contramedidas Completas", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_estrategias_campana_analisis_medios(self) -> bool:
+        """Test estrategias campaña IA análisis de medios endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/estrategias-campana-ia/analisis-medios")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Estrategias Campaña - Análisis Medios", False, "Response success flag is False")
+                    return False
+                
+                analisis = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["efectividad_por_medio", "distribucion_presupuesto", "roi_comparativo"]
+                for section in required_sections:
+                    if section not in analisis:
+                        self.log_test("Estrategias Campaña - Análisis Medios", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate ROI values
+                roi_comparativo = analisis.get("roi_comparativo", {})
+                expected_rois = {
+                    "Radio": 9.1,
+                    "TV": 7.8,
+                    "Redes Sociales": 8.9,
+                    "Digital": 7.3
+                }
+                
+                for medio, expected_roi in expected_rois.items():
+                    if medio not in roi_comparativo:
+                        self.log_test("Estrategias Campaña - Análisis Medios", False, f"Missing ROI for {medio}")
+                        return False
+                    
+                    actual_roi = roi_comparativo[medio].get("roi", 0)
+                    if abs(actual_roi - expected_roi) > 0.1:  # Allow small variance
+                        self.log_test("Estrategias Campaña - Análisis Medios", False, 
+                                     f"ROI mismatch for {medio}: expected {expected_roi}, got {actual_roi}")
+                        return False
+                
+                # Validate budget distribution
+                distribucion = analisis.get("distribucion_presupuesto", {})
+                expected_distribution = {
+                    "Radio": 28,
+                    "TV": 32,
+                    "Redes Sociales": 25,
+                    "Digital": 10
+                }
+                
+                for medio, expected_pct in expected_distribution.items():
+                    if medio not in distribucion:
+                        self.log_test("Estrategias Campaña - Análisis Medios", False, f"Missing distribution for {medio}")
+                        return False
+                    
+                    actual_pct = distribucion[medio].get("porcentaje", 0)
+                    if abs(actual_pct - expected_pct) > 2:  # Allow 2% variance
+                        self.log_test("Estrategias Campaña - Análisis Medios", False, 
+                                     f"Distribution mismatch for {medio}: expected {expected_pct}%, got {actual_pct}%")
+                        return False
+                
+                self.log_test("Estrategias Campaña - Análisis Medios", True, 
+                             f"Media analysis validated: Radio ROI {roi_comparativo.get('Radio', {}).get('roi', 0)}x, "
+                             f"TV {expected_distribution['TV']}% budget allocation")
+                return True
+            else:
+                self.log_test("Estrategias Campaña - Análisis Medios", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Estrategias Campaña - Análisis Medios", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_estrategias_campana_recomendaciones_ejecutivas(self) -> bool:
+        """Test estrategias campaña IA recomendaciones ejecutivas endpoint"""
+        try:
+            response = self.session.get(f"{API_BASE}/estrategias-campana-ia/recomendaciones-ejecutivas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, "Response success flag is False")
+                    return False
+                
+                recomendaciones = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["decisiones_criticas", "recomendaciones_ia", "sistema_respuesta", "metricas_clave"]
+                for section in required_sections:
+                    if section not in recomendaciones:
+                        self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate AI response time (should be 15 minutes)
+                sistema_respuesta = recomendaciones.get("sistema_respuesta", {})
+                tiempo_respuesta = sistema_respuesta.get("tiempo_respuesta_ia_minutos", 0)
+                if tiempo_respuesta != 15:
+                    self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, 
+                                 f"Expected 15min AI response time, got {tiempo_respuesta}min")
+                    return False
+                
+                # Validate critical decisions within 48h
+                decisiones_criticas = recomendaciones.get("decisiones_criticas", {})
+                plazo_critico = decisiones_criticas.get("plazo_ejecucion_horas", 0)
+                if plazo_critico != 48:
+                    self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, 
+                                 f"Expected 48h critical timeframe, got {plazo_critico}h")
+                    return False
+                
+                # Validate GO/NO GO decisions for 8M IA implementation
+                go_no_go = decisiones_criticas.get("go_no_go_8m_ia", {})
+                if not go_no_go:
+                    self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, 
+                                 "Missing GO/NO GO decision for 8M IA implementation")
+                    return False
+                
+                self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", True, 
+                             f"Executive recommendations validated: {tiempo_respuesta}min AI response, "
+                             f"{plazo_critico}h critical actions, GO/NO GO decisions operational")
+                return True
+            else:
+                self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Estrategias Campaña - Recomendaciones Ejecutivas", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_elecciones_octubre_resumen_ejecutivo_lemas(self) -> bool:
+        """Test elecciones octubre 2025 resumen ejecutivo lemas endpoint (corrected)"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/resumen-ejecutivo-lemas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, "Response success flag is False")
+                    return False
+                
+                resumen = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["candidato_principal", "competencia_principal", "sistema_lemas", "proyeccion_bancas"]
+                for section in required_sections:
+                    if section not in resumen:
+                        self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate Oscar Herrera Ahuad as main candidate
+                candidato_principal = resumen.get("candidato_principal", {})
+                nombre_candidato = candidato_principal.get("nombre", "")
+                if "Oscar Herrera Ahuad" not in nombre_candidato:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, 
+                                 f"Expected Oscar Herrera Ahuad, got {nombre_candidato}")
+                    return False
+                
+                # Validate Frente Renovador lema
+                lema = candidato_principal.get("lema", "")
+                if "FRENTE RENOVADOR" not in lema.upper():
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, 
+                                 f"Expected Frente Renovador lema, got {lema}")
+                    return False
+                
+                # Validate voting intention (should be around 55.7% for lema total)
+                intencion_lema_total = candidato_principal.get("intencion_voto_lema_total", 0)
+                if intencion_lema_total < 50 or intencion_lema_total > 60:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, 
+                                 f"Unexpected lema voting intention: {intencion_lema_total}%")
+                    return False
+                
+                # Validate D'Hondt projection (should project 4 of 7 diputados for FR)
+                proyeccion = resumen.get("proyeccion_bancas", {})
+                diputados = proyeccion.get("diputados_nacionales", {})
+                bancas_fr = diputados.get("FRENTE_RENOVADOR", {}).get("bancas_proyectadas", 0)
+                if bancas_fr < 3 or bancas_fr > 5:  # Should be around 4
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, 
+                                 f"Unexpected FR diputados projection: {bancas_fr} bancas")
+                    return False
+                
+                self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", True, 
+                             f"Electoral summary validated: Oscar Herrera Ahuad ({intencion_lema_total}% lema), "
+                             f"FR projected {bancas_fr} diputados, Ley de Lemas system operational")
+                return True
+            else:
+                self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, f"Exception: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
