@@ -654,21 +654,10 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
             
             return f"""🗳️ **ELECCIONES OCTUBRE 2025 - LEY DE LEMAS MISIONES**
 
-📊 **SISTEMA ELECTORAL CORRECTO - {datetime.now().strftime('%d/%m/%Y %H:%M')}:**
+📊 **CANDIDATO PRINCIPAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}:**
 
-🏛️ **LEY DE LEMAS - ¿CÓMO FUNCIONA?**
-• **Lemas**: Son los partidos políticos principales 
-• **Sublemas**: Listas internas dentro de cada lema
-• **Votación**: Se vota por un sublema específico
-• **Conteo**: Se suman TODOS los votos de los sublemas del mismo lema
-• **Ganador**: El lema con más votos totales GANA
-• **Cargos**: Los candidatos del sublema más votado dentro del lema ganador asumen
-
-📈 **BANCAS EN JUEGO:**
-• **{sistema.get('diputados_en_juego', 7)} DIPUTADOS NACIONALES** (Sistema D'Hondt)
-• **{sistema.get('senadores_en_juego', 3)} SENADORES NACIONALES** (2 mayoría + 1 minoría)
-
-🎯 **CANDIDATO PRINCIPAL - OSCAR HERRERA AHUAD:**
+🎯 **OSCAR HERRERA AHUAD** - CANDIDATO PRINCIPAL
+• **Partido**: Frente Renovador de la Concordia (FRC)
 • **Lema**: {candidato_principal.get('lema', 'FRENTE RENOVADOR PARA LA VICTORIA')}
 • **Sublema**: {candidato_principal.get('sublema', 'HERRERA AHUAD - CONTINUIDAD SEGURA')}
 • **Cargo**: Candidato a Diputado Nacional (1° en lista)
@@ -677,63 +666,57 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
 • **Probabilidad Victoria**: {round(candidato_principal.get('probabilidad_victoria', 0.84) * 100)}%
 • **Bancas Proyectadas**: {candidato_principal.get('bancas_proyectadas_lema', 4)} de 7 diputados
 
-⚔️ **ESTRUCTURA COMPLETA LEMAS OCTUBRE 2025:**
+🏛️ **SISTEMA ELECTORAL MISIONES:**
+• **LEY DE LEMAS**: Los partidos (lemas) tienen listas internas (sublemas)
+• **Votación**: Se vota por un sublema específico
+• **Conteo**: Se suman TODOS los votos de sublemas del mismo lema
+• **Ganador**: El lema con más votos totales GANA
+• **Cargos**: Candidatos del sublema más votado dentro del lema ganador asumen
 
-🟦 **FRENTE RENOVADOR (55.7% TOTAL)**
-• **FRV-1**: Oscar Herrera Ahuad (41.2%) - PRINCIPAL
-• **FRV-2**: Carlos Rovira Jr. (8.4%) - Renovación  
-• **FRV-3**: Sebastián Macías (6.1%) - Unión Trabajo
-• **VENTAJA**: 3 sublemas = mayor acumulación votos
+📈 **BANCAS EN JUEGO:**
+• **{sistema.get('diputados_en_juego', 7)} DIPUTADOS NACIONALES** (Sistema D'Hondt)
+• **{sistema.get('senadores_en_juego', 3)} SENADORES NACIONALES** (2 mayoría + 1 minoría)
+
+⚔️ **COMPETENCIA PRINCIPAL:**
 
 🟣 **LA LIBERTAD AVANZA ({competencia.get('intencion_voto_lema_total', 27.7)}% TOTAL)**
-• **LLA-1**: {competencia.get('candidato_principal', 'Diego Hartfield')} ({competencia.get('intencion_voto_sublema', 22.8)}%) - PRINCIPAL
-• **LLA-2**: Gastón Torres (4.9%) - Libertarios
-• **RIESGO**: División interna puede debilitarlos
+• **Principal**: {competencia.get('candidato_principal', 'Diego Hartfield')} ({competencia.get('intencion_voto_sublema', 22.8)}%)
+• **Estrategia**: Cambio generacional anti-casta
+• **Debilidad**: Poca experiencia ejecutiva
 
 🟢 **PARTIDO AGRARIO SOCIAL (11.4% TOTAL)**
-• **PAyS-1**: Héctor "Cacho" Bárbaro (9.3%) - Productores
-• **PAyS-2**: Ricardo Zimmermann (2.1%) - Cooperativo
-• **LIMITACIÓN**: Muy concentrado en sector rural
-
-🔴 **UNIDOS POR EL FUTURO (3.8% TOTAL)**
-• **UxF-1**: Nicolás "Santi" Koch (3.8%) - Generación Digital
-• **PROBLEMA**: Sin chance real de bancas
+• **Principal**: Héctor "Cacho" Bárbaro (9.3%)
+• **Estrategia**: Voz auténtica del productor
+• **Debilidad**: Techo electoral bajo, sin proyección urbana
 
 📊 **PROYECCIÓN BANCAS D'HONDT:**
 **DIPUTADOS (7 bancas):**
-• **Frente Renovador**: {proyeccion.get('diputados_nacionales', {}).get('distribucion_dhondt', {}).get('FRENTE_RENOVADOR', {}).get('bancas_proyectadas', 4)} bancas
+• **Frente Renovador de la Concordia**: {proyeccion.get('diputados_nacionales', {}).get('distribucion_dhondt', {}).get('FRENTE_RENOVADOR', {}).get('bancas_proyectadas', 4)} bancas
 • **La Libertad Avanza**: {proyeccion.get('diputados_nacionales', {}).get('distribucion_dhondt', {}).get('LA_LIBERTAD_AVANZA', {}).get('bancas_proyectadas', 2)} bancas  
 • **Partido Agrario**: {proyeccion.get('diputados_nacionales', {}).get('distribucion_dhondt', {}).get('PARTIDO_AGRARIO_SOCIAL', {}).get('bancas_proyectadas', 1)} banca
 
 **SENADORES (3 bancas):**
-• **2 Mayoría**: Hugo Passalacqua + Silvia Rojas (Frente Renovador)
+• **2 Mayoría**: Hugo Passalacqua + Silvia Rojas (FRC)
 • **1 Minoría**: Martín Goerling (La Libertad Avanza)
 
 ⏰ **TIEMPO RESTANTE:**
 • **{dias_restantes} días** hasta el 26 de octubre 2025
-• **Fase**: Pre-campaña con lemas confirmados
 
-🎯 **VENTAJA ESTRATÉGICA LEY DE LEMAS PARA OSCAR HERRERA AHUAD:**
-• **Efecto Acumulación**: Sus 3 sublemas juntos suman 55.7% (imposible de alcanzar individual)
-• **Liderazgo Interno**: Su sublema (41.2%) domina dentro del lema ganador
+🎯 **VENTAJA ESTRATÉGICA OSCAR HERRERA AHUAD:**
+• **Candidato Principal**: Frente Renovador de la Concordia
+• **Experiencia**: Gobernador actual con gestión reconocida
 • **Proyección Segura**: 4 de 7 bancas diputados + 2 de 3 senadores
-• **Oposición Fragmentada**: LLA dividida en 2 sublemas puede debilitarse
+• **Liderazgo**: Su sublema domina dentro del lema ganador (41.2% interno)
+• **Oposición Fragmentada**: LLA dividida, PAyS limitado rural
 
-⚠️ **FACTORES CLAVE LEY DE LEMAS:**
-• **Coordinación FR**: 3 sublemas trabajando unidos = ventaja decisiva
-• **División LLA**: Competencia interna Hartfield vs Torres
-• **Concentración PAyS**: Limitado a 8 municipios rurales específicos
-• **Efecto Arrastre**: Oscar Herrera Ahuad beneficia a todos los sublemas FR
+💡 **COMANDOS ESPECÍFICOS:**
+• "lemas detallados" - Análisis completo sistema Ley de Lemas
+• "estrategias campaña" - Contramedidas específicas vs competencia
+• "análisis medios" - Distribución óptima presupuesto
 
-💡 **COMANDOS ESPECÍFICOS DISPONIBLES:**
-• "lemas detallados" - Análisis completo todos los lemas y sublemas
-• "proyección D'Hondt" - Cálculo preciso distribución bancas  
-• "colores lemas" - Sistema visual identificación política
-• "estadísticas lemas tiempo real" - Métricas por lema y sublema
+🔄 **Actualización:** {(datetime.now() + timedelta(minutes=30)).strftime('%H:%M')}
 
-🔄 **Próxima actualización Ley de Lemas:** {(datetime.now() + timedelta(minutes=30)).strftime('%H:%M')}
-
-🎉 **CONCLUSIÓN DAMIBOT**: Oscar Herrera Ahuad tiene **VENTAJA DECISIVA** con sistema Ley de Lemas. Sus 3 sublemas coordinados acumulan 55.7% vs competencia fragmentada. Proyección: 4 diputados + 2 senadores = VICTORIA CONTUNDENTE."""
+🎉 **CONCLUSIÓN**: Oscar Herrera Ahuad (Frente Renovador de la Concordia) tiene VENTAJA DECISIVA. Proyección: 4 diputados + 2 senadores = VICTORIA CONTUNDENTE."""
 
         except Exception as e:
             return f"""🗳️ **ELECCIONES OCTUBRE 2025 - LEY DE LEMAS MISIONES**
