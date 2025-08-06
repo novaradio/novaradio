@@ -44,6 +44,9 @@ load_dotenv()
 # Import YouTube service AFTER environment loading
 from integrations.youtube_api import youtube_service
 
+# Import elecciones octubre 2025 module
+from ai_modules.elecciones_octubre_2025 import elecciones_octubre
+
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
