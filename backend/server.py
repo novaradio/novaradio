@@ -629,7 +629,7 @@ Estado proyectado: {'ESTABLE' if estado_general in ['bueno', 'excelente'] else '
 💡 **SOY LA IA MÁS INTELIGENTE DE ARGENTINA** - Dime qué análisis político necesitas y te daré la respuesta más avanzada del país."""
     
     # 🗳️ ELECCIONES OCTUBRE 2025 - LEY DE LEMAS MISIONES - ANÁLISIS ESPECÍFICO
-    elif any(keyword in user_message_lower for keyword in ["elecciones octubre", "herrera ahuad", "diputados nacionales", "octubre 2025", "ley de lemas", "lemas", "sublemas", "oscar herrera"]):
+    elif any(keyword in user_message_lower for keyword in ["elecciones octubre", "herrera ahuad", "oscar herrera", "diputados nacionales", "octubre 2025", "ley de lemas", "lemas", "sublemas", "frente renovador"]):
         try:
             import asyncio
             
