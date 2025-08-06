@@ -3703,17 +3703,19 @@ async def obtener_status_api_youtube(
 @api_router.get("/elecciones-octubre-2025/panorama-completo")
 async def get_panorama_electoral_completo(current_user: User = Depends(get_current_user)):
     """
-    Panorama electoral completo - Elecciones Diputados Nacionales Octubre 2025
-    Incluye Oscar Herrera Ahuad, competencia, proyecciones y estadísticas
+    Panorama electoral completo - Elecciones Octubre 2025 con LEY DE LEMAS
+    Incluye Oscar Herrera Ahuad, sistema de lemas y sublemas, proyecciones D'Hondt
+    7 Diputados + 3 Senadores Nacionales - Misiones
     """
     try:
-        logger.info(f"Usuario {current_user.username} solicitó panorama electoral octubre 2025")
+        logger.info(f"Usuario {current_user.username} solicitó panorama electoral LEY DE LEMAS octubre 2025")
         
         panorama = await elecciones_octubre.obtener_panorama_electoral_completo()
         
         return {
             "success": True,
             "data": panorama,
+            "sistema": "Ley de Lemas Misiones + Electoral Nacional",
             "timestamp": datetime.utcnow().isoformat(),
             "user": current_user.username
         }
@@ -3721,37 +3723,50 @@ async def get_panorama_electoral_completo(current_user: User = Depends(get_curre
         logger.error(f"Error en panorama electoral: {e}")
         raise HTTPException(status_code=500, detail=f"Error obteniendo panorama electoral: {str(e)}")
 
-@api_router.get("/elecciones-octubre-2025/competencia-detallada")
-async def get_analisis_competencia_detallado(current_user: User = Depends(get_current_user)):
+@api_router.get("/elecciones-octubre-2025/lemas-detallados")
+async def get_analisis_lemas_detallado(current_user: User = Depends(get_current_user)):
     """
-    Análisis detallado de cada candidato de oposición
-    Hartfield (LLA), Bárbaro (PAyS), Koch (UFuturo)
+    Análisis detallado de todos los lemas y sublemas
+    Sistema completo Ley de Lemas Misiones con colores y proyecciones
     """
     try:
-        logger.info(f"Usuario {current_user.username} solicitó análisis competencia octubre 2025")
+        logger.info(f"Usuario {current_user.username} solicitó análisis lemas detallado")
         
-        competencia = await elecciones_octubre.obtener_analisis_competencia_especifico()
+        panorama = await elecciones_octubre.obtener_panorama_electoral_completo()
+        
+        lemas_analisis = {
+            "sistema_explicacion": panorama["ley_de_lemas"]["explicacion_simple"],
+            "lemas_completos": panorama["lemas_completos"],
+            "colores_identificacion": panorama["ley_de_lemas"]["colores_identificacion"],
+            "proyeccion_bancas": panorama["proyeccion_bancas"],
+            "ventajas_lemas": {
+                "frente_renovador": "3 sublemas = mayor chance de acumular votos",
+                "la_libertad_avanza": "2 sublemas = riesgo división pero flexibilidad",
+                "partido_agrario": "2 sublemas = concentración rural",
+                "unidos_futuro": "1 sublema = todo concentrado en Koch"
+            }
+        }
         
         return {
             "success": True,
-            "data": competencia,
+            "data": lemas_analisis,
             "timestamp": datetime.utcnow().isoformat(),
             "user": current_user.username
         }
     except Exception as e:
-        logger.error(f"Error en análisis competencia: {e}")
-        raise HTTPException(status_code=500, detail=f"Error analizando competencia: {str(e)}")
+        logger.error(f"Error en análisis lemas: {e}")
+        raise HTTPException(status_code=500, detail=f"Error analizando lemas: {str(e)}")
 
-@api_router.get("/elecciones-octubre-2025/estadisticas-tiempo-real")
-async def get_estadisticas_tiempo_real(current_user: User = Depends(get_current_user)):
+@api_router.get("/elecciones-octubre-2025/estadisticas-lemas-tiempo-real")
+async def get_estadisticas_lemas_tiempo_real(current_user: User = Depends(get_current_user)):
     """
-    Estadísticas en tiempo real de la campaña electoral
-    Métricas, tracking, polls internos, alertas automáticas
+    Estadísticas en tiempo real por lemas y sublemas
+    Tracking específico sistema Ley de Lemas
     """
     try:
-        logger.info(f"Usuario {current_user.username} solicitó estadísticas tiempo real electoral")
+        logger.info(f"Usuario {current_user.username} solicitó estadísticas lemas tiempo real")
         
-        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real()
+        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real_lemas()
         
         return {
             "success": True,
@@ -3760,47 +3775,69 @@ async def get_estadisticas_tiempo_real(current_user: User = Depends(get_current_
             "user": current_user.username
         }
     except Exception as e:
-        logger.error(f"Error en estadísticas tiempo real: {e}")
-        raise HTTPException(status_code=500, detail=f"Error obteniendo estadísticas: {str(e)}")
+        logger.error(f"Error en estadísticas lemas: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo estadísticas lemas: {str(e)}")
 
-@api_router.get("/elecciones-octubre-2025/resumen-ejecutivo")
-async def get_resumen_ejecutivo_electoral(current_user: User = Depends(get_current_user)):
+@api_router.get("/elecciones-octubre-2025/resumen-ejecutivo-lemas")
+async def get_resumen_ejecutivo_lemas(current_user: User = Depends(get_current_user)):
     """
-    Resumen ejecutivo rápido para dashboard
-    Datos clave: Oscar Herrera Ahuad, principal competidor, proyección, días restantes
+    Resumen ejecutivo rápido con sistema Ley de Lemas
+    Oscar Herrera Ahuad, lemas, bancas proyectadas
     """
     try:
         panorama = await elecciones_octubre.obtener_panorama_electoral_completo()
-        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real()
+        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real_lemas()
         
-        # Construir resumen ejecutivo
+        # Construir resumen ejecutivo con Ley de Lemas
         resumen = {
             "candidato_principal": {
-                "nombre": panorama["candidato_principal"]["nombre_completo"],
-                "partido": panorama["candidato_principal"]["partido"],
-                "intencion_voto": panorama["candidato_principal"]["intension_voto_estimada"],
-                "tendencia": panorama["candidato_principal"]["tendencia_ultimos_30_dias"],
-                "probabilidad_victoria": panorama["proyecciones"]["probabilidad_victoria"]["oscar_herrera_ahuad"]
+                "nombre": panorama["candidato_principal"]["nombre"],
+                "lema": panorama["candidato_principal"]["lema"],
+                "sublema": panorama["candidato_principal"]["sublema"],
+                "intencion_voto_sublema": panorama["candidato_principal"]["intencion_voto_sublema"],
+                "intencion_voto_lema_total": panorama["candidato_principal"]["intencion_voto_lema_total"],
+                "color": "#1E40AF",  # Azul FR
+                "probabilidad_victoria": panorama["candidato_principal"]["probabilidad_victoria"],
+                "bancas_proyectadas": panorama["candidato_principal"]["bancas_proyectadas_lema"]
             },
             "competencia_principal": {
-                "nombre": panorama["competencia"]["candidatos_oposicion"][0]["nombre_completo"],
-                "partido": panorama["competencia"]["candidatos_oposicion"][0]["partido"],
-                "intencion_voto": panorama["competencia"]["candidatos_oposicion"][0]["intension_voto_estimada"],
-                "amenaza": panorama["competencia"]["amenaza_nivel"]
+                "lema_rival": panorama["competencia_principal"]["lema_rival"],
+                "candidato": panorama["competencia_principal"]["candidato_principal"],
+                "sublema": panorama["competencia_principal"]["sublema"],
+                "intencion_voto_sublema": panorama["competencia_principal"]["intencion_voto_sublema"],
+                "intencion_voto_lema_total": panorama["competencia_principal"]["intencion_voto_lema_total"],
+                "color": "#7C3AED",  # Violeta LLA
+                "bancas_proyectadas": panorama["competencia_principal"]["bancas_proyectadas_lema"],
+                "amenaza": panorama["competencia_principal"]["amenaza_nivel"]
             },
-            "proyeccion_bancas": panorama["proyecciones"]["distribucion_bancas"]["bancas_por_partido"],
+            "sistema_electoral": {
+                "ley_aplicable": "Ley de Lemas Misiones",
+                "diputados_en_juego": 7,
+                "senadores_en_juego": 3,
+                "lemas_confirmados": panorama["metricas_tiempo_real"]["lemas_confirmados"],
+                "sublemas_total": panorama["metricas_tiempo_real"]["sublemas_total"]
+            },
+            "proyeccion_bancas": {
+                "diputados": panorama["proyeccion_bancas"]["diputados_nacionales"]["distribucion_dhondt"],
+                "senadores": panorama["proyeccion_bancas"]["senadores_nacionales"]["distribucion_proyectada"]
+            },
             "tiempo_restante": {
-                "dias": estadisticas["metricas_campana"]["dias_restantes"],
-                "fase": estadisticas["metricas_campana"]["fase_actual"],
-                "fecha_eleccion": panorama["contexto"]["fecha_eleccion"]
+                "dias": panorama["metricas_tiempo_real"]["dias_para_eleccion"],
+                "fecha_eleccion": panorama["sistema_electoral"]["fecha_eleccion"],
+                "fase": panorama["metricas_tiempo_real"]["fase_campana"]
             },
-            "alertas_clave": estadisticas["alertas_automaticas"],
-            "metricas_campana": {
-                "eventos_realizados": estadisticas["metricas_campana"]["eventos_realizados"],
-                "presupuesto_ejecutado": estadisticas["metricas_campana"]["presupuesto_ejecutado"],
-                "cobertura_territorial": estadisticas["metricas_campana"]["cobertura_territorial"]
+            "alertas_lemas": estadisticas.get("alertas_sistema_lemas", []),
+            "metricas_digitales": {
+                "fr_menciones": estadisticas["metricas_por_lema"]["frente_renovador"]["menciones_redes_24h"],
+                "lla_menciones": estadisticas["metricas_por_lema"]["la_libertad_avanza"]["menciones_redes_24h"],
+                "pays_menciones": estadisticas["metricas_por_lema"]["partido_agrario_social"]["menciones_redes_24h"]
             },
-            "estado_general": "FAVORABLE" if panorama["candidato_principal"]["intension_voto_estimada"] > 45 else "COMPETITIVO"
+            "ventaja_sistema_lemas": {
+                "fr_ventaja": "3 sublemas acumulan 55.7% - VENTAJA DECISIVA",
+                "lla_riesgo": "2 sublemas pueden dividirse - RIESGO FRAGMENTACIÓN",
+                "pays_concentracion": "Muy concentrado rural - LIMITADO URBANO"
+            },
+            "estado_general": "FAVORABLE_FR" if panorama["candidato_principal"]["intencion_voto_lema_total"] > 50 else "COMPETITIVO"
         }
         
         return {
@@ -3810,7 +3847,7 @@ async def get_resumen_ejecutivo_electoral(current_user: User = Depends(get_curre
             "user": current_user.username
         }
     except Exception as e:
-        logger.error(f"Error en resumen ejecutivo: {e}")
+        logger.error(f"Error en resumen ejecutivo lemas: {e}")
         raise HTTPException(status_code=500, detail=f"Error generando resumen ejecutivo: {str(e)}")
 
 # CENTRO DE INTELIGENCIA PREDICTIVA UNIFICADO 🧠
