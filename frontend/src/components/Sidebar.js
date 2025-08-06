@@ -31,6 +31,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
 
   const navigationItems = [
     { 
+      id: 'centro-inteligencia', 
+      label: '🧠 Centro Inteligencia', 
+      icon: Brain, 
+      path: '/dashboard/centro-inteligencia',
+      description: 'IA Predictiva + Análisis + Automatización'
+    },
+    { 
       id: 'centro-comando', 
       label: 'Centro de Comando', 
       icon: Command, 
