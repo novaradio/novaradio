@@ -207,28 +207,74 @@ INITIAL_USERS = {
 
 INITIAL_ACTORS = [
     {
-        "name": "Carlos Rovira",
-        "status": ActorStatus.ROJA,
-        "activity_description": "Actividad Crítica",
-        "social_media_handle": "@CarlosRovira",
-        "keywords": ["rovira", "crítica", "ataque"],
-        "influence_score": 95
+        "name": "Oscar Herrera Ahuad",
+        "status": ActorStatus.VERDE,
+        "activity_description": "Candidato Principal Diputados Nacionales - Campaña Activa",
+        "social_media_handle": "@OscarHerreraAhuad",
+        "keywords": ["herrera ahuad", "oscar", "candidato", "diputados", "frente renovador"],
+        "influence_score": 95,
+        "cargo": "Candidato a Diputado Nacional",
+        "partido": "Frente Renovador de la Concordia",
+        "intencion_voto": "52.3%",
+        "mentions": 2847,
+        "sentiment": "87% positivo"
     },
     {
-        "name": "Diego Harfield",
-        "status": ActorStatus.NARANJA,
-        "activity_description": "Ataque discursivo",
-        "social_media_handle": "@DiegoHarfield",
-        "keywords": ["harfield", "ataque", "discurso"],
-        "influence_score": 75
+        "name": "Carlos Rovira",
+        "status": ActorStatus.VERDE,
+        "activity_description": "Líder histórico FRC - Apoyo campaña",
+        "social_media_handle": "@CarlosRovira",
+        "keywords": ["rovira", "lider", "historico", "frente renovador"],
+        "influence_score": 88,
+        "partido": "Frente Renovador de la Concordia",
+        "mentions": 1234,
+        "sentiment": "78% positivo"
     },
     {
         "name": "Hugo Passalacqua",
         "status": ActorStatus.VERDE,
-        "activity_description": "Discurso neutro",
+        "activity_description": "Gobernador Actual - Frente Renovador de la Concordia",
         "social_media_handle": "@HugoPassalacqua",
-        "keywords": ["passalacqua", "neutro", "gobierno"],
-        "influence_score": 60
+        "keywords": ["passalacqua", "gobernador", "gobierno", "frente renovador"],
+        "influence_score": 92,
+        "partido": "Frente Renovador de la Concordia",
+        "mentions": 1847,
+        "sentiment": "82% positivo"
+    },
+    {
+        "name": "Diego Hartfield",
+        "status": ActorStatus.NARANJA,
+        "activity_description": "Candidato Oposición - La Libertad Avanza",
+        "social_media_handle": "@DiegoHartfield",
+        "keywords": ["hartfield", "oposicion", "libertad avanza", "milei"],
+        "influence_score": 75,
+        "partido": "La Libertad Avanza",
+        "intencion_voto": "28.7%",
+        "mentions": 987,
+        "sentiment": "34% positivo"
+    },
+    {
+        "name": "Sebastián Macías",
+        "status": ActorStatus.VERDE,
+        "activity_description": "Frente Renovador de la Concordia - Unión por el Trabajo",
+        "social_media_handle": "@SebastianMacias",
+        "keywords": ["macias", "sebastian", "union trabajo", "frente renovador"],
+        "influence_score": 68,
+        "partido": "Frente Renovador de la Concordia",
+        "mentions": 654,
+        "sentiment": "71% positivo"
+    },
+    {
+        "name": "Héctor 'Cacho' Bárbaro",
+        "status": ActorStatus.AMARILLA,
+        "activity_description": "Partido Agrario Social - Sector Productivo",
+        "social_media_handle": "@CachoBarbaro",
+        "keywords": ["barbaro", "cacho", "agrario", "productores"],
+        "influence_score": 64,
+        "partido": "Partido Agrario y Social",
+        "intencion_voto": "11.2%",
+        "mentions": 445,
+        "sentiment": "52% positivo"
     }
 ]
 
