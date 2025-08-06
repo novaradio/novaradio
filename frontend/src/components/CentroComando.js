@@ -14,29 +14,37 @@ const CentroComando = () => {
   const [lastUpdate, setLastUpdate] = useState(null);
   const [showExplanation, setShowExplanation] = useState(null);
 
-  // Explicaciones para cada nivel de amenaza
-  const explicacionesNivel = {
+  // Explicaciones simplificadas para cualquier usuario
+  const explicacionesSimples = {
     'CRÍTICO': {
-      significado: 'Situación de máxima alerta',
-      queHacer: 'Activar protocolo de crisis inmediatamente. Convocar equipo de emergencia.',
+      estado: 'PELIGRO INMEDIATO',
+      queVes: 'Muchos ataques contra nosotros AHORA',
+      queHacer: 'Llamar a todo el equipo - Crisis en curso',
+      urgencia: '🚨 ACTUAR YA - No esperar',
       color: 'text-red-400',
       icon: '🚨'
     },
     'ALTO': {
-      significado: 'Riesgo elevado que requiere atención inmediata',
-      queHacer: 'Monitorear de cerca y preparar respuestas. Alertar a equipo clave.',
+      estado: 'SITUACIÓN COMPLICADA',
+      queVes: 'Se están organizando para atacarnos',
+      queHacer: 'Preparar respuesta - Avisar a los jefes',
+      urgencia: '⚠️ ATENDER HOY - Es urgente',
       color: 'text-orange-400',
       icon: '⚠️'
     },
     'MODERADO': {
-      significado: 'Situación controlable pero que requiere seguimiento',
-      queHacer: 'Mantener vigilancia activa. Preparar estrategias preventivas.',
+      estado: 'TODO BAJO CONTROL',
+      queVes: 'Algunas críticas normales, nada grave',
+      queHacer: 'Seguir observando - Estar alerta',
+      urgencia: '👁️ VIGILAR - Todo normal',
       color: 'text-yellow-400',
       icon: '👁️'
     },
     'BAJO': {
-      significado: 'Situación estable y favorable',
-      queHacer: 'Continuar monitoreo rutinario. Aprovechar momento favorable.',
+      estado: 'TODO VA BIEN',
+      queVes: 'La gente habla bien de nosotros',
+      queHacer: 'Aprovechar el momento - Seguir así',
+      urgencia: '✅ TRANQUILO - Situación favorable',
       color: 'text-green-400',
       icon: '✅'
     }
