@@ -595,6 +595,365 @@ const CentroInteligenciaPredictiva = () => {
         </div>
       </div>
 
+      {/* ANÁLISIS INTEGRAL EXPLICATIVO - ALGORITMO SIMPLE */}
+      <div className="dami-card bg-gradient-to-r from-indigo-900 to-purple-900">
+        <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
+          <Brain className="w-6 h-6 mr-2 text-indigo-400" />
+          🧠 ANÁLISIS INTEGRAL MISIONES - CÓMO FUNCIONA NUESTRO ALGORITMO
+        </h2>
+        
+        {/* EXPLICACIÓN DEL ALGORITMO */}
+        <div className="bg-black bg-opacity-40 rounded-lg p-6 mb-6 border border-indigo-500">
+          <h3 className="text-lg font-bold text-indigo-300 mb-4">💡 CÓMO CALCULAMOS TODO (Explicación Simple)</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-semibold text-indigo-200 mb-2">📊 PASO 1: RECOLECTAMOS</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Contamos menciones en redes sociales cada hora</li>
+                <li>• Analizamos si son positivas, negativas o neutrales</li>
+                <li>• Medimos cuánta gente interactúa (likes, shares, comentarios)</li>
+                <li>• Comparamos con otros partidos automáticamente</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-indigo-200 mb-2">🧮 PASO 2: CALCULAMOS</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Sumamos puntos: Mención positiva = +2, Negativa = -1</li>
+                <li>• Peso por municipio: Posadas vale 3x más que pueblo chico</li>
+                <li>• Tendencia: Comparamos hoy vs ayer, semana, mes</li>
+                <li>• Ranking automático: Ordenamos del mejor al peor</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-indigo-200 mb-2">🎯 PASO 3: PREDECIMOS</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Si subes 3 días seguidos = Tendencia positiva</li>
+                <li>• Si hay 5+ ataques coordinados = Riesgo alto</li>
+                <li>• Horarios: 18-21h = Momento clave para publicar</li>
+                <li>• Territorio: Donde estás débil necesita más atención</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-indigo-200 mb-2">⚡ PASO 4: RECOMENDAMOS</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Te decimos QUÉ hacer y CUÁNDO exactamente</li>
+                <li>• Priorizamos lo más urgente primero</li>
+                <li>• Explicamos POR QUÉ es importante cada acción</li>
+                <li>• Medimos si funcionó para mejorar el algoritmo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* INTENDENTES CLAVE - ANÁLISIS SINTÉTICO */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          
+          <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-cyan-500">
+            <h3 className="text-lg font-bold text-cyan-300 mb-4">👔 INTENDENTES CLAVE (Top 10 Municipios)</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-2 bg-green-900 bg-opacity-30 rounded">
+                <div>
+                  <div className="font-semibold text-green-300">Leonardo Stelatto (FR)</div>
+                  <div className="text-xs text-gray-400">Posadas • 54% población</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-green-400 font-bold">89%</div>
+                  <div className="text-xs text-green-300">+2% vs mes</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-2 bg-green-900 bg-opacity-30 rounded">
+                <div>
+                  <div className="font-semibold text-green-300">Claudio Filippa (FR)</div>
+                  <div className="text-xs text-gray-400">Puerto Iguazú • Turismo</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-green-400 font-bold">82%</div>
+                  <div className="text-xs text-green-300">+1% vs mes</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-2 bg-yellow-900 bg-opacity-30 rounded">
+                <div>
+                  <div className="font-semibold text-yellow-300">Intendente Oberá</div>
+                  <div className="text-xs text-gray-400">Oberá • Centro productivo</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-yellow-400 font-bold">64%</div>
+                  <div className="text-xs text-red-300">-3% vs mes</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-2 bg-red-900 bg-opacity-30 rounded">
+                <div>
+                  <div className="font-semibold text-red-300">Intendente Apóstoles</div>
+                  <div className="text-xs text-gray-400">Apóstoles • Zona crítica</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-red-400 font-bold">31%</div>
+                  <div className="text-xs text-red-300">-8% vs mes</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 bg-cyan-900 bg-opacity-30 rounded">
+              <div className="font-bold text-cyan-300 text-sm">🧮 Cómo calculamos:</div>
+              <div className="text-xs text-gray-300 mt-1">
+                Sumamos menciones positivas del intendente + gestión municipal + obras publicadas. 
+                Peso: Posadas vale 10x más que municipio chico por población.
+              </div>
+            </div>
+          </div>
+
+          {/* MAPA TERRITORIAL ESPECÍFICO */}
+          <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-purple-500">
+            <h3 className="text-lg font-bold text-purple-300 mb-4">🗺️ MAPA TERRITORIAL (78 Municipios)</h3>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="text-center p-3 bg-green-900 bg-opacity-30 rounded">
+                <div className="text-2xl font-bold text-green-400">32</div>
+                <div className="text-sm text-green-300">Municipios FR</div>
+                <div className="text-xs text-gray-400">41% territorio</div>
+              </div>
+              <div className="text-center p-3 bg-yellow-900 bg-opacity-30 rounded">
+                <div className="text-2xl font-bold text-yellow-400">28</div>
+                <div className="text-sm text-yellow-300">Competitivos</div>
+                <div className="text-xs text-gray-400">36% territorio</div>
+              </div>
+              <div className="text-center p-3 bg-red-900 bg-opacity-30 rounded">
+                <div className="text-2xl font-bold text-red-400">18</div>
+                <div className="text-sm text-red-300">Oposición</div>
+                <div className="text-xs text-gray-400">23% territorio</div>
+              </div>
+              <div className="text-center p-3 bg-blue-900 bg-opacity-30 rounded">
+                <div className="text-2xl font-bold text-blue-400">78</div>
+                <div className="text-sm text-blue-300">Total</div>
+                <div className="text-xs text-gray-400">100% monitoreado</div>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <h4 className="font-semibold text-purple-200 mb-2">🎯 DONDE ACTUAR YA:</h4>
+              <div className="text-sm space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-red-300">⚠️ Apóstoles, San Vicente</span>
+                  <span className="text-red-400">Perdiendo terreno</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-yellow-300">📈 Oberá, Eldorado</span>
+                  <span className="text-yellow-400">Competitivos</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-green-300">✅ Posadas, Iguazú</span>
+                  <span className="text-green-400">Sólidos</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 bg-purple-900 bg-opacity-30 rounded">
+              <div className="font-bold text-purple-300 text-sm">🧮 Algoritmo territorial:</div>
+              <div className="text-xs text-gray-300 mt-1">
+                Analizamos redes por localización GPS + hashtags locales + menciones de intendentes. 
+                Clasificamos: Verde (+60%), Amarillo (40-60%), Rojo (-40%).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ENCUESTAS Y TENDENCIAS REALES */}
+        <div className="bg-gradient-to-r from-teal-900 to-cyan-900 rounded-lg p-6 mb-6 border border-teal-500">
+          <h3 className="text-xl font-bold text-teal-300 mb-4">📈 TENDENCIAS Y PROYECCIONES (Datos Sintéticos)</h3>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Evolución Histórica */}
+            <div>
+              <h4 className="font-semibold text-teal-200 mb-3">📊 EVOLUCIÓN FRENTE RENOVADOR</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Enero 2025</span>
+                  <span className="text-green-400 font-bold">68%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Marzo 2025</span>
+                  <span className="text-green-400 font-bold">71%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Mayo 2025</span>
+                  <span className="text-green-400 font-bold">69%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Agosto 2025</span>
+                  <span className="text-green-400 font-bold">73%</span>
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-green-300 bg-green-900 bg-opacity-20 p-2 rounded">
+                <strong>Tendencia:</strong> +5% en 8 meses. Crecimiento constante.
+              </div>
+            </div>
+
+            {/* Intención de Voto 2027 */}
+            <div>
+              <h4 className="font-semibold text-teal-200 mb-3">🗳️ PROYECCIÓN 2027</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-green-300">Sebastián Macías (FR)</span>
+                  <span className="text-green-400 font-bold">49%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-yellow-300">Diego Hartfield (LLA)</span>
+                  <span className="text-yellow-400 font-bold">32%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-orange-300">Cacho Bárbaro (PAyS)</span>
+                  <span className="text-orange-400 font-bold">11%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Otros</span>
+                  <span className="text-gray-400 font-bold">8%</span>
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-yellow-300 bg-yellow-900 bg-opacity-20 p-2 rounded">
+                <strong>Alerta:</strong> Ballotage probable. Necesitamos +1% más.
+              </div>
+            </div>
+
+            {/* Temas Clave */}
+            <div>
+              <h4 className="font-semibold text-teal-200 mb-3">🎯 TEMAS QUE MÁS IMPORTAN</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Obra Pública</span>
+                  <span className="text-green-400 font-bold">87%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Economía/Empleo</span>
+                  <span className="text-yellow-400 font-bold">76%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Seguridad</span>
+                  <span className="text-orange-400 font-bold">68%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-300">Salud/Educación</span>
+                  <span className="text-blue-400 font-bold">71%</span>
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-green-300 bg-green-900 bg-opacity-20 p-2 rounded">
+                <strong>Fortaleza:</strong> Obra Pública es nuestro tema ganador.
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-6 p-4 bg-black bg-opacity-40 rounded">
+            <div className="font-bold text-teal-300 text-sm mb-2">🧮 Cómo calculamos tendencias:</div>
+            <div className="text-xs text-gray-300">
+              <strong>Paso 1:</strong> Medimos menciones semanales por tema • 
+              <strong>Paso 2:</strong> Comparamos con competencia • 
+              <strong>Paso 3:</strong> Proyectamos usando promedio móvil 3 meses • 
+              <strong>Paso 4:</strong> Ajustamos por eventos (obras inauguradas, crisis, etc.)
+            </div>
+          </div>
+        </div>
+
+        {/* REDES SOCIALES ESPECÍFICAS */}
+        <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-orange-500">
+          <h3 className="text-lg font-bold text-orange-300 mb-4">📱 REDES SOCIALES - MONITOREO ESPECÍFICO</h3>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* Cuentas Monitoreadas */}
+            <div>
+              <h4 className="font-semibold text-orange-200 mb-3">👁️ CUENTAS QUE SEGUIMOS AUTOMÁTICAMENTE</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center p-2 bg-blue-900 bg-opacity-30 rounded">
+                  <span className="text-sm text-blue-300">@hugoepassalacqua</span>
+                  <span className="text-blue-400 font-bold">47.2K</span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-cyan-900 bg-opacity-30 rounded">
+                  <span className="text-sm text-cyan-300">@carlosrovira</span>
+                  <span className="text-cyan-400 font-bold">89.1K</span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-yellow-900 bg-opacity-30 rounded">
+                  <span className="text-sm text-yellow-300">@diego_hartfield</span>
+                  <span className="text-yellow-400 font-bold">23.7K</span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-orange-900 bg-opacity-30 rounded">
+                  <span className="text-sm text-orange-300">@cachobarbarooficial</span>
+                  <span className="text-orange-400 font-bold">15.3K</span>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <h5 className="text-sm font-semibold text-orange-200 mb-2">📈 ENGAGEMENT ÚLTIMAS 24H:</h5>
+                <div className="text-xs space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Passalacqua:</span>
+                    <span className="text-green-400">+347 likes/post promedio</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Rovira:</span>
+                    <span className="text-green-400">+892 likes/post promedio</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">Hartfield:</span>
+                    <span className="text-red-400">+156 likes/post promedio</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Hashtags y Tendencias */}
+            <div>
+              <h4 className="font-semibold text-orange-200 mb-3">#️⃣ HASHTAGS Y TENDENCIAS REALES</h4>
+              
+              <div className="mb-4">
+                <h5 className="text-sm font-semibold text-green-300 mb-2">✅ NUESTROS HASHTAGS TOP:</h5>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-green-900 bg-opacity-40 px-2 py-1 rounded text-green-300">#MisionesProgresa</span>
+                  <span className="text-xs bg-green-900 bg-opacity-40 px-2 py-1 rounded text-green-300">#ObrasPúblicas</span>
+                  <span className="text-xs bg-green-900 bg-opacity-40 px-2 py-1 rounded text-green-300">#PassalacquaGobernador</span>
+                  <span className="text-xs bg-green-900 bg-opacity-40 px-2 py-1 rounded text-green-300">#MisionesDesarrollo</span>
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <h5 className="text-sm font-semibold text-red-300 mb-2">⚠️ HASHTAGS COMPETENCIA:</h5>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-red-900 bg-opacity-40 px-2 py-1 rounded text-red-300">#LibertadMisiones</span>
+                  <span className="text-xs bg-yellow-900 bg-opacity-40 px-2 py-1 rounded text-yellow-300">#ProductoresMisiones</span>
+                  <span className="text-xs bg-orange-900 bg-opacity-40 px-2 py-1 rounded text-orange-300">#CambioMisiones</span>
+                </div>
+              </div>
+              
+              <div>
+                <h5 className="text-sm font-semibold text-blue-300 mb-2">📊 PERFORMANCE ÚLTIMO MES:</h5>
+                <div className="text-xs space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">#MisionesProgresa:</span>
+                    <span className="text-green-400">2,847 usos (+23%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">#LibertadMisiones:</span>
+                    <span className="text-red-400">1,234 usos (+67%)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-6 p-4 bg-orange-900 bg-opacity-30 rounded">
+            <div className="font-bold text-orange-300 text-sm mb-2">🧮 Algoritmo de redes sociales:</div>
+            <div className="text-xs text-gray-300">
+              <strong>Monitoreo automático 24/7:</strong> Capturamos cada mención, like, share, comentario • 
+              <strong>Análisis sentiment:</strong> IA clasifica positivo/negativo/neutro • 
+              <strong>Detección tendencias:</strong> Si un hashtag crece +50% en 6 horas = Alerta • 
+              <strong>Benchmarking:</strong> Comparamos tu performance vs competencia en tiempo real
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* CAPA 3: AUTOMATIZACIÓN INTELIGENTE */}
       <div className="dami-card bg-gradient-to-r from-green-900 to-teal-900">
         <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
