@@ -120,7 +120,7 @@ const CentroInteligenciaPredictiva = () => {
       }
 
       // Llamada al endpoint de resumen ejecutivo electoral
-      const response = await axios.get(`${API}/elecciones-octubre-2025/resumen-ejecutivo`, {
+      const response = await axios.get(`${API}/elecciones-octubre-2025/resumen-ejecutivo-lemas`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
