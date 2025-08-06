@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implementar Centro Estadístico e Informe Diario con estadísticas de seguimientos positivos/negativos en actividad de redes que favorezcan o no al Frente Renovador, incluyendo análisis de qué pasó y sugerencias de qué hacer."
+user_problem_statement: "Hay elecciones en octubre para diputados nacionales. Oscar Herrera Ahuad es candidato. Analizar e incluir estos datos, buscar los de la oposición y quiénes son. Números y estadísticas. Analizar y actualizar los parámetros estadísticos, analítico, simple, predictivo, escalable para el sistema DAMI."
 
   - task: "FASE 2: IA Predictiva Avanzada - Backend Implementation"
     implemented: true
