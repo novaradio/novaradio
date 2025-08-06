@@ -22,7 +22,8 @@ import {
   FileText,
   Target,
   Zap,
-  Youtube
+  Youtube,
+  Map
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
