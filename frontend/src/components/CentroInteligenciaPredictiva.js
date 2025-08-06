@@ -24,10 +24,12 @@ const CentroInteligenciaPredictiva = () => {
 
   useEffect(() => {
     cargarInteligenciaCompleta();
+    cargarDatosEleccionesOctubre();
     
     // Auto-actualización cada 30 segundos
     const interval = setInterval(() => {
       cargarInteligenciaCompleta();
+      cargarDatosEleccionesOctubre();
     }, 30000);
 
     return () => clearInterval(interval);
