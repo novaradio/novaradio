@@ -3231,6 +3231,19 @@ class DAMIBackendTester:
             return False
         
         print()
+        print("🎯 PRIORITY: Testing Centro de Comando - Simplified UX Data:")
+        print("-" * 60)
+        print("🔑 Goal: Verify simplified data for non-technical users")
+        print("📊 Endpoints: situacion-actual, monitoreo-tiempo-real, accion-rapida")
+        print()
+        
+        # Centro de Comando tests (USER'S PRIORITY REQUEST)
+        self.test_centro_comando_situacion_actual()
+        self.test_centro_comando_monitoreo_tiempo_real()
+        self.test_centro_comando_accion_rapida()
+        self.test_centro_comando_data_simplification()
+        
+        print()
         print("🔥 PRIORITY: Testing Facebook Graph API Integration:")
         print("-" * 60)
         print("🔑 Facebook Access Token: 718756950794070|EybKV2tc5c9qQQZiwQdpDWf0gnA")
