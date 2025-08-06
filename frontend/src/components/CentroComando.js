@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { AlertTriangle, Shield, TrendingDown, TrendingUp, Users, MessageSquare, Eye, Zap } from 'lucide-react';
+import { AlertTriangle, Shield, TrendingDown, TrendingUp, Users, MessageSquare, Eye, Zap, Info, HelpCircle, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
