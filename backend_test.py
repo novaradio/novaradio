@@ -3474,6 +3474,276 @@ class DAMIBackendTester:
             self.log_test("Centro Comando - Data Simplification", False, f"Exception: {str(e)}")
             return False
 
+    def test_elecciones_octubre_panorama_completo(self) -> bool:
+        """Test Elecciones Octubre 2025 - Panorama Electoral Completo"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/panorama-completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "Response success flag is False")
+                    return False
+                
+                panorama = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["candidato_principal", "competencia", "proyecciones", "analisis_territorial", "contexto"]
+                for section in required_sections:
+                    if section not in panorama:
+                        self.log_test("Elecciones Octubre - Panorama Completo", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate Oscar Herrera Ahuad as main candidate
+                candidato = panorama.get("candidato_principal", {})
+                if candidato.get("nombre_completo") != "Oscar Herrera Ahuad":
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "Oscar Herrera Ahuad not found as main candidate")
+                    return False
+                
+                if candidato.get("partido") != "Frente Renovador Concordia (FRC)":
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "Incorrect party for Oscar Herrera Ahuad")
+                    return False
+                
+                # Validate voting intention
+                intencion_voto = candidato.get("intension_voto_estimada", 0)
+                if intencion_voto < 50:
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, f"Low voting intention: {intencion_voto}%")
+                    return False
+                
+                # Validate competition
+                competencia = panorama.get("competencia", {})
+                candidatos_oposicion = competencia.get("candidatos_oposicion", [])
+                if len(candidatos_oposicion) < 3:
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "Insufficient opposition candidates")
+                    return False
+                
+                # Check for Diego Hartfield as main competitor
+                hartfield_found = any(c.get("nombre_completo") == "Diego Hartfield" for c in candidatos_oposicion)
+                if not hartfield_found:
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "Diego Hartfield not found in opposition")
+                    return False
+                
+                # Validate D'Hondt projection
+                proyecciones = panorama.get("proyecciones", {})
+                bancas = proyecciones.get("distribucion_bancas", {})
+                if bancas.get("bancas_frc", 0) < 2:
+                    self.log_test("Elecciones Octubre - Panorama Completo", False, "FRC should get at least 2 seats")
+                    return False
+                
+                self.log_test("Elecciones Octubre - Panorama Completo", True, 
+                             f"Oscar Herrera Ahuad: {intencion_voto}%, FRC projected: {bancas.get('bancas_frc', 0)} seats")
+                return True
+            else:
+                self.log_test("Elecciones Octubre - Panorama Completo", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Elecciones Octubre - Panorama Completo", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_elecciones_octubre_competencia_detallada(self) -> bool:
+        """Test Elecciones Octubre 2025 - Análisis Competencia Detallada"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/competencia-detallada")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Elecciones Octubre - Competencia Detallada", False, "Response success flag is False")
+                    return False
+                
+                competencia = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["analisis_por_candidato", "mapa_competitivo", "calendario_competitivo"]
+                for section in required_sections:
+                    if section not in competencia:
+                        self.log_test("Elecciones Octubre - Competencia Detallada", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate candidate analysis
+                analisis_candidatos = competencia.get("analisis_por_candidato", {})
+                expected_candidates = ["diego_hartfield_lla", "cacho_barbaro_pays", "nicolas_koch_ufuturo"]
+                
+                for candidate in expected_candidates:
+                    if candidate not in analisis_candidatos:
+                        self.log_test("Elecciones Octubre - Competencia Detallada", False, f"Missing candidate: {candidate}")
+                        return False
+                    
+                    # Validate candidate structure
+                    candidate_data = analisis_candidatos[candidate]
+                    required_fields = ["estrategia_campana", "amenaza_nivel", "contramedidas_recomendadas"]
+                    for field in required_fields:
+                        if field not in candidate_data:
+                            self.log_test("Elecciones Octubre - Competencia Detallada", False, 
+                                         f"Missing field {field} for {candidate}")
+                            return False
+                
+                # Validate competitive map
+                mapa = competencia.get("mapa_competitivo", {})
+                municipios_disputa = mapa.get("municipios_disputa", {})
+                if len(municipios_disputa) < 3:
+                    self.log_test("Elecciones Octubre - Competencia Detallada", False, "Insufficient competitive municipalities")
+                    return False
+                
+                # Check for key municipalities
+                key_municipalities = ["posadas", "obera", "eldorado"]
+                for municipality in key_municipalities:
+                    if municipality not in municipios_disputa:
+                        self.log_test("Elecciones Octubre - Competencia Detallada", False, f"Missing key municipality: {municipality}")
+                        return False
+                
+                self.log_test("Elecciones Octubre - Competencia Detallada", True, 
+                             f"Analyzed {len(analisis_candidatos)} candidates, {len(municipios_disputa)} competitive municipalities")
+                return True
+            else:
+                self.log_test("Elecciones Octubre - Competencia Detallada", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Elecciones Octubre - Competencia Detallada", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_elecciones_octubre_estadisticas_tiempo_real(self) -> bool:
+        """Test Elecciones Octubre 2025 - Estadísticas Tiempo Real"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/estadisticas-tiempo-real")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, "Response success flag is False")
+                    return False
+                
+                estadisticas = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["metricas_campana", "metricas_digitales", "tracking_competencia", "indicadores_movilizacion", "polls_internos"]
+                for section in required_sections:
+                    if section not in estadisticas:
+                        self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate campaign metrics
+                metricas_campana = estadisticas.get("metricas_campana", {})
+                dias_restantes = metricas_campana.get("dias_restantes", 0)
+                if dias_restantes <= 0:
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, "Invalid days remaining")
+                    return False
+                
+                # Validate digital metrics
+                metricas_digitales = estadisticas.get("metricas_digitales", {})
+                menciones_24h = metricas_digitales.get("menciones_redes_24h", 0)
+                if menciones_24h <= 0:
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, "No social media mentions detected")
+                    return False
+                
+                sentiment = metricas_digitales.get("sentiment_promedio", 0)
+                if sentiment <= 0:
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, "Negative or zero sentiment")
+                    return False
+                
+                # Validate competition tracking
+                tracking = estadisticas.get("tracking_competencia", {})
+                hartfield_menciones = tracking.get("hartfield_menciones_24h", 0)
+                if hartfield_menciones <= 0:
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, "No Hartfield mentions tracked")
+                    return False
+                
+                # Validate internal polls
+                polls = estadisticas.get("polls_internos", {})
+                herrera_ahuad_poll = polls.get("herrera_ahuad", 0)
+                if herrera_ahuad_poll < 50:
+                    self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, f"Low poll numbers: {herrera_ahuad_poll}%")
+                    return False
+                
+                self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", True, 
+                             f"Days remaining: {dias_restantes}, Mentions 24h: {menciones_24h}, Poll: {herrera_ahuad_poll}%")
+                return True
+            else:
+                self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Elecciones Octubre - Estadísticas Tiempo Real", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_elecciones_octubre_resumen_ejecutivo(self) -> bool:
+        """Test Elecciones Octubre 2025 - Resumen Ejecutivo"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/resumen-ejecutivo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, "Response success flag is False")
+                    return False
+                
+                resumen = data.get("data", {})
+                
+                # Check for required sections
+                required_sections = ["candidato_principal", "competencia_principal", "proyeccion_bancas", "estado_campana", "metricas_clave"]
+                for section in required_sections:
+                    if section not in resumen:
+                        self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Missing section: {section}")
+                        return False
+                
+                # Validate main candidate summary
+                candidato = resumen.get("candidato_principal", {})
+                if candidato.get("nombre") != "Oscar Herrera Ahuad":
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, "Incorrect main candidate")
+                    return False
+                
+                intencion_voto = candidato.get("intencion_voto", 0)
+                if intencion_voto < 50:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Low voting intention: {intencion_voto}%")
+                    return False
+                
+                # Validate main competition
+                competencia = resumen.get("competencia_principal", {})
+                if competencia.get("nombre") != "Diego Hartfield":
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, "Incorrect main competitor")
+                    return False
+                
+                # Validate seat projection
+                proyeccion = resumen.get("proyeccion_bancas", {})
+                frc_bancas = proyeccion.get("frc", 0)
+                if frc_bancas < 2:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Low seat projection: {frc_bancas}")
+                    return False
+                
+                # Validate campaign state
+                estado = resumen.get("estado_campana", {})
+                if estado.get("situacion_general") not in ["FAVORABLE", "MUY_FAVORABLE"]:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Unfavorable campaign state: {estado.get('situacion_general')}")
+                    return False
+                
+                # Validate key metrics
+                metricas = resumen.get("metricas_clave", {})
+                dias_restantes = metricas.get("dias_para_eleccion", 0)
+                if dias_restantes <= 0:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, "Invalid days remaining")
+                    return False
+                
+                self.log_test("Elecciones Octubre - Resumen Ejecutivo", True, 
+                             f"Oscar Herrera Ahuad: {intencion_voto}%, FRC seats: {frc_bancas}, State: {estado.get('situacion_general')}")
+                return True
+            else:
+                self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Exception: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
