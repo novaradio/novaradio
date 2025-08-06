@@ -129,6 +129,7 @@ const Dashboard = ({ user, onLogout }) => {
             <Route path="/automatizacion" element={<AutomatizacionAvanzada user={user} />} />
             <Route path="/youtube-analytics" element={<YouTubeAnalytics user={user} />} />
             <Route path="/estrategias-campana-ia" element={<EstrategiasCampanaIA user={user} />} />
+            <Route path="/centro-inteligencia" element={<CentroInteligenciaPredictiva user={user} />} />
             <Route path="/centro-comando" element={<CentroComando user={user} />} />
             <Route path="/centro-estadistico" element={<CentroEstadistico user={user} />} />
             <Route path="/informe-diario" element={<InformeDiario user={user} />} />
