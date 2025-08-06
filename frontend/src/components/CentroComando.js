@@ -215,23 +215,26 @@ const CentroComando = () => {
           <div className="text-center p-4 bg-gray-800 rounded-lg relative group">
             <div className={`text-2xl font-bold px-3 py-1 rounded ${getNivelAmenazaColor(situacionActual.nivelAmenaza)} cursor-help`}
                  onClick={() => setShowExplanation('nivel-amenaza')}>
-              {explicacionesNivel[situacionActual.nivelAmenaza]?.icon || '🔄'} {situacionActual.nivelAmenaza || 'CARGANDO...'}
+              {explicacionesSimples[situacionActual.nivelAmenaza]?.icon || '🔄'} {explicacionesSimples[situacionActual.nivelAmenaza]?.estado || situacionActual.nivelAmenaza || 'CARGANDO...'}
             </div>
-            <div className="text-sm text-gray-400 mt-2">Nivel de Amenaza</div>
+            <div className="text-sm text-gray-400 mt-2">¿Cómo Estamos?</div>
             <button 
               onClick={() => setShowExplanation('nivel-amenaza')}
               className="absolute top-2 right-2 text-gray-400 hover:text-white"
             >
               <HelpCircle className="w-4 h-4" />
             </button>
-            {situacionActual.nivelAmenaza && explicacionesNivel[situacionActual.nivelAmenaza] && (
+            {situacionActual.nivelAmenaza && explicacionesSimples[situacionActual.nivelAmenaza] && (
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
                 <div className="bg-black text-white p-3 rounded-lg text-xs w-64 border border-gray-600">
                   <div className="font-bold text-yellow-400 mb-1">
-                    {explicacionesNivel[situacionActual.nivelAmenaza].significado}
+                    {explicacionesSimples[situacionActual.nivelAmenaza].urgencia}
+                  </div>
+                  <div className="text-gray-300 mb-2">
+                    <strong>Qué ves:</strong> {explicacionesSimples[situacionActual.nivelAmenaza].queVes}
                   </div>
                   <div className="text-gray-300">
-                    {explicacionesNivel[situacionActual.nivelAmenaza].queHacer}
+                    <strong>Qué hacer:</strong> {explicacionesSimples[situacionActual.nivelAmenaza].queHacer}
                   </div>
                 </div>
               </div>
