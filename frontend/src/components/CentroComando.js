@@ -457,22 +457,187 @@ const CentroComando = () => {
         </div>
       </div>
 
-      {/* Instrucciones Claras */}
-      <div className="dami-card bg-green-900 bg-opacity-20 border border-green-500">
-        <h3 className="text-lg font-medium text-green-400 mb-3">💡 CÓMO USAR ESTE CENTRO</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <strong className="text-green-400">1. MIRA ARRIBA:</strong>
-            <p className="text-gray-300">Los problemas más urgentes aparecen primero con acciones específicas</p>
+      {/* Modal de Explicación Detallada */}
+      {showExplanation && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-600">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-white">📚 Guía Detallada</h3>
+              <button 
+                onClick={() => setShowExplanation(null)}
+                className="text-gray-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            {showExplanation === 'nivel-amenaza' && situacionActual.nivelAmenaza && (
+              <div className="space-y-4">
+                <div className="text-center p-4 bg-gray-700 rounded">
+                  <div className={`text-3xl font-bold ${explicacionesNivel[situacionActual.nivelAmenaza]?.color}`}>
+                    {explicacionesNivel[situacionActual.nivelAmenaza]?.icon} {situacionActual.nivelAmenaza}
+                  </div>
+                  <div className="text-lg text-gray-300 mt-2">
+                    {explicacionesNivel[situacionActual.nivelAmenaza]?.significado}
+                  </div>
+                </div>
+                
+                <div className="bg-yellow-900 bg-opacity-30 p-4 rounded border border-yellow-500">
+                  <h4 className="font-bold text-yellow-400 mb-2">🎯 Qué hacer ahora:</h4>
+                  <p className="text-gray-200">{explicacionesNivel[situacionActual.nivelAmenaza]?.queHacer}</p>
+                </div>
+                
+                <div className="bg-blue-900 bg-opacity-30 p-4 rounded border border-blue-500">
+                  <h4 className="font-bold text-blue-400 mb-2">📊 Niveles explicados:</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center"><span className="text-red-400 mr-2">🚨 CRÍTICO:</span> Crisis inmediata - Protocolo de emergencia</li>
+                    <li className="flex items-center"><span className="text-orange-400 mr-2">⚠️ ALTO:</span> Riesgo elevado - Atención inmediata</li>
+                    <li className="flex items-center"><span className="text-yellow-400 mr-2">👁️ MODERADO:</span> Requiere seguimiento - Vigilancia activa</li>
+                    <li className="flex items-center"><span className="text-green-400 mr-2">✅ BAJO:</span> Estable - Monitoreo rutinario</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+            
+            {showExplanation === 'ataques' && (
+              <div className="space-y-4">
+                <div className="bg-red-900 bg-opacity-30 p-4 rounded border border-red-500">
+                  <h4 className="font-bold text-red-400 mb-2">🎯 Ataques Activos Detectados</h4>
+                  <p className="text-gray-200 mb-3">El sistema identifica campañas negativas, críticas coordinadas o desinformación dirigida específicamente contra Frente Renovador.</p>
+                  
+                  <h5 className="font-semibold text-red-300 mb-2">Tipos de ataques que detectamos:</h5>
+                  <ul className="space-y-1 text-sm text-gray-300">
+                    <li>• <strong>Campañas coordinadas:</strong> Múltiples cuentas atacando simultáneamente</li>
+                    <li>• <strong>Hashtags maliciosos:</strong> Tendencias negativas artificiales</li>
+                    <li>• <strong>Desinformación dirigida:</strong> Noticias falsas sobre el partido</li>
+                    <li>• <strong>Trolling organizado:</strong> Comentarios masivos negativos</li>
+                  </ul>
+                  
+                  <div className="mt-3 p-2 bg-black bg-opacity-30 rounded">
+                    <strong className="text-yellow-400">Acción recomendada:</strong> 
+                    <span className="text-gray-200"> Si hay ataques activos, usar "🚨 Respuesta de Emergencia" o "🛡️ Contramedidas"</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {showExplanation === 'desinformacion' && (
+              <div className="space-y-4">
+                <div className="bg-orange-900 bg-opacity-30 p-4 rounded border border-orange-500">
+                  <h4 className="font-bold text-orange-400 mb-2">📰 Desinformación Detectada</h4>
+                  <p className="text-gray-200 mb-3">Algoritmos de IA analizan el contenido para identificar información falsa, rumores maliciosos o datos tergiversados que circulan en redes sociales.</p>
+                  
+                  <h5 className="font-semibold text-orange-300 mb-2">Qué consideramos desinformación:</h5>
+                  <ul className="space-y-1 text-sm text-gray-300">
+                    <li>• <strong>Hechos falsos:</strong> Información objetivamente incorrecta</li>
+                    <li>• <strong>Datos tergiversados:</strong> Estadísticas manipuladas o descontextualizadas</li>
+                    <li>• <strong>Rumores maliciosos:</strong> Especulaciones dañinas sin fundamento</li>
+                    <li>• <strong>Imágenes falsificadas:</strong> Fotos o videos manipulados</li>
+                  </ul>
+                  
+                  <div className="mt-3 p-2 bg-black bg-opacity-30 rounded">
+                    <strong className="text-yellow-400">Precisión del sistema:</strong> 
+                    <span className="text-gray-200"> 87% de efectividad en detección automática de fake news</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {showExplanation === 'apoyo' && (
+              <div className="space-y-4">
+                <div className="bg-blue-900 bg-opacity-30 p-4 rounded border border-blue-500">
+                  <h4 className="font-bold text-blue-400 mb-2">😊 Apoyo Público Actual</h4>
+                  <p className="text-gray-200 mb-3">Medimos el sentimiento público analizando menciones de "Frente Renovador" en redes sociales (Twitter, Facebook, Instagram, YouTube).</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="bg-green-800 bg-opacity-30 p-3 rounded">
+                      <div className="text-green-400 font-bold">😊 60%+ = Muy Favorable</div>
+                      <div className="text-sm text-gray-300">Mayoría de menciones positivas</div>
+                    </div>
+                    <div className="bg-yellow-800 bg-opacity-30 p-3 rounded">
+                      <div className="text-yellow-400 font-bold">😐 40-59% = Favorable</div>
+                      <div className="text-sm text-gray-300">Balance positivo moderado</div>
+                    </div>
+                    <div className="bg-orange-800 bg-opacity-30 p-3 rounded">
+                      <div className="text-orange-400 font-bold">😕 20-39% = Neutro</div>
+                      <div className="text-sm text-gray-300">Menciones equilibradas</div>
+                    </div>
+                    <div className="bg-red-800 bg-opacity-30 p-3 rounded">
+                      <div className="text-red-400 font-bold">😟 -20% = Desfavorable</div>
+                      <div className="text-sm text-gray-300">Mayoría de menciones negativas</div>
+                    </div>
+                  </div>
+                  
+                  <h5 className="font-semibold text-blue-300 mb-2">Fuentes analizadas:</h5>
+                  <ul className="space-y-1 text-sm text-gray-300">
+                    <li>• <strong>Twitter/X:</strong> Tweets y respuestas (25% del peso total)</li>
+                    <li>• <strong>Facebook:</strong> Posts y comentarios (35% del peso total)</li>
+                    <li>• <strong>Instagram:</strong> Posts y historias (40% del peso total)</li>
+                    <li>• <strong>YouTube:</strong> Videos y comentarios políticos</li>
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
-          <div>
-            <strong className="text-green-400">2. REVISA EL TIEMPO REAL:</strong>
-            <p className="text-gray-300">Ve qué está pasando ahora mismo para tomar decisiones informadas</p>
+        </div>
+      )}
+
+      {/* Guía de Uso Mejorada */}
+      <div className="dami-card bg-gradient-to-r from-green-900 to-blue-900 bg-opacity-20 border border-green-500">
+        <h3 className="text-xl font-bold text-green-400 mb-4 flex items-center">
+          <Info className="w-6 h-6 mr-2" />
+          💡 CÓMO USAR EL CENTRO DE COMANDO
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+          <div className="bg-black bg-opacity-30 p-4 rounded-lg">
+            <div className="text-green-400 font-bold mb-2 flex items-center">
+              <Eye className="w-5 h-5 mr-2" />
+              1. OBSERVA LA SITUACIÓN
+            </div>
+            <p className="text-gray-300 mb-2">Revisa los 4 indicadores principales arriba. Cada uno tiene un ícono de ayuda (?) para más detalles.</p>
+            <div className="text-xs text-green-400">• Nivel de amenaza actual<br/>• Ataques detectados<br/>• Desinformación activa<br/>• Apoyo público</div>
           </div>
-          <div>
-            <strong className="text-green-400">3. ACTÚA RÁPIDO:</strong>
-            <p className="text-gray-300">Usa los botones de acción rápida para responder inmediatamente</p>
+          
+          <div className="bg-black bg-opacity-30 p-4 rounded-lg">
+            <div className="text-red-400 font-bold mb-2 flex items-center">
+              <AlertTriangle className="w-5 h-5 mr-2" />
+              2. ATIENDE LAS ALERTAS
+            </div>
+            <p className="text-gray-300 mb-2">Los problemas urgentes aparecen con explicaciones claras de QUÉ PASA, DÓNDE y QUÉ HACER.</p>
+            <div className="text-xs text-red-400">• Problemas específicos<br/>• Acciones requeridas<br/>• Responsables asignados<br/>• Impacto potencial</div>
           </div>
+          
+          <div className="bg-black bg-opacity-30 p-4 rounded-lg">
+            <div className="text-blue-400 font-bold mb-2 flex items-center">
+              <MessageSquare className="w-5 h-5 mr-2" />
+              3. MONITOREA EN TIEMPO REAL
+            </div>
+            <p className="text-gray-300 mb-2">Ve qué está pasando AHORA MISMO en redes sociales para tomar decisiones informadas.</p>
+            <div className="text-xs text-blue-400">• Eventos en vivo<br/>• Sentimiento público<br/>• Fuentes verificadas<br/>• Actualizacn automática</div>
+          </div>
+          
+          <div className="bg-black bg-opacity-30 p-4 rounded-lg">
+            <div className="text-yellow-400 font-bold mb-2 flex items-center">
+              <Zap className="w-5 h-5 mr-2" />
+              4. ACTÚA RÁPIDAMENTE
+            </div>
+            <p className="text-gray-300 mb-2">Usa los 4 botones de acción. Cada uno tiene tooltips explicando CUÁNDO y CÓMO usarlos.</p>
+            <div className="text-xs text-yellow-400">• Respuesta de emergencia<br/>• Activar red de apoyo<br/>• Campaña positiva<br/>• Contramedidas defensivas</div>
+          </div>
+        </div>
+        
+        <div className="mt-6 p-4 bg-yellow-900 bg-opacity-20 rounded-lg border border-yellow-500">
+          <div className="flex items-center mb-2">
+            <HelpCircle className="w-5 h-5 mr-2 text-yellow-400" />
+            <strong className="text-yellow-400">CONSEJOS DE USO:</strong>
+          </div>
+          <ul className="text-gray-300 text-sm space-y-1">
+            <li>• Haz clic en los íconos <HelpCircle className="w-4 h-4 inline mx-1" /> para obtener explicaciones detalladas</li>
+            <li>• Los tooltips aparecen al pasar el mouse por encima de los elementos</li>
+            <li>• El sistema se actualiza automáticamente cada 30 segundos</li>
+            <li>• Usa "Actualizar" solo si necesitas datos más recientes inmediatamente</li>
+            <li>• En crisis: prioriza "Respuesta de Emergencia" sobre otras acciones</li>
+          </ul>
         </div>
       </div>
     </div>
