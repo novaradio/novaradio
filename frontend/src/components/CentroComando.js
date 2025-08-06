@@ -375,37 +375,85 @@ const CentroComando = () => {
         <h2 className="text-2xl font-semibold text-white mb-6">⚡ ACCIONES RÁPIDAS DISPONIBLES</h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button 
-            onClick={() => ejecutarAccionRapida('respuesta_emergencia')}
-            className="p-4 bg-red-600 hover:bg-red-700 rounded-lg transition text-center"
-          >
-            <MessageSquare className="w-6 h-6 mx-auto mb-2" />
-            <div className="text-sm font-medium">Respuesta de Emergencia</div>
-          </button>
+          <div className="relative group">
+            <button 
+              onClick={() => ejecutarAccionRapida('respuesta_emergencia')}
+              className="w-full p-4 bg-red-600 hover:bg-red-700 rounded-lg transition text-center relative"
+            >
+              <MessageSquare className="w-6 h-6 mx-auto mb-2" />
+              <div className="text-sm font-medium">🚨 Respuesta de Emergencia</div>
+              <div className="text-xs text-red-200 mt-1">Crisis inmediata</div>
+              <HelpCircle className="w-4 h-4 absolute top-1 right-1 text-red-300" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-20">
+              <div className="bg-red-800 text-white p-4 rounded-lg text-xs w-72 border border-red-500">
+                <div className="font-bold text-red-200 mb-2">🚨 Respuesta de Emergencia</div>
+                <div className="mb-2"><strong>Cuándo usar:</strong> Ataques directos, crisis reputacional grave</div>
+                <div className="mb-2"><strong>Qué hace:</strong> Activa protocolo de crisis, genera respuesta oficial, coordina voceros</div>
+                <div><strong>Tiempo de respuesta:</strong> 2-5 minutos</div>
+              </div>
+            </div>
+          </div>
           
-          <button 
-            onClick={() => ejecutarAccionRapida('activar_red_apoyo')}
-            className="p-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-center"
-          >
-            <Users className="w-6 h-6 mx-auto mb-2" />
-            <div className="text-sm font-medium">Activar Red de Apoyo</div>
-          </button>
+          <div className="relative group">
+            <button 
+              onClick={() => ejecutarAccionRapida('activar_red_apoyo')}
+              className="w-full p-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-center relative"
+            >
+              <Users className="w-6 h-6 mx-auto mb-2" />
+              <div className="text-sm font-medium">👥 Activar Red de Apoyo</div>
+              <div className="text-xs text-blue-200 mt-1">Movilizar militantes</div>
+              <HelpCircle className="w-4 h-4 absolute top-1 right-1 text-blue-300" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-20">
+              <div className="bg-blue-800 text-white p-4 rounded-lg text-xs w-72 border border-blue-500">
+                <div className="font-bold text-blue-200 mb-2">👥 Red de Apoyo</div>
+                <div className="mb-2"><strong>Cuándo usar:</strong> Contrarrestar campañas negativas, amplificar mensajes positivos</div>
+                <div className="mb-2"><strong>Qué hace:</strong> Notifica militantes, genera contenido de apoyo, coordina respuestas</div>
+                <div><strong>Alcance:</strong> 500+ militantes activos</div>
+              </div>
+            </div>
+          </div>
           
-          <button 
-            onClick={() => ejecutarAccionRapida('campana_positiva')}
-            className="p-4 bg-green-600 hover:bg-green-700 rounded-lg transition text-center"
-          >
-            <TrendingUp className="w-6 h-6 mx-auto mb-2" />
-            <div className="text-sm font-medium">Campaña Positiva</div>
-          </button>
+          <div className="relative group">
+            <button 
+              onClick={() => ejecutarAccionRapida('campana_positiva')}
+              className="w-full p-4 bg-green-600 hover:bg-green-700 rounded-lg transition text-center relative"
+            >
+              <TrendingUp className="w-6 h-6 mx-auto mb-2" />
+              <div className="text-sm font-medium">📈 Campaña Positiva</div>
+              <div className="text-xs text-green-200 mt-1">Mejorar imagen</div>
+              <HelpCircle className="w-4 h-4 absolute top-1 right-1 text-green-300" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-20">
+              <div className="bg-green-800 text-white p-4 rounded-lg text-xs w-72 border border-green-500">
+                <div className="font-bold text-green-200 mb-2">📈 Campaña Positiva</div>
+                <div className="mb-2"><strong>Cuándo usar:</strong> Sentiment público bajo (menos de 40%)</div>
+                <div className="mb-2"><strong>Qué hace:</strong> Publica logros, testimonios, noticias positivas automáticamente</div>
+                <div><strong>Duración:</strong> 24-48 horas activa</div>
+              </div>
+            </div>
+          </div>
           
-          <button 
-            onClick={() => ejecutarAccionRapida('contramedidas')}
-            className="p-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-center"
-          >
-            <Shield className="w-6 h-6 mx-auto mb-2" />
-            <div className="text-sm font-medium">Contramedidas</div>
-          </button>
+          <div className="relative group">
+            <button 
+              onClick={() => ejecutarAccionRapida('contramedidas')}
+              className="w-full p-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-center relative"
+            >
+              <Shield className="w-6 h-6 mx-auto mb-2" />
+              <div className="text-sm font-medium">🛡️ Contramedidas</div>
+              <div className="text-xs text-purple-200 mt-1">Defensa activa</div>
+              <HelpCircle className="w-4 h-4 absolute top-1 right-1 text-purple-300" />
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-20">
+              <div className="bg-purple-800 text-white p-4 rounded-lg text-xs w-72 border border-purple-500">
+                <div className="font-bold text-purple-200 mb-2">🛡️ Contramedidas</div>
+                <div className="mb-2"><strong>Cuándo usar:</strong> Desinformación activa, ataques coordinados</div>
+                <div className="mb-2"><strong>Qué hace:</strong> Fact-checking, reportes automáticos, respuestas técnicas</div>
+                <div><strong>Efectividad:</strong> 85-95% detección</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
