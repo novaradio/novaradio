@@ -101,148 +101,20 @@ const CentroInteligenciaPredictiva = () => {
     }
   };
 
-  // ALGORITMO ML DE PRIORIZACIÓN AUTOMÁTICA
-  const calcularPrioridadesML = (dataSources) => {
-    const prioridades = [];
-
-    // ALGORITMO 1: Detectar amenazas críticas por severidad
-    dataSources.forEach(source => {
-      if (source.ataques_activos > 2) {
-        prioridades.push({
-          nivel: '🚨 CRÍTICO',
-          titulo: 'Campaña coordinada detectada',
-          descripcion: `${source.ataques_activos} ataques activos simultáneos`,
-          accion: 'RESPUESTA INMEDIATA',
-          urgencia: 10,
-          fuente: 'Algoritmo Anti-Ataques',
-          tiempo: 'AHORA'
-        });
-      }
-
-      if (source.sentiment_publico && source.sentiment_publico < 0.4) {
-        prioridades.push({
-          nivel: '⚡ URGENTE',
-          titulo: 'Sentiment público bajo detectado',
-          descripcion: `Apoyo cayó a ${Math.round(source.sentiment_publico * 100)}%`,
-          accion: 'ACTIVAR CAMPAÑA POSITIVA',
-          urgencia: 8,
-          fuente: 'Algoritmo Sentiment',
-          tiempo: 'HOY'
-        });
-      }
-    });
-
-    // ALGORITMO 2: Detectar oportunidades por trending
-    dataSources.forEach(source => {
-      if (source.trending_topics) {
-        source.trending_topics.forEach(topic => {
-          if (topic.sentiment > 0.7) {
-            prioridades.push({
-              nivel: '📈 OPORTUNIDAD',
-              titulo: `Trend positivo: ${topic.name}`,
-              descripcion: `Viral favorable (${topic.volume} menciones)`,
-              accion: 'AMPLIFICAR CONTENIDO',
-              urgencia: 7,
-              fuente: 'Algoritmo Oportunidades',
-              tiempo: 'PRÓXIMAS 2H'
-            });
-          }
-        });
-      }
-    });
-
-    // Ordenar por urgencia algorítmica
-    return prioridades.sort((a, b) => b.urgencia - a.urgencia).slice(0, 6);
-  };
-
-  // ALGORITMO DE PREDICCIONES ML
-  const generarPrediccionesML = (sources) => {
-    const predicciones = [];
-    
-    // PREDICCIÓN 1: Análisis de patrones temporales
-    const horaActual = new Date().getHours();
-    if (horaActual >= 18 && horaActual <= 21) { // Horario prime
-      predicciones.push({
-        tipo: '📺 PREDICCIÓN MEDIA',
-        evento: 'Pico de actividad social esperado',
-        probabilidad: 94,
-        tiempo: 'Próximas 2 horas',
-        impacto: 'ALTO',
-        recomendacion: 'Preparar contenido para horario prime'
-      });
-    }
-
-    // PREDICCIÓN 2: Análisis de competencia
-    sources.forEach(source => {
-      if (source.nivel_amenaza === 'CRÍTICO') {
-        predicciones.push({
-          tipo: '⚠️ PREDICCIÓN RIESGO',
-          evento: 'Escalada de ataques coordinados',
-          probabilidad: 87,
-          tiempo: 'Próximas 4-6 horas',
-          impacto: 'CRÍTICO',
-          recomendacion: 'Activar protocolo de crisis preventivo'
-        });
-      }
-    });
-
-    // PREDICCIÓN 3: Análisis territorial
-    predicciones.push({
-      tipo: '🎯 PREDICCIÓN TERRITORIAL',
-      evento: 'Oportunidad en Zona Norte identificada',
-      probabilidad: 76,
-      tiempo: 'Esta semana',
-      impacto: 'MEDIO',
-      recomendacion: 'Programar visita territorial estratégica'
-    });
-
-    return predicciones.slice(0, 4);
-  };
-
-  const procesarAutomatizacion = (autoData) => {
-    return [
-      {
-        estado: '✅ EJECUTANDO',
-        accion: 'Monitoreo fake news automático',
-        detalle: `${autoData.eventos_24h || 3} noticias falsas detectadas y reportadas`,
-        autonomo: true
-      },
-      {
-        estado: '🔄 PROCESANDO', 
-        accion: 'Análisis sentiment en tiempo real',
-        detalle: 'Actualizando cada 5 minutos automáticamente',
-        autonomo: true
-      },
-      {
-        estado: '⏸️ PENDIENTE',
-        accion: 'Respuesta crisis comunicacional',
-        detalle: 'Esperando aprobación manual para ejecutar',
-        autonomo: false
-      }
-    ];
-  };
-
-  const calcularEstadoGeneral = (prioridades) => {
-    const criticos = prioridades.filter(p => p.nivel.includes('CRÍTICO')).length;
-    if (criticos > 0) return 'CRÍTICO';
-    
-    const urgentes = prioridades.filter(p => p.nivel.includes('URGENTE')).length;
-    if (urgentes > 0) return 'VIGILANCIA';
-    
-    return 'CONTROLADO';
-  };
-
   const ejecutarAccionInteligente = async (accion) => {
     try {
       toast.loading('Ejecutando acción inteligente...', { id: 'exec' });
+      const token = localStorage.getItem('token');
       
       await axios.post(`${API}/centro-comando/accion-rapida`, {
         accion: accion,
         contexto: { timestamp: new Date().toISOString(), auto: true }
+      }, {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       
       toast.success('✅ Acción ejecutada exitosamente', { id: 'exec' });
-      cargarInteligenciaCompleta(); // Actualizar datos
+      cargarInteligenciaCompleta();
       
     } catch (error) {
       toast.error('❌ Error ejecutando acción', { id: 'exec' });
