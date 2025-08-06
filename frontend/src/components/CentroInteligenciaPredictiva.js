@@ -182,7 +182,213 @@ const CentroInteligenciaPredictiva = () => {
         </div>
       </div>
 
-      {/* CAPA 2: PRIORIDADES ALGORÍTMICAS */}
+      {/* NUEVA SECCIÓN: ESTADÍSTICAS ESPECÍFICAS FR */}
+      <div className="dami-card bg-gradient-to-r from-cyan-900 to-blue-900">
+        <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
+          <TrendingUp className="w-6 h-6 mr-2 text-cyan-400" />
+          📊 ESTADÍSTICAS DETALLADAS FRENTE RENOVADOR
+        </h2>
+        
+        {/* Métricas Hora a Hora */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          
+          {/* Redes Sociales Hora a Hora */}
+          <div className="bg-black bg-opacity-40 rounded-lg p-4 border border-cyan-500">
+            <h3 className="text-lg font-bold text-cyan-300 mb-4">📱 REDES SOCIALES (Últimas 6h)</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">20:00-21:00</span>
+                <div className="flex items-center">
+                  <span className="text-green-400 font-bold mr-2">+127 menciones</span>
+                  <span className="text-xs bg-green-800 px-2 py-1 rounded">72% positivo</span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">21:00-22:00</span>
+                <div className="flex items-center">
+                  <span className="text-green-400 font-bold mr-2">+89 menciones</span>
+                  <span className="text-xs bg-green-800 px-2 py-1 rounded">68% positivo</span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">22:00-23:00</span>
+                <div className="flex items-center">
+                  <span className="text-yellow-400 font-bold mr-2">+45 menciones</span>
+                  <span className="text-xs bg-yellow-800 px-2 py-1 rounded">52% positivo</span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">23:00-00:00</span>
+                <div className="flex items-center">
+                  <span className="text-red-400 font-bold mr-2">+23 menciones</span>
+                  <span className="text-xs bg-red-800 px-2 py-1 rounded">31% positivo</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 p-3 bg-cyan-900 bg-opacity-30 rounded">
+              <strong className="text-cyan-300">Tendencia:</strong>
+              <span className="text-yellow-300"> Bajando desde las 20:00. Activar campaña nocturna.</span>
+            </div>
+          </div>
+
+          {/* YouTube Específico */}
+          <div className="bg-black bg-opacity-40 rounded-lg p-4 border border-red-500">
+            <h3 className="text-lg font-bold text-red-300 mb-4">📺 YOUTUBE FR TRACKING</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-300">Videos FR hoy:</span>
+                <span className="text-white font-bold">3 publicados</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-300">Views totales:</span>
+                <span className="text-green-400 font-bold">12,847</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-300">Comentarios:</span>
+                <span className="text-blue-400 font-bold">287 (79% positivos)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-300">Suscriptores hoy:</span>
+                <span className="text-green-400 font-bold">+24</span>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="text-xs text-gray-400 mb-2">Video top performance:</div>
+              <div className="bg-red-900 bg-opacity-30 p-2 rounded">
+                <div className="font-medium text-red-200">"Obras en Posadas - Progreso Real"</div>
+                <div className="text-xs text-gray-300">4,521 views • 91% engagement positivo</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Comparación Territorial */}
+          <div className="bg-black bg-opacity-40 rounded-lg p-4 border border-purple-500">
+            <h3 className="text-lg font-bold text-purple-300 mb-4">🗺️ POSICIONAMIENTO TERRITORIAL FR</h3>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🟢 Posadas</span>
+                <span className="text-green-400 font-bold">76% favorable</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🟢 Puerto Iguazú</span>
+                <span className="text-green-400 font-bold">71% favorable</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🟡 Oberá</span>
+                <span className="text-yellow-400 font-bold">58% favorable</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🟡 Eldorado</span>
+                <span className="text-yellow-400 font-bold">54% favorable</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🔴 Apóstoles</span>
+                <span className="text-red-400 font-bold">39% favorable</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-300">🔴 San Vicente</span>
+                <span className="text-red-400 font-bold">33% favorable</span>
+              </div>
+            </div>
+            <div className="mt-4 p-3 bg-purple-900 bg-opacity-30 rounded">
+              <strong className="text-purple-300">Acción:</strong>
+              <span className="text-yellow-300"> Reforzar presencia en Apóstoles y San Vicente urgentemente.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Análisis de Competencia Específico */}
+        <div className="bg-gradient-to-r from-orange-900 to-red-900 rounded-lg p-6 border border-orange-500">
+          <h3 className="text-xl font-bold text-orange-300 mb-4">⚔️ COMPETENCIA POLÍTICA - RANKING ACTUAL</h3>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-lg font-semibold text-orange-200 mb-3">🏆 RANKING DE PARTIDOS</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-3">🥇</span>
+                    <div>
+                      <div className="font-bold text-green-300">FRENTE RENOVADOR</div>
+                      <div className="text-xs text-gray-400">Liderando en redes</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-green-400 font-bold">67%</div>
+                    <div className="text-xs text-green-300">+3% vs ayer</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-3">🥈</span>
+                    <div>
+                      <div className="font-bold text-yellow-300">UCR MISIONES</div>
+                      <div className="text-xs text-gray-400">Segundo lugar</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-yellow-400 font-bold">24%</div>
+                    <div className="text-xs text-red-300">-2% vs ayer</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-3">🥉</span>
+                    <div>
+                      <div className="font-bold text-orange-300">PJ MISIONES</div>
+                      <div className="text-xs text-gray-400">Tercer lugar</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-orange-400 font-bold">9%</div>
+                    <div className="text-xs text-gray-300">=0% vs ayer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold text-orange-200 mb-3">👤 FIGURAS MÁS MENCIONADAS</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div>
+                    <div className="font-bold text-cyan-300">Hugo Passalacqua (FR)</div>
+                    <div className="text-xs text-gray-400">Gobernador</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-cyan-400 font-bold">342 menciones</div>
+                    <div className="text-xs text-green-300">83% positivo</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div>
+                    <div className="font-bold text-yellow-300">Figura UCR</div>
+                    <div className="text-xs text-gray-400">Oposición principal</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-yellow-400 font-bold">127 menciones</div>
+                    <div className="text-xs text-red-300">34% positivo</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between bg-black bg-opacity-40 p-3 rounded">
+                  <div>
+                    <div className="font-bold text-orange-300">Referente PJ</div>
+                    <div className="text-xs text-gray-400">Tercera fuerza</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-orange-400 font-bold">89 menciones</div>
+                    <div className="text-xs text-yellow-300">52% positivo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="dami-card bg-gradient-to-r from-red-900 to-orange-900">
         <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
           <Target className="w-6 h-6 mr-2 text-red-400" />
