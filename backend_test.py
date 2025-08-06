@@ -3689,7 +3689,7 @@ class DAMIBackendTester:
                 resumen = data.get("data", {})
                 
                 # Check for required sections
-                required_sections = ["candidato_principal", "competencia_principal", "proyeccion_bancas", "estado_campana", "metricas_clave"]
+                required_sections = ["candidato_principal", "competencia_principal", "proyeccion_bancas", "tiempo_restante", "metricas_campana"]
                 for section in required_sections:
                     if section not in resumen:
                         self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Missing section: {section}")
@@ -3714,26 +3714,26 @@ class DAMIBackendTester:
                 
                 # Validate seat projection
                 proyeccion = resumen.get("proyeccion_bancas", {})
-                frc_bancas = proyeccion.get("frc", 0)
+                frc_bancas = proyeccion.get("FRC", 0)
                 if frc_bancas < 2:
                     self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Low seat projection: {frc_bancas}")
                     return False
                 
-                # Validate campaign state
-                estado = resumen.get("estado_campana", {})
-                if estado.get("situacion_general") not in ["FAVORABLE", "MUY_FAVORABLE"]:
-                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Unfavorable campaign state: {estado.get('situacion_general')}")
+                # Validate general state
+                estado_general = resumen.get("estado_general", "")
+                if estado_general not in ["FAVORABLE", "COMPETITIVO"]:
+                    self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, f"Invalid general state: {estado_general}")
                     return False
                 
-                # Validate key metrics
-                metricas = resumen.get("metricas_clave", {})
-                dias_restantes = metricas.get("dias_para_eleccion", 0)
+                # Validate time remaining
+                tiempo = resumen.get("tiempo_restante", {})
+                dias_restantes = tiempo.get("dias", 0)
                 if dias_restantes <= 0:
                     self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, "Invalid days remaining")
                     return False
                 
                 self.log_test("Elecciones Octubre - Resumen Ejecutivo", True, 
-                             f"Oscar Herrera Ahuad: {intencion_voto}%, FRC seats: {frc_bancas}, State: {estado.get('situacion_general')}")
+                             f"Oscar Herrera Ahuad: {intencion_voto}%, FRC seats: {frc_bancas}, State: {estado_general}")
                 return True
             else:
                 self.log_test("Elecciones Octubre - Resumen Ejecutivo", False, 
