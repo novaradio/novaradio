@@ -4378,6 +4378,21 @@ class DAMIBackendTester:
             print("❌ Authentication failed. Cannot proceed with tests.")
             return False
         
+        # OSCAR HERRERA AHUAD CORRECTIONS TESTING (HIGHEST PRIORITY)
+        print("\n🎯 TESTING OSCAR HERRERA AHUAD CORRECTIONS:")
+        print("-" * 60)
+        print("🔑 PRIORITY: Verificar correcciones Oscar Herrera Ahuad")
+        print("📊 Expected: 52.3% intención voto, 87% probabilidad victoria")
+        print("🏛️ Expected: Frente Renovador de la Concordia")
+        print("🗳️ Expected: Candidato principal diputados nacionales")
+        print()
+        
+        self.test_oscar_herrera_ahuad_in_political_figures()
+        self.test_oscar_herrera_ahuad_electoral_data()
+        self.test_damibot_oscar_herrera_ahuad_response()
+        self.test_frente_renovador_concordia_party_name()
+        self.test_oscar_herrera_ahuad_main_candidate_status()
+        
         # Test Elecciones Octubre 2025 endpoints (PRIORITY)
         print("\n🗳️ TESTING ELECCIONES OCTUBRE 2025 ENDPOINTS:")
         print("-" * 50)
