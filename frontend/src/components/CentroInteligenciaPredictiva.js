@@ -13,6 +13,13 @@ const CentroInteligenciaPredictiva = () => {
     automatizacion: [],
     situacionGeneral: 'CARGANDO...'
   });
+  const [eleccionesOctubre, setEleccionesOctubre] = useState({
+    candidatoPrincipal: {},
+    competencia: {},
+    proyeccion: {},
+    estadisticas: {},
+    loaded: false
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
