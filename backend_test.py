@@ -3758,6 +3758,14 @@ class DAMIBackendTester:
             print("❌ Authentication failed. Cannot proceed with tests.")
             return False
         
+        # Test Elecciones Octubre 2025 endpoints (PRIORITY)
+        print("\n🗳️ TESTING ELECCIONES OCTUBRE 2025 ENDPOINTS:")
+        print("-" * 50)
+        self.test_elecciones_octubre_panorama_completo()
+        self.test_elecciones_octubre_competencia_detallada()
+        self.test_elecciones_octubre_estadisticas_tiempo_real()
+        self.test_elecciones_octubre_resumen_ejecutivo()
+        
         print()
         print("🎯 PRIORITY: Testing Centro de Comando - Simplified UX Data:")
         print("-" * 60)
