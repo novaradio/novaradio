@@ -3593,6 +3593,123 @@ async def obtener_status_api_youtube(
         logger.error(f"Error obteniendo status API YouTube: {e}")
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
+# ====================
+# ENDPOINTS ELECCIONES OCTUBRE 2025 - OSCAR HERRERA AHUAD Y COMPETENCIA
+# ====================
+
+@api_router.get("/elecciones-octubre-2025/panorama-completo")
+async def get_panorama_electoral_completo(current_user: User = Depends(get_current_user)):
+    """
+    Panorama electoral completo - Elecciones Diputados Nacionales Octubre 2025
+    Incluye Oscar Herrera Ahuad, competencia, proyecciones y estadísticas
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó panorama electoral octubre 2025")
+        
+        panorama = await elecciones_octubre.obtener_panorama_electoral_completo()
+        
+        return {
+            "success": True,
+            "data": panorama,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en panorama electoral: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo panorama electoral: {str(e)}")
+
+@api_router.get("/elecciones-octubre-2025/competencia-detallada")
+async def get_analisis_competencia_detallado(current_user: User = Depends(get_current_user)):
+    """
+    Análisis detallado de cada candidato de oposición
+    Hartfield (LLA), Bárbaro (PAyS), Koch (UFuturo)
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó análisis competencia octubre 2025")
+        
+        competencia = await elecciones_octubre.obtener_analisis_competencia_especifico()
+        
+        return {
+            "success": True,
+            "data": competencia,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en análisis competencia: {e}")
+        raise HTTPException(status_code=500, detail=f"Error analizando competencia: {str(e)}")
+
+@api_router.get("/elecciones-octubre-2025/estadisticas-tiempo-real")
+async def get_estadisticas_tiempo_real(current_user: User = Depends(get_current_user)):
+    """
+    Estadísticas en tiempo real de la campaña electoral
+    Métricas, tracking, polls internos, alertas automáticas
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó estadísticas tiempo real electoral")
+        
+        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real()
+        
+        return {
+            "success": True,
+            "data": estadisticas,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en estadísticas tiempo real: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo estadísticas: {str(e)}")
+
+@api_router.get("/elecciones-octubre-2025/resumen-ejecutivo")
+async def get_resumen_ejecutivo_electoral(current_user: User = Depends(get_current_user)):
+    """
+    Resumen ejecutivo rápido para dashboard
+    Datos clave: Oscar Herrera Ahuad, principal competidor, proyección, días restantes
+    """
+    try:
+        panorama = await elecciones_octubre.obtener_panorama_electoral_completo()
+        estadisticas = await elecciones_octubre.obtener_estadisticas_tiempo_real()
+        
+        # Construir resumen ejecutivo
+        resumen = {
+            "candidato_principal": {
+                "nombre": panorama["candidato_principal"]["nombre_completo"],
+                "partido": panorama["candidato_principal"]["partido"],
+                "intencion_voto": panorama["candidato_principal"]["intension_voto_estimada"],
+                "tendencia": panorama["candidato_principal"]["tendencia_ultimos_30_dias"],
+                "probabilidad_victoria": panorama["proyecciones"]["probabilidad_victoria"]["oscar_herrera_ahuad"]
+            },
+            "competencia_principal": {
+                "nombre": panorama["competencia"]["candidatos_oposicion"][0]["nombre_completo"],
+                "partido": panorama["competencia"]["candidatos_oposicion"][0]["partido"],
+                "intencion_voto": panorama["competencia"]["candidatos_oposicion"][0]["intension_voto_estimada"],
+                "amenaza": panorama["competencia"]["amenaza_nivel"]
+            },
+            "proyeccion_bancas": panorama["proyecciones"]["distribucion_bancas"]["bancas_por_partido"],
+            "tiempo_restante": {
+                "dias": estadisticas["metricas_campana"]["dias_restantes"],
+                "fase": estadisticas["metricas_campana"]["fase_actual"],
+                "fecha_eleccion": panorama["contexto"]["fecha_eleccion"]
+            },
+            "alertas_clave": estadisticas["alertas_automaticas"],
+            "metricas_campana": {
+                "eventos_realizados": estadisticas["metricas_campana"]["eventos_realizados"],
+                "presupuesto_ejecutado": estadisticas["metricas_campana"]["presupuesto_ejecutado"],
+                "cobertura_territorial": estadisticas["metricas_campana"]["cobertura_territorial"]
+            },
+            "estado_general": "FAVORABLE" if panorama["candidato_principal"]["intension_voto_estimada"] > 45 else "COMPETITIVO"
+        }
+        
+        return {
+            "success": True,
+            "data": resumen,
+            "timestamp": datetime.utcnow().isoformat(),
+            "user": current_user.username
+        }
+    except Exception as e:
+        logger.error(f"Error en resumen ejecutivo: {e}")
+        raise HTTPException(status_code=500, detail=f"Error generando resumen ejecutivo: {str(e)}")
+
 # CENTRO DE INTELIGENCIA PREDICTIVA UNIFICADO 🧠
 @api_router.get("/inteligencia-predictiva/completo")
 async def get_inteligencia_predictiva_completa(current_user: dict = Depends(get_current_user)):
