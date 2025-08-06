@@ -4405,6 +4405,20 @@ class DAMIBackendTester:
         self.test_elecciones_octubre_estadisticas_tiempo_real()
         self.test_elecciones_octubre_resumen_ejecutivo()
         
+        # NEW PRIORITY TESTS - USER'S SPECIFIC REQUEST
+        print("\n🚀 TESTING RÁPIDO - ENDPOINTS ESTRATEGIAS CAMPAÑA IA:")
+        print("-" * 60)
+        print("🎯 PRIORITY: Verificar endpoints estrategias campaña IA")
+        print("🔑 Credentials: luis / claveDAMI2025")
+        print("📊 Expected: 200 OK, 180M budget, ROI específicos")
+        print()
+        
+        # Test the 4 specific endpoints requested by user
+        self.test_estrategias_campana_contramedidas_completas()
+        self.test_estrategias_campana_analisis_medios()
+        self.test_estrategias_campana_recomendaciones_ejecutivas()
+        self.test_elecciones_octubre_resumen_ejecutivo_lemas()
+        
         print()
         print("🎯 PRIORITY: Testing Centro de Comando - Simplified UX Data:")
         print("-" * 60)
