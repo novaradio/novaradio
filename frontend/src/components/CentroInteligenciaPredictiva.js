@@ -988,6 +988,185 @@ const CentroInteligenciaPredictiva = () => {
         </div>
       </div>
 
+      {/* SECCIÓN ESPECIAL: ELECCIONES OCTUBRE 2025 - DIPUTADOS NACIONALES */}
+      {eleccionesOctubre.loaded && (
+        <div className="dami-card bg-gradient-to-r from-purple-900 to-indigo-900 border border-purple-500">
+          <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
+            <Target className="w-6 h-6 mr-2 text-purple-400" />
+            🗳️ ELECCIONES OCTUBRE 2025 - DIPUTADOS NACIONALES
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            {/* Candidato Principal */}
+            <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-green-500">
+              <h3 className="text-lg font-bold text-green-300 mb-4 text-center">👨‍💼 CANDIDATO PRINCIPAL</h3>
+              <div className="text-center">
+                <div className="w-20 h-20 bg-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">OH</span>
+                </div>
+                <div className="font-bold text-xl text-green-300 mb-1">
+                  {eleccionesOctubre.candidatoPrincipal?.nombre || 'Oscar Herrera Ahuad'}
+                </div>
+                <div className="text-sm text-green-200 mb-3">
+                  {eleccionesOctubre.candidatoPrincipal?.partido || 'Frente Renovador Concordia'}
+                </div>
+                <div className="bg-green-900 bg-opacity-40 p-3 rounded">
+                  <div className="text-3xl font-bold text-green-400">
+                    {eleccionesOctubre.candidatoPrincipal?.intencion_voto || 52.3}%
+                  </div>
+                  <div className="text-xs text-green-300">
+                    {eleccionesOctubre.candidatoPrincipal?.tendencia > 0 ? '📈' : '📉'} 
+                    {Math.abs(eleccionesOctubre.candidatoPrincipal?.tendencia || 2.1)}% vs mes anterior
+                  </div>
+                </div>
+                <div className="mt-3 text-xs text-gray-300">
+                  Probabilidad Victoria: {Math.round((eleccionesOctubre.candidatoPrincipal?.probabilidad_victoria || 0.87) * 100)}%
+                </div>
+              </div>
+            </div>
+            
+            {/* Principal Competidor */}
+            <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-red-500">
+              <h3 className="text-lg font-bold text-red-300 mb-4 text-center">⚔️ PRINCIPAL COMPETIDOR</h3>
+              <div className="text-center">
+                <div className="w-20 h-20 bg-red-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">DH</span>
+                </div>
+                <div className="font-bold text-xl text-red-300 mb-1">
+                  {eleccionesOctubre.competencia_principal?.nombre || 'Diego Hartfield'}
+                </div>
+                <div className="text-sm text-red-200 mb-3">
+                  {eleccionesOctubre.competencia_principal?.partido || 'La Libertad Avanza'}
+                </div>
+                <div className="bg-red-900 bg-opacity-40 p-3 rounded">
+                  <div className="text-3xl font-bold text-red-400">
+                    {eleccionesOctubre.competencia_principal?.intencion_voto || 28.7}%
+                  </div>
+                  <div className="text-xs text-red-300">
+                    Amenaza: {eleccionesOctubre.competencia_principal?.amenaza || 'ALTA'}
+                  </div>
+                </div>
+                <div className="mt-3 text-xs text-gray-300">
+                  Base: Jóvenes urbanos + Anti-sistema
+                </div>
+              </div>
+            </div>
+            
+            {/* Tiempo Restante */}
+            <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-orange-500">
+              <h3 className="text-lg font-bold text-orange-300 mb-4 text-center">⏰ CUENTA REGRESIVA</h3>
+              <div className="text-center">
+                <div className="w-20 h-20 bg-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Clock className="w-10 h-10 text-white" />
+                </div>
+                <div className="font-bold text-4xl text-orange-400 mb-1">
+                  {eleccionesOctubre.tiempo_restante?.dias || 62}
+                </div>
+                <div className="text-lg text-orange-300 mb-3">días restantes</div>
+                <div className="bg-orange-900 bg-opacity-40 p-3 rounded">
+                  <div className="text-sm text-orange-200">
+                    📅 {eleccionesOctubre.tiempo_restante?.fecha_eleccion || '26 de Octubre 2025'}
+                  </div>
+                  <div className="text-xs text-gray-300 mt-1">
+                    Fase: {eleccionesOctubre.tiempo_restante?.fase || 'Pre-campaña intensiva'}
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <div className={`text-sm font-bold ${
+                    eleccionesOctubre.estado_general === 'FAVORABLE' ? 'text-green-400' : 'text-yellow-400'
+                  }`}>
+                    Estado: {eleccionesOctubre.estado_general || 'FAVORABLE'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Proyección de Bancas */}
+          <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-cyan-500 mb-6">
+            <h3 className="text-xl font-bold text-cyan-300 mb-4 text-center">
+              📊 PROYECCIÓN BANCAS - SISTEMA D'HONDT (3 Bancas en Juego)
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="bg-green-900 bg-opacity-30 p-4 rounded border border-green-500 text-center">
+                <div className="text-3xl font-bold text-green-400">2</div>
+                <div className="text-lg text-green-300">Bancas FRC</div>
+                <div className="text-xs text-gray-300">Herrera Ahuad + Lista</div>
+              </div>
+              <div className="bg-red-900 bg-opacity-30 p-4 rounded border border-red-500 text-center">
+                <div className="text-3xl font-bold text-red-400">1</div>
+                <div className="text-lg text-red-300">Banca LLA</div>
+                <div className="text-xs text-gray-300">Diego Hartfield</div>
+              </div>
+              <div className="bg-gray-900 bg-opacity-30 p-4 rounded border border-gray-500 text-center">
+                <div className="text-3xl font-bold text-gray-400">0</div>
+                <div className="text-lg text-gray-300">Otras fuerzas</div>
+                <div className="text-xs text-gray-300">Sin representación</div>
+              </div>
+            </div>
+            <div className="mt-4 text-center">
+              <div className="text-sm text-cyan-300">
+                🎯 <strong>Resultado Esperado:</strong> FRC mantiene mayoría con 2/3 bancas
+              </div>
+            </div>
+          </div>
+          
+          {/* Alertas Campaña */}
+          {eleccionesOctubre.alertas_clave && eleccionesOctubre.alertas_clave.length > 0 && (
+            <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-yellow-500">
+              <h3 className="text-lg font-bold text-yellow-300 mb-4">🚨 ALERTAS CAMPAÑA ACTIVAS</h3>
+              <div className="space-y-3">
+                {eleccionesOctubre.alertas_clave.slice(0, 3).map((alerta, index) => (
+                  <div key={index} className="bg-yellow-900 bg-opacity-30 p-3 rounded border-l-4 border-yellow-500">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-yellow-300">{alerta.tipo}</span>
+                      <span className="text-xs bg-yellow-800 px-2 py-1 rounded text-yellow-200">ACTIVA</span>
+                    </div>
+                    <div className="text-sm text-gray-300 mb-2">{alerta.mensaje}</div>
+                    <div className="text-xs text-yellow-300">
+                      ⚡ <strong>Acción:</strong> {alerta.accion_sugerida}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Métricas Campaña Rápidas */}
+          {eleccionesOctubre.metricas_campana && (
+            <div className="bg-black bg-opacity-40 rounded-lg p-6 border border-blue-500 mt-6">
+              <h3 className="text-lg font-bold text-blue-300 mb-4">📈 MÉTRICAS CAMPAÑA</h3>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">
+                    {eleccionesOctubre.metricas_campana.eventos_realizados || 0}
+                  </div>
+                  <div className="text-sm text-gray-300">Eventos Realizados</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400">
+                    {eleccionesOctubre.metricas_campana.presupuesto_ejecutado || 0}%
+                  </div>
+                  <div className="text-sm text-gray-300">Presupuesto Ejecutado</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-400">
+                    {eleccionesOctubre.metricas_campana.cobertura_territorial || 0}%
+                  </div>
+                  <div className="text-sm text-gray-300">Cobertura Territorial</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-400">
+                    {eleccionesOctubre.proyeccion_bancas?.bancas_frc || 2}
+                  </div>
+                  <div className="text-sm text-gray-300">Bancas Proyectadas</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Botón de actualización */}
       <div className="text-center">
         <button
