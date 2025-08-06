@@ -1,11 +1,13 @@
 """
-MÓDULO ELECTORAL ESPECÍFICO - ELECCIONES OCTUBRE 2025 DIPUTADOS NACIONALES MISIONES
-======================================================================================
+MÓDULO ELECTORAL ESPECÍFICO - ELECCIONES OCTUBRE 2025 DIPUTADOS Y SENADORES NACIONALES MISIONES
+==================================================================================================
 
-Análisis específico de candidatos, estadísticas, predicciones y competencia
-para las elecciones de diputados nacionales de octubre 2025 en Misiones.
+SISTEMA ELECTORAL CORREGIDO:
+- DIPUTADOS NACIONALES: Sistema D'Hondt nacional (7 bancas Misiones)
+- SENADORES NACIONALES: 3 bancas fijas por provincia (2 mayoría, 1 minoría)
+- LEY DE LEMAS MISIONES: Sistema de lemas y sublemas aplicado
 
-Candidato Principal: Oscar Herrera Ahuad (Frente Renovador Concordia)
+Candidato Principal: Oscar Herrera Ahuad (Frente Renovador)
 """
 
 import asyncio
