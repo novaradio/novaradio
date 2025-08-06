@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Target, Brain, TrendingUp, AlertTriangle, Zap, Radio, Tv, Smartphone, Globe, Clock, DollarSign } from 'lucide-react';
 
-const API = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 const EstrategiasCampanaIA = () => {
   const [estrategias, setEstrategias] = useState({
