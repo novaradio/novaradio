@@ -29,43 +29,21 @@ const CentroInteligenciaPredictiva = () => {
   const cargarInteligenciaCompleta = async () => {
     setLoading(true);
     try {
-      // Fusionar datos de múltiples fuentes existentes
-      const [
-        comandoResponse,
-        predictiveResponse, 
-        ejecutivoResponse,
-        competenciaResponse,
-        youtubeResponse,
-        territorialResponse,
-        automatizacionResponse
-      ] = await Promise.all([
-        axios.get(`${API}/centro-comando/situacion-actual`),
-        axios.get(`${API}/ia-predictiva/resumen-general`),
-        axios.get(`${API}/dashboard-ejecutivo/metricas-clave`),
-        axios.get(`${API}/analisis-competencia/resumen`),
-        axios.get(`${API}/youtube/political-trends`),
-        axios.get(`${API}/mapa-territorial/actividad`),
-        axios.get(`${API}/automatizacion/resumen-completo`)
-      ]);
+      // Obtener token del localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No hay token de autenticación');
+      }
 
-      // ALGORITMO DE PRIORIZACIÓN INTELIGENTE
-      const prioridadesCalculadas = calcularPrioridadesML([
-        comandoResponse.data,
-        predictiveResponse.data,
-        competenciaResponse.data,
-        youtubeResponse.data,
-        territorialResponse.data
-      ]);
+      // Llamada al endpoint con autenticación
+      const response = await axios.get(`${API}/inteligencia-predictiva/completo`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-      // PREDICCIONES AUTOMÁTICAS BASADAS EN PATRONES
-      const prediccionesMl = generarPrediccionesML([
-        comandoResponse.data,
-        territorialResponse.data,
-        competenciaResponse.data
-      ]);
-
-      // ESTADO DE AUTOMATIZACIÓN
-      const estadoAuto = procesarAutomatizacion(automatizacionResponse.data);
+      const data = response.data;
 
       setInteligencia({
         predicciones: prediccionesMl,
