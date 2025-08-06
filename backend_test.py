@@ -3216,6 +3216,264 @@ class DAMIBackendTester:
             self.log_test("Facebook Frente Renovador Focus", False, f"Exception: {str(e)}")
             return False
 
+    # ==============================================================================
+    # CENTRO DE COMANDO TESTS - SIMPLIFIED DATA FOR FRONTEND UX
+    # ==============================================================================
+    
+    def test_centro_comando_situacion_actual(self) -> bool:
+        """Test Centro de Comando situacion-actual endpoint for simplified data"""
+        try:
+            response = self.session.get(f"{API_BASE}/centro-comando/situacion-actual")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Validate required simplified fields for frontend UX
+                required_fields = ["nivel_amenaza", "ataques_activos", "desinformacion_detectada", "sentiment_publico"]
+                for field in required_fields:
+                    if field not in data:
+                        self.log_test("Centro Comando - Situación Actual", False, f"Missing required field: {field}")
+                        return False
+                
+                # Validate nivel_amenaza is simplified (CRÍTICO, ALTO, MODERADO, BAJO)
+                nivel_amenaza = data.get("nivel_amenaza")
+                valid_threat_levels = ["CRÍTICO", "ALTO", "MODERADO", "BAJO"]
+                if nivel_amenaza not in valid_threat_levels:
+                    self.log_test("Centro Comando - Situación Actual", False, f"Invalid threat level: {nivel_amenaza}")
+                    return False
+                
+                # Validate ataques_activos is a simple number
+                ataques_activos = data.get("ataques_activos")
+                if not isinstance(ataques_activos, int) or ataques_activos < 0:
+                    self.log_test("Centro Comando - Situación Actual", False, f"Invalid ataques_activos: {ataques_activos}")
+                    return False
+                
+                # Validate desinformacion_detectada is a simple number
+                desinformacion_detectada = data.get("desinformacion_detectada")
+                if not isinstance(desinformacion_detectada, int) or desinformacion_detectada < 0:
+                    self.log_test("Centro Comando - Situación Actual", False, f"Invalid desinformacion_detectada: {desinformacion_detectada}")
+                    return False
+                
+                # Validate sentiment_publico is a percentage (0.0 to 1.0)
+                sentiment_publico = data.get("sentiment_publico")
+                if not isinstance(sentiment_publico, (int, float)) or sentiment_publico < 0 or sentiment_publico > 1:
+                    self.log_test("Centro Comando - Situación Actual", False, f"Invalid sentiment_publico: {sentiment_publico}")
+                    return False
+                
+                # Check for additional context data that helps with UX
+                if "timestamp" not in data:
+                    self.log_test("Centro Comando - Situación Actual", False, "Missing timestamp")
+                    return False
+                
+                # Convert sentiment to percentage for display
+                sentiment_percentage = round(sentiment_publico * 100, 1)
+                
+                self.log_test("Centro Comando - Situación Actual", True, 
+                             f"Simplified data validated: Threat={nivel_amenaza}, Attacks={ataques_activos}, "
+                             f"Disinfo={desinformacion_detectada}, Public Support={sentiment_percentage}%")
+                return True
+            else:
+                self.log_test("Centro Comando - Situación Actual", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Centro Comando - Situación Actual", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_centro_comando_monitoreo_tiempo_real(self) -> bool:
+        """Test Centro de Comando monitoreo-tiempo-real endpoint for clear language events"""
+        try:
+            response = self.session.get(f"{API_BASE}/centro-comando/monitoreo-tiempo-real")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Validate main structure
+                if "eventos" not in data or "timestamp" not in data:
+                    self.log_test("Centro Comando - Monitoreo Tiempo Real", False, "Missing eventos or timestamp")
+                    return False
+                
+                eventos = data.get("eventos", [])
+                if not isinstance(eventos, list):
+                    self.log_test("Centro Comando - Monitoreo Tiempo Real", False, "Eventos should be a list")
+                    return False
+                
+                # Validate each event has clear, understandable fields
+                for evento in eventos:
+                    required_fields = ["evento", "detalle", "sentimiento", "fuente", "tiempo"]
+                    for field in required_fields:
+                        if field not in evento:
+                            self.log_test("Centro Comando - Monitoreo Tiempo Real", False, f"Missing field {field} in event")
+                            return False
+                    
+                    # Validate sentimiento is clear (positivo/negativo/neutro)
+                    sentimiento = evento.get("sentimiento")
+                    valid_sentiments = ["positivo", "negativo", "neutro"]
+                    if sentimiento not in valid_sentiments:
+                        self.log_test("Centro Comando - Monitoreo Tiempo Real", False, f"Invalid sentiment: {sentimiento}")
+                        return False
+                    
+                    # Validate fuente is identifiable
+                    fuente = evento.get("fuente")
+                    if not fuente or len(fuente.strip()) == 0:
+                        self.log_test("Centro Comando - Monitoreo Tiempo Real", False, "Empty or missing fuente")
+                        return False
+                    
+                    # Validate evento description is in clear language (not technical)
+                    evento_desc = evento.get("evento", "")
+                    detalle_desc = evento.get("detalle", "")
+                    if not evento_desc or not detalle_desc:
+                        self.log_test("Centro Comando - Monitoreo Tiempo Real", False, "Empty event or detail description")
+                        return False
+                
+                self.log_test("Centro Comando - Monitoreo Tiempo Real", True, 
+                             f"Real-time monitoring validated: {len(eventos)} events with clear descriptions")
+                return True
+            else:
+                self.log_test("Centro Comando - Monitoreo Tiempo Real", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Centro Comando - Monitoreo Tiempo Real", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_centro_comando_accion_rapida(self) -> bool:
+        """Test Centro de Comando accion-rapida endpoint for understandable responses"""
+        try:
+            # Test different types of quick actions
+            test_actions = [
+                {"accion": "respuesta_emergencia", "contexto": {"urgencia": "alta"}},
+                {"accion": "activar_red_apoyo", "contexto": {"tipo": "digital"}},
+                {"accion": "campana_positiva", "contexto": {"plataformas": "todas"}},
+                {"accion": "contramedidas", "contexto": {"nivel": "preventivo"}}
+            ]
+            
+            successful_actions = 0
+            
+            for test_action in test_actions:
+                response = self.session.post(f"{API_BASE}/centro-comando/accion-rapida", json=test_action)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    # Validate response has understandable confirmation
+                    required_fields = ["accion_ejecutada", "usuario", "timestamp", "estado", "mensaje"]
+                    missing_fields = [field for field in required_fields if field not in data]
+                    
+                    if missing_fields:
+                        self.log_test("Centro Comando - Acción Rápida", False, 
+                                     f"Missing fields in {test_action['accion']}: {missing_fields}")
+                        continue
+                    
+                    # Validate estado is clear
+                    estado = data.get("estado")
+                    if estado != "ejecutada":
+                        self.log_test("Centro Comando - Acción Rápida", False, 
+                                     f"Invalid estado for {test_action['accion']}: {estado}")
+                        continue
+                    
+                    # Validate mensaje is understandable (not technical)
+                    mensaje = data.get("mensaje", "")
+                    if not mensaje or len(mensaje.strip()) == 0:
+                        self.log_test("Centro Comando - Acción Rápida", False, 
+                                     f"Empty mensaje for {test_action['accion']}")
+                        continue
+                    
+                    # Check for detailed explanation (detalles field)
+                    if "detalles" in data:
+                        detalles = data.get("detalles", "")
+                        if not detalles or len(detalles.strip()) == 0:
+                            self.log_test("Centro Comando - Acción Rápida", False, 
+                                         f"Empty detalles for {test_action['accion']}")
+                            continue
+                    
+                    successful_actions += 1
+                else:
+                    self.log_test("Centro Comando - Acción Rápida", False, 
+                                 f"Failed {test_action['accion']}: Status {response.status_code}")
+                    continue
+            
+            # Consider test successful if at least 3 out of 4 actions work
+            if successful_actions >= 3:
+                self.log_test("Centro Comando - Acción Rápida", True, 
+                             f"Quick actions validated: {successful_actions}/4 actions successful with clear responses")
+                return True
+            else:
+                self.log_test("Centro Comando - Acción Rápida", False, 
+                             f"Only {successful_actions}/4 actions successful")
+                return False
+                
+        except Exception as e:
+            self.log_test("Centro Comando - Acción Rápida", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_centro_comando_data_simplification(self) -> bool:
+        """Test that Centro de Comando data is properly simplified for non-technical users"""
+        try:
+            # Get situacion actual data
+            response = self.session.get(f"{API_BASE}/centro-comando/situacion-actual")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check that technical jargon is avoided
+                technical_terms_to_avoid = [
+                    "API", "JSON", "HTTP", "endpoint", "backend", "frontend", 
+                    "database", "query", "algorithm", "hash", "token"
+                ]
+                
+                # Convert all data to string for checking
+                data_str = json.dumps(data).lower()
+                
+                found_technical_terms = [term for term in technical_terms_to_avoid if term.lower() in data_str]
+                
+                if found_technical_terms:
+                    self.log_test("Centro Comando - Data Simplification", False, 
+                                 f"Technical terms found in user-facing data: {found_technical_terms}")
+                    return False
+                
+                # Check that sentiment is presented in user-friendly way
+                sentiment_publico = data.get("sentiment_publico", 0)
+                if isinstance(sentiment_publico, (int, float)):
+                    # Should be between 0 and 1 for easy percentage conversion
+                    if sentiment_publico < 0 or sentiment_publico > 1:
+                        self.log_test("Centro Comando - Data Simplification", False, 
+                                     f"Sentiment not in 0-1 range for easy percentage: {sentiment_publico}")
+                        return False
+                
+                # Check that threat level uses clear, non-technical language
+                nivel_amenaza = data.get("nivel_amenaza", "")
+                if nivel_amenaza in ["CRÍTICO", "ALTO", "MODERADO", "BAJO"]:
+                    # These are good - clear and understandable
+                    pass
+                else:
+                    self.log_test("Centro Comando - Data Simplification", False, 
+                                 f"Threat level not user-friendly: {nivel_amenaza}")
+                    return False
+                
+                # Check that numbers are simple integers (not complex decimals)
+                ataques_activos = data.get("ataques_activos", 0)
+                desinformacion_detectada = data.get("desinformacion_detectada", 0)
+                
+                if not isinstance(ataques_activos, int) or not isinstance(desinformacion_detectada, int):
+                    self.log_test("Centro Comando - Data Simplification", False, 
+                                 "Attack and disinformation counts should be simple integers")
+                    return False
+                
+                self.log_test("Centro Comando - Data Simplification", True, 
+                             "Data properly simplified for non-technical users - no jargon, clear metrics")
+                return True
+            else:
+                self.log_test("Centro Comando - Data Simplification", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Centro Comando - Data Simplification", False, f"Exception: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
