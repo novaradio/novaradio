@@ -39,7 +39,7 @@ const CentroInteligenciaPredictiva = () => {
     setLoading(true);
     try {
       // Obtener token del localStorage
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('dami_token');
       if (!token) {
         throw new Error('No hay token de autenticación');
       }
