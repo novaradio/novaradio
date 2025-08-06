@@ -139,7 +139,7 @@ class SituacionAnalyzer:
                 "verificacion": "FALSO - Sin evidencia verificable",
                 "tiempo_deteccion": f"Hace {random.randint(20, 180)} minutos",
                 "plataformas": random.sample(["Facebook", "Twitter", "WhatsApp", "Instagram"], 2),
-                "nivel_credibilidad": random.uniform(0.1, 0.3),
+                "nivel_credibilidad": round(random.uniform(0.1, 0.4), 1),  # Simplificado: 0.1-0.4 con 1 decimal
                 "accion_recomendada": "Desmentir con datos oficiales"
             })
         
