@@ -313,6 +313,18 @@ backend:
         comment: "✅ IMPLEMENTED: Frontend completo para Automatización Avanzada creado. Componente AutomatizacionAvanzada.js con 6 tabs: Resumen Sistema, Eventos Automáticos, Reportes IA, Alertas Preventivas, Estadísticas, Configuración. Incluye formularios para procesamiento eventos críticos, generación reportes IA automáticos, visualización alertas preventivas proactivas, configuración sistema completa, y controles estado (activo/pausado/mantenimiento). Agregada navegación en Sidebar.js y routing en Dashboard.js. Integración completa con 7 endpoints backend. Sistema frontend FASE 3 completo y listo para testing."
 
 frontend:
+  - task: "Centro de Comando - Mejoras de Usabilidad y Explicaciones"
+    implemented: true
+    working: false
+    file: "src/components/CentroComando.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "🎯 CENTRO DE COMANDO MEJORADO: Implementadas explicaciones detalladas para simplificar la comprensión. MEJORAS AGREGADAS: 1) Iconos explicativos para cada nivel (🚨 CRÍTICO, ⚠️ ALTO, 👁️ MODERADO, ✅ BAJO), 2) Tooltips informativos al pasar mouse sobre métricas, 3) Botones de ayuda (?) en cada indicador, 4) Emojis contextuales (🎯 ataques, 📰 desinformación, 😊😐😟 apoyo público), 5) Modal explicativo completo con significados y acciones específicas, 6) Acciones rápidas con contexto (cuándo usar, qué hace, tiempos de respuesta), 7) Guía de uso renovada con 4 pasos claros. OBJETIVO: Que cualquier usuario sepa inmediatamente qué está pasando y qué debe hacer. Sistema completamente autoexplicativo implementado."
+
   - task: "Create AI modules frontend interfaces"
     implemented: true
     working: true
