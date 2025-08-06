@@ -12,6 +12,63 @@ const CentroComando = () => {
   const [monitoreoTiempoReal, setMonitoreoTiempoReal] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [showExplanation, setShowExplanation] = useState(null);
+
+  // Explicaciones para cada nivel de amenaza
+  const explicacionesNivel = {
+    'CRÍTICO': {
+      significado: 'Situación de máxima alerta',
+      queHacer: 'Activar protocolo de crisis inmediatamente. Convocar equipo de emergencia.',
+      color: 'text-red-400',
+      icon: '🚨'
+    },
+    'ALTO': {
+      significado: 'Riesgo elevado que requiere atención inmediata',
+      queHacer: 'Monitorear de cerca y preparar respuestas. Alertar a equipo clave.',
+      color: 'text-orange-400',
+      icon: '⚠️'
+    },
+    'MODERADO': {
+      significado: 'Situación controlable pero que requiere seguimiento',
+      queHacer: 'Mantener vigilancia activa. Preparar estrategias preventivas.',
+      color: 'text-yellow-400',
+      icon: '👁️'
+    },
+    'BAJO': {
+      significado: 'Situación estable y favorable',
+      queHacer: 'Continuar monitoreo rutinario. Aprovechar momento favorable.',
+      color: 'text-green-400',
+      icon: '✅'
+    }
+  };
+
+  // Explicaciones para acciones rápidas
+  const explicacionesAcciones = {
+    'respuesta_emergencia': {
+      titulo: 'Respuesta de Emergencia',
+      descripcion: 'Activa comunicaciones de crisis inmediatas',
+      cuandoUsar: 'Cuando hay ataques directos o crisis reputacional',
+      queHace: 'Genera respuesta oficial, activa voceros, coordina mensajes'
+    },
+    'activar_red_apoyo': {
+      titulo: 'Activar Red de Apoyo',
+      descripcion: 'Moviliza base de militantes y simpatizantes',
+      cuandoUsar: 'Para contrarrestar campañas negativas',
+      queHace: 'Notifica a militantes, genera contenido de apoyo, organiza respuestas'
+    },
+    'campana_positiva': {
+      titulo: 'Campaña Positiva',
+      descripcion: 'Lanza contenido positivo para mejorar imagen',
+      cuandoUsar: 'Cuando el sentiment público está bajo',
+      queHace: 'Publica logros, testimonios, noticias positivas automáticamente'
+    },
+    'contramedidas': {
+      titulo: 'Contramedidas',
+      descripcion: 'Implementa estrategias defensivas específicas',
+      cuandoUsar: 'Ante desinformación o ataques coordinados',
+      queHace: 'Fact-checking, reportes, bloqueos, respuestas técnicas'
+    }
+  };
 
   useEffect(() => {
     // Cargar datos iniciales
