@@ -4364,6 +4364,248 @@ class DAMIBackendTester:
             self.log_test("Elecciones Octubre - Resumen Ejecutivo Lemas", False, f"Exception: {str(e)}")
             return False
 
+    def test_oscar_herrera_ahuad_in_political_figures(self) -> bool:
+        """Test Oscar Herrera Ahuad appears as main political figure in inteligencia predictiva"""
+        try:
+            response = self.session.get(f"{API_BASE}/inteligencia-predictiva/completo")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Oscar Herrera Ahuad - Political Figures", False, "Response success flag is False")
+                    return False
+                
+                # Look for Oscar Herrera Ahuad in the response data
+                response_str = json.dumps(data, ensure_ascii=False).lower()
+                
+                # Check for Oscar Herrera Ahuad presence
+                if "oscar herrera ahuad" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Political Figures", False, 
+                                 "Oscar Herrera Ahuad not found in political figures")
+                    return False
+                
+                # Check for correct party name
+                if "frente renovador de la concordia" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Political Figures", False, 
+                                 "Correct party name 'Frente Renovador de la Concordia' not found")
+                    return False
+                
+                # Check for candidate status
+                if "candidato" not in response_str and "diputado" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Political Figures", False, 
+                                 "Candidate status not found")
+                    return False
+                
+                self.log_test("Oscar Herrera Ahuad - Political Figures", True, 
+                             "Oscar Herrera Ahuad found as main political figure with correct party")
+                return True
+            else:
+                self.log_test("Oscar Herrera Ahuad - Political Figures", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Oscar Herrera Ahuad - Political Figures", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_oscar_herrera_ahuad_electoral_data(self) -> bool:
+        """Test Oscar Herrera Ahuad electoral data: 52.3% voting intention, 87% victory probability"""
+        try:
+            response = self.session.get(f"{API_BASE}/elecciones-octubre-2025/resumen-ejecutivo-lemas")
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                if not data.get("success"):
+                    self.log_test("Oscar Herrera Ahuad - Electoral Data", False, "Response success flag is False")
+                    return False
+                
+                response_str = json.dumps(data, ensure_ascii=False)
+                
+                # Check for Oscar Herrera Ahuad
+                if "Oscar Herrera Ahuad" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Electoral Data", False, 
+                                 "Oscar Herrera Ahuad not found in electoral data")
+                    return False
+                
+                # Check for voting intention (52.3%)
+                if "52.3" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Electoral Data", False, 
+                                 "52.3% voting intention not found")
+                    return False
+                
+                # Check for party name
+                if "Frente Renovador de la Concordia" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Electoral Data", False, 
+                                 "Correct party name not found in electoral data")
+                    return False
+                
+                # Check for deputy candidate status
+                if "Diputado" not in response_str and "diputado" not in response_str:
+                    self.log_test("Oscar Herrera Ahuad - Electoral Data", False, 
+                                 "Deputy candidate status not found")
+                    return False
+                
+                self.log_test("Oscar Herrera Ahuad - Electoral Data", True, 
+                             "Electoral data validated: 52.3% voting intention, Frente Renovador de la Concordia, Deputy candidate")
+                return True
+            else:
+                self.log_test("Oscar Herrera Ahuad - Electoral Data", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Oscar Herrera Ahuad - Electoral Data", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_damibot_oscar_herrera_ahuad_response(self) -> bool:
+        """Test DAMIBOT responds correctly to 'oscar herrera ahuad' query"""
+        try:
+            chat_data = {
+                "message": "oscar herrera ahuad",
+                "session_id": "test_session_oscar"
+            }
+            
+            response = self.session.post(f"{API_BASE}/chat", json=chat_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                bot_response = data.get("response", "").lower()
+                
+                if not bot_response:
+                    self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, "Empty bot response")
+                    return False
+                
+                # Check for Oscar Herrera Ahuad recognition
+                if "oscar herrera ahuad" not in bot_response:
+                    self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, 
+                                 "DAMIBOT doesn't recognize Oscar Herrera Ahuad")
+                    return False
+                
+                # Check for party name
+                if "frente renovador" not in bot_response:
+                    self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, 
+                                 "Party name not mentioned in response")
+                    return False
+                
+                # Check for electoral context
+                if not any(term in bot_response for term in ["candidato", "diputado", "elecciones", "octubre"]):
+                    self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, 
+                                 "Electoral context not found in response")
+                    return False
+                
+                self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", True, 
+                             "DAMIBOT correctly recognizes Oscar Herrera Ahuad with electoral context")
+                return True
+            else:
+                self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("DAMIBOT - Oscar Herrera Ahuad Response", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_frente_renovador_concordia_party_name(self) -> bool:
+        """Test correct party name 'Frente Renovador de la Concordia' appears consistently"""
+        try:
+            # Test multiple endpoints for consistency
+            endpoints_to_test = [
+                "/actors",
+                "/elecciones-octubre-2025/resumen-ejecutivo-lemas"
+            ]
+            
+            party_name_found = False
+            endpoints_checked = 0
+            
+            for endpoint in endpoints_to_test:
+                try:
+                    response = self.session.get(f"{API_BASE}{endpoint}")
+                    
+                    if response.status_code == 200:
+                        endpoints_checked += 1
+                        response_str = json.dumps(response.json(), ensure_ascii=False)
+                        
+                        if "Frente Renovador de la Concordia" in response_str:
+                            party_name_found = True
+                            break
+                            
+                except Exception:
+                    continue
+            
+            if endpoints_checked == 0:
+                self.log_test("Party Name - Frente Renovador de la Concordia", False, 
+                             "No endpoints could be tested")
+                return False
+            
+            if party_name_found:
+                self.log_test("Party Name - Frente Renovador de la Concordia", True, 
+                             "Correct party name found in system")
+                return True
+            else:
+                self.log_test("Party Name - Frente Renovador de la Concordia", False, 
+                             "Correct party name not found in any endpoint")
+                return False
+                
+        except Exception as e:
+            self.log_test("Party Name - Frente Renovador de la Concordia", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_oscar_herrera_ahuad_main_candidate_status(self) -> bool:
+        """Test Oscar Herrera Ahuad appears as main candidate for national deputies"""
+        try:
+            response = self.session.get(f"{API_BASE}/actors")
+            
+            if response.status_code == 200:
+                actors_data = response.json()
+                
+                # Find Oscar Herrera Ahuad in actors list
+                oscar_actor = None
+                for actor in actors_data:
+                    if "Oscar Herrera Ahuad" in actor.get("name", ""):
+                        oscar_actor = actor
+                        break
+                
+                if not oscar_actor:
+                    self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, 
+                                 "Oscar Herrera Ahuad not found in actors list")
+                    return False
+                
+                # Check influence score (should be high for main candidate)
+                influence_score = oscar_actor.get("influence_score", 0)
+                if influence_score < 90:  # Main candidate should have high influence
+                    self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, 
+                                 f"Low influence score for main candidate: {influence_score}")
+                    return False
+                
+                # Check for candidate description
+                description = oscar_actor.get("activity_description", "").lower()
+                if "candidato" not in description or "diputado" not in description:
+                    self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, 
+                                 "Candidate status not found in description")
+                    return False
+                
+                # Check party affiliation
+                if hasattr(oscar_actor, 'partido') and oscar_actor.get("partido") != "Frente Renovador de la Concordia":
+                    self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, 
+                                 f"Incorrect party: {oscar_actor.get('partido')}")
+                    return False
+                
+                self.log_test("Oscar Herrera Ahuad - Main Candidate Status", True, 
+                             f"Main candidate status confirmed: influence {influence_score}, "
+                             f"description: {oscar_actor.get('activity_description')}")
+                return True
+            else:
+                self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, 
+                             f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Oscar Herrera Ahuad - Main Candidate Status", False, f"Exception: {str(e)}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("=" * 80)
