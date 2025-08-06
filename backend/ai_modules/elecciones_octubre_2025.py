@@ -22,41 +22,207 @@ class EleccionesOctubre2025:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         
-        # CANDIDATOS PRINCIPALES OCTUBRE 2025 - DIPUTADOS NACIONALES
-        self.candidatos_principales = {
-            "oscar_herrera_ahuad": {
-                "nombre_completo": "Oscar Herrera Ahuad",
-                "partido": "Frente Renovador Concordia (FRC)",
-                "alianza": "Frente Renovador para la Victoria",
-                "posicion_lista": 1,
-                "cargo_actual": "Gobernador de Misiones",
-                "experiencia_electoral": "3 elecciones como gobernador, 2 como diputado nacional",
-                "fortalezas": [
-                    "Gestión gubernamental reconocida",
-                    "Liderazgo consolidado en Misiones", 
-                    "Apoyo territorial fuerte",
-                    "Continuidad del proyecto político",
-                    "Reconocimiento nacional"
-                ],
-                "perfil_votante": "Adultos 35+, empleados públicos, beneficiarios de obra pública",
-                "intension_voto_estimada": 52.3,
-                "tendencia_ultimos_30_dias": +2.1,
-                "municipios_fuertes": ["Posadas", "Puerto Iguazú", "Wanda", "Puerto Rico", "Montecarlo"],
-                "municipios_debiles": ["Apóstoles", "Concepción", "San Javier", "Leandro N. Alem"],
-                "redes_sociales": {
-                    "twitter": "@OscarHerreraAhuad",
-                    "facebook": "Oscar Herrera Ahuad",
-                    "instagram": "@oscarherreraahuad",
-                    "seguidores_total": 89400,
-                    "engagement_promedio": 7.8,
-                    "sentiment_redes": 0.68
+        # SISTEMA ELECTORAL CORRECTO - LEY DE LEMAS MISIONES
+        self.sistema_electoral = {
+            "tipo_eleccion": "Diputados y Senadores Nacionales",
+            "fecha_eleccion": "2025-10-26",
+            "provincia": "Misiones",
+            "ley_aplicable": "Ley de Lemas (Provincial) + Código Electoral Nacional",
+            "diputados_en_juego": 7,  # Misiones elige 7 diputados nacionales
+            "senadores_en_juego": 3,  # 2 mayoría + 1 minoría (fijo por provincia)
+            "sistema_conteo_diputados": "D'Hondt Nacional",
+            "sistema_conteo_senadores": "Lista cerrada - 2 mayoría, 1 minoría",
+            "padron_electoral": 892456,
+            "participacion_estimada": 78.4
+        }
+        
+        # LEY DE LEMAS - ESTRUCTURA POLÍTICA MISIONES 2025
+        self.lemas_politicos = {
+            "lema_1_frente_renovador": {
+                "nombre_lema": "FRENTE RENOVADOR PARA LA VICTORIA",
+                "codigo_lema": "FRV",
+                "color_identificacion": "#1E40AF",  # Azul institucional
+                "partido_principal": "Frente Renovador Concordia",
+                "sublemas": {
+                    "sublema_1_herrera_ahuad": {
+                        "nombre": "HERRERA AHUAD - CONTINUIDAD SEGURA",
+                        "codigo": "FRV-1",
+                        "candidato_diputado_1": "Oscar Herrera Ahuad",
+                        "candidato_senador_1": "Hugo Passalacqua",
+                        "candidato_senador_2": "Silvia Rojas",
+                        "intencion_voto_estimada": 41.2,
+                        "perfil_votante": "Empleados públicos, beneficiarios obra pública, interior",
+                        "municipios_fuertes": ["Posadas", "Puerto Iguazú", "Wanda", "Puerto Rico", "Montecarlo"]
+                    },
+                    "sublema_2_renovacion": {
+                        "nombre": "RENOVACIÓN MISIONERA",
+                        "codigo": "FRV-2", 
+                        "candidato_diputado_1": "Carlos Rovira Jr.",
+                        "candidato_senador_1": "María Losada",
+                        "candidato_senador_2": "Pedro Puerta",
+                        "intencion_voto_estimada": 8.4,
+                        "perfil_votante": "Militancia tradicional, dirigentes locales",
+                        "municipios_fuertes": ["Leandro N. Alem", "Puerto Libertad", "Bernardo de Irigoyen"]
+                    },
+                    "sublema_3_union": {
+                        "nombre": "UNIÓN POR EL TRABAJO",
+                        "codigo": "FRV-3",
+                        "candidato_diputado_1": "Sebastián Macías",
+                        "candidato_senador_1": "Ana María Sosa",
+                        "candidato_senador_2": "Roberto Fernández",
+                        "intencion_voto_estimada": 6.1,
+                        "perfil_votante": "Sector productivo, cooperativas",
+                        "municipios_fuertes": ["Oberá", "San Vicente", "Apóstoles"]
+                    }
                 },
-                "campana": {
-                    "slogan_principal": "Seguimos Creciendo Juntos",
-                    "ejes_campana": ["Obras Públicas", "Empleo", "Turismo", "Desarrollo Sustentable"],
-                    "presupuesto_estimado": 250000000,  # 250 millones de pesos
-                    "equipo_campana": 85,
-                    "eventos_programados": 42
+                "total_votos_lema": 55.7,  # Suma de todos los sublemas
+                "probabilidad_victoria": 0.84
+            },
+            
+            "lema_2_libertad_avanza": {
+                "nombre_lema": "LA LIBERTAD AVANZA MISIONES",
+                "codigo_lema": "LLA",
+                "color_identificacion": "#7C3AED",  # Violeta libertario
+                "partido_principal": "La Libertad Avanza",
+                "sublemas": {
+                    "sublema_1_hartfield": {
+                        "nombre": "HARTFIELD - CAMBIO LIBERTARIO",
+                        "codigo": "LLA-1",
+                        "candidato_diputado_1": "Diego Hartfield",
+                        "candidato_senador_1": "Martín Goerling",
+                        "candidato_senador_2": "Carolina Meza",
+                        "intencion_voto_estimada": 22.8,
+                        "perfil_votante": "Jóvenes urbanos, profesionales independientes, comerciantes",
+                        "municipios_fuertes": ["Posadas Centro", "Oberá", "Eldorado"]
+                    },
+                    "sublema_2_libertarios": {
+                        "nombre": "LIBERTARIOS MISIONEROS", 
+                        "codigo": "LLA-2",
+                        "candidato_diputado_1": "Gastón Torres",
+                        "candidato_senador_1": "Lucía Morales",
+                        "candidato_senador_2": "Jorge Espínola",
+                        "intencion_voto_estimada": 4.9,
+                        "perfil_votante": "Emprendedores, sector tecnológico",
+                        "municipios_fuertes": ["Puerto Esperanza", "Aristóbulo del Valle"]
+                    }
+                },
+                "total_votos_lema": 27.7,
+                "probabilidad_victoria": 0.16
+            },
+            
+            "lema_3_agrario_social": {
+                "nombre_lema": "PARTIDO AGRARIO Y SOCIAL",
+                "codigo_lema": "PAyS",
+                "color_identificacion": "#16A34A",  # Verde campo
+                "partido_principal": "Partido Agrario y Social",
+                "sublemas": {
+                    "sublema_1_barbaro": {
+                        "nombre": "BÁRBARO - PRODUCTORES UNIDOS",
+                        "codigo": "PAyS-1",
+                        "candidato_diputado_1": "Héctor 'Cacho' Bárbaro",
+                        "candidato_senador_1": "Miguel Rivarola",
+                        "candidato_senador_2": "Elena Gómez",
+                        "intencion_voto_estimada": 9.3,
+                        "perfil_votante": "Productores agropecuarios, cooperativas rurales",
+                        "municipios_fuertes": ["San Vicente", "Concepción", "Campo Ramón", "Dos de Mayo"]
+                    },
+                    "sublema_2_cooperativo": {
+                        "nombre": "MOVIMIENTO COOPERATIVO",
+                        "codigo": "PAyS-2",
+                        "candidato_diputado_1": "Ricardo Zimmermann",
+                        "candidato_senador_1": "Carmen Aguirre",
+                        "candidato_senador_2": "Luis Galeano",
+                        "intencion_voto_estimada": 2.1,
+                        "perfil_votante": "Cooperativistas, pequeños productores",
+                        "municipios_fuertes": ["Guaraní", "Colonia Aurora"]
+                    }
+                },
+                "total_votos_lema": 11.4,
+                "probabilidad_victoria": 0.00
+            },
+            
+            "lema_4_unidos_futuro": {
+                "nombre_lema": "UNIDOS POR EL FUTURO",
+                "codigo_lema": "UxF",
+                "color_identificacion": "#DC2626",  # Rojo radical
+                "partido_principal": "Radicalismo + Coalición Cívica",
+                "sublemas": {
+                    "sublema_1_koch": {
+                        "nombre": "KOCH - GENERACIÓN DIGITAL",
+                        "codigo": "UxF-1", 
+                        "candidato_diputado_1": "Nicolás 'Santi' Koch",
+                        "candidato_senador_1": "Patricia Silva",
+                        "candidato_senador_2": "Tomás Benítez",
+                        "intencion_voto_estimada": 3.8,
+                        "perfil_votante": "Universitarios, profesionales jóvenes, sector tech",
+                        "municipios_fuertes": ["Posadas Universidad", "Oberá Centro"]
+                    }
+                },
+                "total_votos_lema": 3.8,
+                "probabilidad_victoria": 0.00
+            },
+            
+            "lemas_menores": {
+                "nombre_lema": "OTROS LEMAS",
+                "total_votos_estimado": 1.4,
+                "incluye": ["Partido Obrero", "Izquierda Socialista", "MST", "Movimientos Vecinales"],
+                "color_identificacion": "#6B7280"  # Gris
+            }
+        }
+        
+        # PROYECCIÓN LEY DE LEMAS - DISTRIBUCIÓN BANCAS
+        self.proyeccion_bancas = {
+            "diputados_nacionales": {
+                "total_bancas": 7,
+                "distribucion_dhondt": {
+                    "FRENTE_RENOVADOR": {
+                        "bancas_proyectadas": 4,
+                        "porcentaje_votos": 55.7,
+                        "diputados_electos": [
+                            "Oscar Herrera Ahuad (FRV-1)",
+                            "Carlos Rovira Jr. (FRV-2)", 
+                            "Sebastián Macías (FRV-3)",
+                            "Candidato 4 FRV (Sublema con más votos)"
+                        ]
+                    },
+                    "LA_LIBERTAD_AVANZA": {
+                        "bancas_proyectadas": 2,
+                        "porcentaje_votos": 27.7,
+                        "diputados_electos": [
+                            "Diego Hartfield (LLA-1)",
+                            "Gastón Torres (LLA-2)"
+                        ]
+                    },
+                    "PARTIDO_AGRARIO_SOCIAL": {
+                        "bancas_proyectadas": 1,
+                        "porcentaje_votos": 11.4,
+                        "diputados_electos": [
+                            "Héctor 'Cacho' Bárbaro (PAyS-1)"
+                        ]
+                    },
+                    "OTROS_LEMAS": {
+                        "bancas_proyectadas": 0,
+                        "porcentaje_votos": 5.2
+                    }
+                }
+            },
+            "senadores_nacionales": {
+                "total_bancas": 3,
+                "sistema": "2 mayoría + 1 minoría",
+                "distribucion_proyectada": {
+                    "MAYORIA": {
+                        "bancas": 2,
+                        "lema_ganador": "FRENTE RENOVADOR",
+                        "senadores_electos": [
+                            "Hugo Passalacqua (FRV-1)",
+                            "Silvia Rojas (FRV-1)"  # Sublema con más votos dentro del lema
+                        ]
+                    },
+                    "PRIMERA_MINORIA": {
+                        "bancas": 1,
+                        "lema": "LA LIBERTAD AVANZA",
+                        "senador_electo": "Martín Goerling (LLA-1)"
+                    }
                 }
             }
         }
