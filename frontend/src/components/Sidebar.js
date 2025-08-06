@@ -35,112 +35,28 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       label: '🧠 Centro Inteligencia', 
       icon: Brain, 
       path: '/dashboard/centro-inteligencia',
-      description: 'IA Predictiva + Análisis + Automatización'
+      description: 'IA Predictiva + Análisis + Automatización + Estadísticas Completas'
     },
     { 
       id: 'centro-comando', 
-      label: 'Centro de Comando', 
-      icon: Command, 
-      path: '/dashboard/centro-comando',
-      description: 'Situación actual y acciones'
-    },
-    { 
-      id: 'centro-estadistico', 
-      label: 'Centro Estadístico', 
-      icon: BarChart3, 
-      path: '/dashboard/centro-estadistico',
-      description: 'Análisis y métricas'
-    },
-    { 
-      id: 'informe-diario', 
-      label: 'Informe Diario', 
-      icon: FileText, 
-      path: '/dashboard/informe-diario',
-      description: 'Reportes diarios'
-    },
-    { 
-      id: 'encuestas-sociales', 
-      label: 'Encuestas Sociales', 
-      icon: Users, 
-      path: '/dashboard/encuestas-sociales',
-      description: 'Humor social predictivo'
-    },
-    { 
-      id: 'mapa-territorial', 
-      label: 'Mapa Territorial', 
-      icon: MapPin, 
-      path: '/dashboard/mapa-territorial',
-      description: '78 municipios en tiempo real'
-    },
-    { 
-      id: 'dashboard-ejecutivo', 
-      label: 'Dashboard Ejecutivo', 
-      icon: Brain, 
-      path: '/dashboard/dashboard-ejecutivo',
-      description: 'Vista unificada IA'
-    },
-    { 
-      id: 'ia-predictiva', 
-      label: 'IA Predictiva Avanzada', 
+      label: '⚡ Centro de Comando', 
       icon: Zap, 
-      path: '/dashboard/ia-predictiva',
-      description: 'NLP, ML y Análisis Avanzado'
+      path: '/dashboard/centro-comando',
+      description: 'Situación actual y acciones rápidas'
     },
     { 
-      id: 'automatizacion', 
-      label: 'Automatización Avanzada', 
-      icon: Bot, 
-      path: '/dashboard/automatizacion',
-      description: 'FASE 3: Respuestas, Reportes IA, Alertas'
-    },
-    { 
-      id: 'youtube-analytics', 
-      label: 'YouTube Analytics', 
-      icon: Youtube, 
-      path: '/dashboard/youtube-analytics',
-      description: 'Monitoreo político en YouTube'
-    },
-    { 
-      id: 'dashboard', 
-      label: 'Dashboard General', 
-      icon: LayoutDashboard, 
+      id: 'dashboard-general', 
+      label: '📊 Dashboard General', 
+      icon: BarChart3, 
       path: '/dashboard',
       description: 'Resumen general'
     },
     { 
-      id: 'radar', 
-      label: 'Radar', 
-      icon: Radar, 
-      path: '/dashboard/radar',
-      description: 'Actores políticos'
-    },
-    { 
-      id: 'mapa', 
-      label: 'Mapa de Calor', 
-      icon: MapPin, 
-      path: '/dashboard/mapa',
-      description: 'Territorial'
-    },
-    { 
-      id: 'feed', 
-      label: 'Sr. X Feed', 
-      icon: Radio, 
-      path: '/dashboard/feed',
-      description: 'Monitoreo social'
-    },
-    { 
-      id: 'alertas', 
-      label: 'IA y Alertas', 
-      icon: AlertTriangle, 
-      path: '/dashboard/alertas',
-      description: 'Recomendaciones'
-    },
-    { 
-      id: 'analisis-competencia', 
-      label: 'Análisis Competencia', 
-      icon: Target, 
-      path: '/dashboard/analisis-competencia',
-      description: 'Monitoreo político estratégico'
+      id: 'mapa-territorial', 
+      label: '🗺️ Mapa Territorial', 
+      icon: Map, 
+      path: '/dashboard/mapa-territorial',
+      description: 'Análisis territorial en tiempo real'
     }
   ];
 
