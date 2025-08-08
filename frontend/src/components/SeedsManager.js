@@ -312,8 +312,6 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
               </div>
             </div>
           </div>
-            </div>
-          </div>
         </>
       )}
     </div>
