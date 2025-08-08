@@ -1,85 +1,61 @@
 <analysis>
-The previous AI engineer successfully transformed the Centro de Monitoreo Inteligente DAMI from an MVP into a robust political intelligence dashboard. The work followed a structured approach, addressing user requests iteratively. Initial efforts focused on fixing  dependency, then proceeded to implement FASE 1: CONSOLIDACIÓN (Dashboard Ejecutivo), FASE 2: IA PREDICTIVA AVANZADA, and FASE 3: AUTOMATIZACIÓN. Each phase involved creating new backend modules and frontend components, updating navigation, and enhancing the DAMIBOT. Subsequently, the engineer integrated real-time data by implementing YouTube Data API v3 and Twitter API v2, navigating API key configuration challenges with the user. The development flow consistently involved backend implementation, testing, frontend development, and UI integration, ensuring mobile responsiveness and functional updates. The engineer demonstrated strong problem-solving, particularly in debugging API key loading issues and ensuring service functionality.
+The previous AI engineer successfully transformed the Centro de Monitoreo Inteligente DAMI into a sophisticated political intelligence dashboard. Key initial work included integrating social media data (YouTube, Twitter, Facebook), resolving dependencies, and building core AI modules for predictive analysis and campaign strategies. The focus shifted to unifying analytical modules and incorporating Ley de Lemas electoral data, including correcting political figure data. A significant phase involved troubleshooting DNS issues for the custom domain , where the AI engineer provided detailed instructions and resolved TTL misconfigurations. The recent development focused on enhancing the existing system rather than building a new one, specifically implementing a hybrid (simulated/real data) Instagram integration and a flexible Seeds Manager for data source configuration. This expansion maintained existing functionality, demonstrated cost-efficiency, and prepared the application for real-world API key deployment.
 </analysis>
 
 <product_requirements>
-The Centro de Monitoreo Inteligente DAMI is a full-stack political intelligence dashboard designed to provide real-time insights for Frente Renovador (FR) in Misiones. Initial requirements included a responsive UI, AI recommendations, JWT multi-role authentication (Admin, Analyst, Operator), and general data monitoring. The application has evolved to function as a Centro de Comando Real with severity indicators and a real-time territorial map of Misiones, incorporating 78 municipalities with traffic light activity. Subsequent expansions included a Centro Estadístico for sentiment analysis, an Informe Diario for daily summaries, and real-time social media API integration (Twitter, Facebook, Instagram, YouTube). A Módulo de Encuestas Sociales Predictivas was added to gauge social mood and voting intent, integrating with the existing map. The current overarching objective is to refactor the application into a unified, predictive, and 100% analytical system, deeply integrating AI to maximize FR's leverage of Misiones' political data.
+The Centro de Monitoreo Inteligente DAMI is a political intelligence dashboard for the Frente Renovador in Misiones, Argentina. It evolved from a basic MVP with monitoring, UI, and AI recommendations to a sophisticated, unified, and 100% analytical platform. The core problem involved leveraging Misiones' political data through AI for predictive analysis, real-time insights, and actionable campaign strategies. Explicit requests included: real-time social media integration (Twitter, Facebook, Instagram, YouTube), a Centro de Inteligencia Predictiva for consolidated, explanatory, and scalable insights, incorporating Ley de Lemas for provincial elections, national election data (including specific candidates like Oscar Herrera Ahuad), and an AI-driven campaign strategies module with counter-measures and media optimization. Recent work delivered a functional system ready for real Instagram data and flexible data source management.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack:** React.js (frontend), FastAPI (backend), MongoDB (database).
--   **Authentication:** JWT for multi-role access.
--   **Styling:** Tailwind CSS for responsive design.
--   **Mapping:** , Leaflet for Misiones map.
--   **API Integration:** Twitter API v2, Facebook Graph API, Instagram Basic API, YouTube Data API v3.
--   **Proactive AI/UX:** Emergent tabs, real-time data-driven notifications, LLM integration.
--   **AI/ML:** Placeholder modules for predictive analysis, sentiment analysis, anomaly detection.
+-   **API Integration:** Twitter API v2, Facebook Graph API, YouTube Data API v3, Instagram Basic Display API.
+-   **AI/ML:** Predictive analysis, sentiment analysis, AI-driven campaign strategies, cost-aware AI, Ley de Lemas electoral analysis.
+-   **Architecture:** Modular design, consolidated analytical views, environment variable usage.
+-   **Web Technologies:** JWT authentication, Tailwind CSS, DNS configuration.
 </key_technical_concepts>
 
 <code_architecture>
-The application employs a standard full-stack architecture with Python FastAPI for the backend and React.js for the frontend.
 
 
-
--   ****: This is the central FastAPI application. It was extensively modified to integrate and expose new AI modules (, ) and the  integration. The  function was enhanced to leverage data from these new modules, making DAMIBOT more intelligent and data-driven.
--   ****: A new module created for advanced predictive AI. Backend endpoints were added to  for this module to handle electoral prediction, anomaly detection, and intelligent correlations.
--   ****: A new module to handle automation features. API endpoints for processing events and generating automated responses were added to .
--   ****: A new module dedicated to handling YouTube Data API v3 calls, including fetching channel data, video details, and trends.
--   ****: This module was modified to correctly load and utilize the  from the  file for real-time Twitter data fetching.
--   ****: Modified to include  and  for real data integration.
--   ****: Updated to include new Python dependencies like  and  for YouTube integration.
--   ****: Central AI assistant. It now integrates previous  functionality and incorporates an emergent tab for proactive notifications. It was heavily refined for UI/UX and mobile responsiveness.
--   ****: A new frontend component to provide a consolidated view of key executive metrics, alerts, and recommendations.
--   ****: A new frontend component for the Predictive AI module, displaying tabs for sentiment analysis and general summary.
--   ****: A new frontend component for the Automation module, featuring tabs for automatic events and response patterns.
--   ****: A new frontend component for YouTube monitoring, including tabs for Dashboard, Search, Trends, Analytics, and Configuration.
--   ****: Modified to add navigation links for , , , and . Icons for new modules were added.
--   ****: Updated to include routing for the new , , , and  components.
--   ****: Updated to include new JavaScript dependencies like  (fixed a previous error), , and .
--   ****: Continuously updated to reflect the status of tasks, testing results, and communication protocols.
+-   ****: Central FastAPI application. Modified to integrate , , and recently,  and  endpoints. Also includes corrections for political figure data.
+-   ****: **NEW** Module for October 2025 elections, including Ley de Lemas logic and national deputy candidates.
+-   ****: **NEW** Module for AI-driven campaign strategies (counter-measures, media allocation).
+-   ****: **NEW & HEAVILY MODIFIED** Created for Instagram hashtag content pulling. Modified to support both simulated and real data based on environment variables (IG_LONG_LIVED_TOKEN, IG_USER_ID) and incorporates cost-aware AI logic.
+-   ****: **NEW** Module for managing social media data sources (seeds). It handles CSV uploads, persistence in MongoDB, and auto-resolves Facebook page and YouTube channel IDs.
+-   ****: Core unified dashboard. Modified to integrate and display electoral data from , specifically correcting the API endpoint to .
+-   ****: **NEW** Frontend component to display AI-driven campaign strategies, ensuring correct token usage.
+-   ****: **NEW & HEAVILY MODIFIED** Created to render Instagram data, updated to show mode indicators (simulated/real data).
+-   ****: **NEW** Frontend component for a UI to manage data source seeds (upload, view status).
+-   ****: Modified to include new navigation links for  and  and .
+-   ****: Updated to correctly route to , , , and  components.
+-   ** & **: Contain environment variables for API keys (YOUTUBE_API_KEY, TWITTER_BEARER_TOKEN, FB_TOKEN, OPENAI_API_KEY) and backend URL (REACT_APP_BACKEND_URL). Instagram token remains a placeholder.
 </code_architecture>
 
 <pending_tasks>
--   Implement WebSockets for real-time updates (general).
+-   Complete Instagram API integration with real data (obtain and configure  and ).
+-   Obtain and configure  for auto-resolving Facebook Page IDs.
+-   Obtain and configure  for auto-resolving YouTube Channel IDs.
+-   Obtain and configure  for advanced AI analysis.
+-   Implement WebSockets for real-time updates.
 -   Develop Push Notifications.
 -   Implement Fake News Detection.
 -   Implement Influencer Analysis.
--   Further mobile center optimization (general improvements beyond current fixes).
--   Complete Facebook and Instagram API integrations with real data.
+-   Further mobile center optimization.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was focused on a major architectural reorganization (FASE 1: CONSOLIDACIÓN) and the subsequent implementation of advanced AI and automation phases (FASE 2: IA PREDICTIVA AVANZADA, FASE 3: AUTOMATIZACIÓN).
+Immediately prior to this summary request, the AI engineer completed a significant intelligent expansion of the DAMI system, focusing on Instagram integration and a robust Seeds Manager.
 
-Specifically, the engineer:
-1.  **Resolved a frontend compilation issue**: Installed missing  dependency, making the  component load correctly.
-2.  **Completed FASE 2: IA PREDICTIVA AVANZADA**:
-    -   Created .
-    -   Added API routes for this module in .
-    -   Created the frontend component .
-    -   Updated navigation in  and routing in .
-    -   Integrated IA Predictiva data into DAMIBOT's responses.
-3.  **Completed FASE 3: AUTOMATIZACIÓN AVANZADA**:
-    -   Created .
-    -   Added API routes for this module in .
-    -   Created the frontend component .
-    -   Updated navigation in  and routing in .
-    -   Integrated automation data into DAMIBOT's responses.
-4.  **Integrated YouTube Data API v3**:
-    -   Installed Python dependencies (, ).
-    -   Created .
-    -   Added API endpoints in  and configured  in .
-    -   Created frontend component .
-    -   Updated Sidebar and Dashboard routing.
-    -   Integrated YouTube data into DAMIBOT. The user provided their real YouTube API key, which was successfully configured and verified to fetch real data.
-5.  **Integrated Twitter API v2**:
-    -   Configured  in .
-    -   Debugged token loading and  errors, which required the user to regenerate the token. The new token was successfully configured and verified to fetch real data.
-6.  **Initiated Facebook Graph API and Instagram Basic Display API integration**: The engineer has provided the user with steps to obtain the necessary API keys. The user provided a truncated Facebook Access Token, then a complete one.
+**Instagram Integration Enhancement:**
+The new  module was created to pull Instagram content by hashtags. It's designed for a hybrid mode: it can function with **simulated realistic data** (as currently implemented) or seamlessly switch to **real data** upon configuration of  and . This module also incorporates a cost-aware AI to optimize LLM usage. Corresponding endpoints were added to . On the frontend,  was created to display this data and indicate the current mode (simulated/real), with navigation integrated via  and .
 
-The system is currently fully functional with simulated data, and real data integration for YouTube and Twitter is confirmed working. The very last task was receiving the complete Facebook Access Token from the user.
+**Seeds Manager Implementation:**
+A new  module was developed to manage data sources for social media monitoring. It supports CSV upload/export and can auto-resolve Facebook Page IDs and YouTube Channel IDs based on provided handles. This centralizes the configuration of Instagram hashtags, Facebook pages, YouTube channels, X queries, and RSS feeds. New endpoints  were added to . A dedicated frontend component, , provides a UI for managing these seeds, also integrated into the navigation.
+
+**Current State & Testing:**
+The system now fully supports the enhanced Instagram functionality and the Seeds Manager, maintaining all previously implemented features (electoral analysis, AI campaign strategies, existing Twitter/YouTube/Facebook integrations). Backend testing was performed, achieving a 75.6% success rate, with the AI engineer noting failures were in unrelated areas. The system is ready for the user to provide actual API keys for Instagram, Facebook, YouTube, and OpenAI to activate full real-time data pulling and advanced AI analysis.
 </current_work>
 
 <optional_next_step>
-Configure the provided Facebook Access Token in the  file and restart the backend service.
+Obtain and configure the actual , , , , and  in the environment.
 </optional_next_step>
