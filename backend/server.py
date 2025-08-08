@@ -3756,6 +3756,110 @@ async def obtener_status_api_youtube(
         logger.error(f"Error obteniendo status API YouTube: {e}")
 
 # ====================
+
+# ====================
+# SEEDS MANAGER - CONFIGURACIÓN INTELIGENTE DE FUENTES
+# ====================
+
+class SeedsUploadRequest(BaseModel):
+    csv_text: str
+
+@api_router.post("/seeds/upload-csv")
+async def upload_seeds_csv(
+    request: SeedsUploadRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Subir configuración de seeds desde CSV
+    Formato: src,handle,alliance,municipality,actor,type
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} subió CSV seeds")
+        
+        result = seeds_manager.load_from_csv_text(request.csv_text)
+        
+        return {
+            "success": result.get("success", False),
+            "data": result,
+            "user": current_user.username,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error subiendo seeds CSV: {e}")
+        raise HTTPException(status_code=500, detail=f"Error procesando CSV: {str(e)}")
+
+@api_router.post("/seeds/load-default")
+async def load_default_seeds(current_user: User = Depends(get_current_user)):
+    """Cargar seeds por defecto para Misiones"""
+    try:
+        logger.info(f"Usuario {current_user.username} cargó seeds por defecto")
+        
+        result = seeds_manager.load_default_seeds()
+        
+        return {
+            "success": True,
+            "data": result,
+            "user": current_user.username,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error cargando seeds por defecto: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en seeds: {str(e)}")
+
+@api_router.get("/seeds/status")
+async def get_seeds_status(current_user: User = Depends(get_current_user)):
+    """Estado completo del sistema seeds"""
+    try:
+        logger.info(f"Usuario {current_user.username} consultó status seeds")
+        
+        status = seeds_manager.get_status()
+        
+        return {
+            "success": True,
+            "status": status,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error obteniendo status seeds: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en status: {str(e)}")
+
+@api_router.post("/seeds/bootstrap")
+async def bootstrap_seeds(current_user: User = Depends(get_current_user)):
+    """Resolver IDs de Facebook y YouTube desde handles"""
+    try:
+        logger.info(f"Usuario {current_user.username} ejecutó bootstrap seeds")
+        
+        result = seeds_manager.bootstrap_all()
+        
+        return {
+            "success": True,
+            "data": result,
+            "user": current_user.username,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en bootstrap seeds: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en bootstrap: {str(e)}")
+
+@api_router.get("/seeds/export-csv")
+async def export_seeds_csv(current_user: User = Depends(get_current_user)):
+    """Exportar seeds actuales a formato CSV"""
+    try:
+        logger.info(f"Usuario {current_user.username} exportó seeds CSV")
+        
+        csv_content = seeds_manager.export_to_csv()
+        
+        return {
+            "success": True,
+            "csv": csv_content,
+            "filename": f"seeds_misiones_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.csv",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error exportando seeds CSV: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en export: {str(e)}")
+
+# ====================
 # INSTAGRAM HASHTAGS + IA ULTRA-AHORRO SERVICE
 # ====================
 
