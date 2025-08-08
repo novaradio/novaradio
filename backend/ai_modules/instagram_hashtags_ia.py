@@ -14,8 +14,18 @@ from typing import List, Dict, Any, Set
 
 class InstagramHashtagsIA:
     def __init__(self):
-        # Config simulación
-        self.simulation_mode = True
+        # Config tokens reales
+        self.access_token = os.getenv("IG_LONG_LIVED_TOKEN")
+        self.user_id = os.getenv("IG_USER_ID")  
+        self.graph_url = os.getenv("GRAPH_URL", "https://graph.facebook.com/v18.0")
+        
+        # Determinar modo de operación
+        self.production_mode = bool(self.access_token and self.user_id)
+        self.simulation_mode = not self.production_mode
+        
+        print(f"🚀 Instagram Service - Modo: {'PRODUCCIÓN' if self.production_mode else 'SIMULACIÓN'}")
+        
+        # Hashtags por defecto desde seeds_manager
         self.hashtags_misiones = [
             "#Misiones", "#Posadas", "#Obera", "#Eldorado", "#PuertoIguazu", 
             "#Garupa", "#LeandroNAlem", "#Apostoles", "#Montecarlo", "#SanVicente"
