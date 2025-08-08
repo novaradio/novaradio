@@ -416,14 +416,17 @@ class InstagramHashtagsIA:
                            since: str = None, 
                            limit_per_tag: int = 20,
                            max_total: int = 80) -> Dict[str, Any]:
-        """Endpoint principal para obtener contenido de hashtags"""
+        """Endpoint principal para obtener contenido de hashtags - REAL o SIMULADO"""
         
         hashtags = hashtags or self.hashtags_misiones[:5]  # Top 5 por defecto
         
-        print(f"🚀 Instagram Hashtags Pull - Modo: {'SIMULACIÓN' if self.simulation_mode else 'REAL'}")
+        print(f"🚀 Instagram Hashtags Pull - Modo: {'PRODUCCIÓN' if self.production_mode else 'SIMULACIÓN'}")
         print(f"📋 Hashtags: {hashtags}")
         print(f"📅 Since: {since or 'últimos 7 días'}")
         print(f"🔢 Límites: {limit_per_tag} per tag, {max_total} total")
+        
+        if self.production_mode:
+            print(f"🔑 Usando tokens REALES: User ID {self.user_id[:10]}...")
         
         collected_posts = []
         
@@ -433,8 +436,8 @@ class InstagramHashtagsIA:
             
             print(f"🔍 Procesando {hashtag}...")
             
-            # Generar contenido simulado
-            hashtag_posts = self.generate_realistic_content(hashtag)
+            # Obtener contenido (real o simulado según disponibilidad)
+            hashtag_posts = self.get_hashtag_content(hashtag, limit_per_tag)
             
             # Filtrar por fecha si se especifica
             if since:
@@ -442,9 +445,10 @@ class InstagramHashtagsIA:
                     since_dt = datetime.fromisoformat(since.replace("Z", ""))
                     hashtag_posts = [
                         p for p in hashtag_posts 
-                        if datetime.fromisoformat(p["timestamp"]) > since_dt
+                        if datetime.fromisoformat(p["timestamp"].split('.')[0]) > since_dt
                     ]
-                except:
+                except Exception as e:
+                    print(f"⚠️ Error parseando fecha 'since': {str(e)}")
                     pass  # Si no se puede parsear, incluir todos
             
             # Limitar posts por hashtag
@@ -464,7 +468,8 @@ class InstagramHashtagsIA:
         # Estadísticas del pull
         stats = self._generate_pull_stats(analyzed_posts, hashtags)
         
-        print(f"📊 Pull completado: {len(analyzed_posts)} posts, {stats['analysis_breakdown']}")
+        mode_indicator = "REAL" if self.production_mode else "SIMULADO"
+        print(f"📊 Pull {mode_indicator} completado: {len(analyzed_posts)} posts, {stats['analysis_breakdown']}")
         
         return {
             "success": True,
@@ -473,9 +478,11 @@ class InstagramHashtagsIA:
             "meta": {
                 "hashtags": hashtags,
                 "since": since,
-                "mode": "simulation",
+                "mode": "production" if self.production_mode else "simulation",
+                "data_source": "instagram_api" if self.production_mode else "simulated",
                 "timestamp": datetime.now().isoformat(),
-                "cost_aware": True
+                "cost_aware": True,
+                "tokens_configured": self.production_mode
             }
         }
 
