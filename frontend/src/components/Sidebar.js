@@ -24,7 +24,8 @@ import {
   Zap,
   Youtube,
   Map,
-  Instagram
+  Instagram,
+  Database
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
