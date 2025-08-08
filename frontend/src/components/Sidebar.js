@@ -74,6 +74,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       icon: Instagram, 
       path: '/dashboard/instagram-hashtags',
       description: 'Monitoreo hashtags con cost-aware AI'
+    },
+    { 
+      id: 'seeds-manager', 
+      label: '🌱 Seeds Manager', 
+      icon: Database, 
+      path: '/dashboard/seeds-manager',
+      description: 'Configuración inteligente de fuentes'
     }
   ];
 
