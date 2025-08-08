@@ -1,16 +1,16 @@
 """
-🚀 DAMI: Instagram Hashtags + IA Ultra-Ahorro Service
+🚀 DAMI: Instagram Hashtags + IA Ultra-Ahorro Service EXPANDIDO
 Servicio optimizado para análisis de hashtags de Instagram con IA cost-aware
-Datos simulados super realistas para Misiones, Argentina
+AHORA CON SOPORTE PARA TOKENS REALES + DATOS SIMULADOS DE FALLBACK
 """
 
 import os
 import json
 import re
 import random
+import requests
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Set
-import requests
 
 class InstagramHashtagsIA:
     def __init__(self):
