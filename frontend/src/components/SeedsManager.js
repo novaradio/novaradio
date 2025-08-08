@@ -180,16 +180,17 @@ rss,https://misionesonline.net/feed,,,Misiones Online,medio
 rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
 
   const renderStatusTab = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header responsivo */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Estado del Sistema</h2>
-          <p className="text-gray-600">Configuración actual de fuentes de datos</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Estado del Sistema</h2>
+          <p className="text-sm sm:text-base text-gray-600">Configuración actual de fuentes de datos</p>
         </div>
         <button
           onClick={loadSeedsStatus}
           disabled={loading}
-          className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md disabled:opacity-50"
+          className="flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg disabled:opacity-50 transition-colors w-full sm:w-auto"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           <span>Actualizar</span>
@@ -198,52 +199,52 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
 
       {loading && (
         <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
           <span className="ml-2 text-gray-600">Cargando estado...</span>
         </div>
       )}
 
       {seedsStatus && (
         <>
-          {/* Métricas principales */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <div className="flex items-center justify-between">
+          {/* Métricas principales - Optimizadas para móvil */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 sm:p-4 lg:p-6 rounded-xl border border-blue-200 shadow-sm">
+              <div className="flex flex-col items-center text-center space-y-2">
+                <Database className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Seeds</p>
-                  <p className="text-2xl font-bold text-gray-900">{seedsStatus.total_seeds}</p>
+                  <p className="text-xs sm:text-sm font-medium text-blue-800">Total Seeds</p>
+                  <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900">{seedsStatus.total_seeds}</p>
                 </div>
-                <Database className="h-8 w-8 text-blue-600" />
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <div className="flex items-center justify-between">
+            <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-3 sm:p-4 lg:p-6 rounded-xl border border-emerald-200 shadow-sm">
+              <div className="flex flex-col items-center text-center space-y-2">
+                <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-emerald-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Activos</p>
-                  <p className="text-2xl font-bold text-green-600">{seedsStatus.active_seeds}</p>
+                  <p className="text-xs sm:text-sm font-medium text-emerald-800">Activos</p>
+                  <p className="text-lg sm:text-xl lg:text-2xl font-bold text-emerald-900">{seedsStatus.active_seeds}</p>
                 </div>
-                <CheckCircle className="h-8 w-8 text-green-600" />
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <div className="flex items-center justify-between">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-3 sm:p-4 lg:p-6 rounded-xl border border-purple-200 shadow-sm">
+              <div className="flex flex-col items-center text-center space-y-2">
+                <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">FB Resueltos</p>
-                  <p className="text-2xl font-bold text-purple-600">{seedsStatus.resolved_cache.facebook_pages}</p>
+                  <p className="text-xs sm:text-sm font-medium text-purple-800">FB Resueltos</p>
+                  <p className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-900">{seedsStatus.resolved_cache.facebook_pages}</p>
                 </div>
-                <CheckCircle className="h-8 w-8 text-purple-600" />
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <div className="flex items-center justify-between">
+            <div className="bg-gradient-to-br from-red-50 to-red-100 p-3 sm:p-4 lg:p-6 rounded-xl border border-red-200 shadow-sm">
+              <div className="flex flex-col items-center text-center space-y-2">
+                <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">YT Resueltos</p>
-                  <p className="text-2xl font-bold text-red-600">{seedsStatus.resolved_cache.youtube_channels}</p>
+                  <p className="text-xs sm:text-sm font-medium text-red-800">YT Resueltos</p>
+                  <p className="text-lg sm:text-xl lg:text-2xl font-bold text-red-900">{seedsStatus.resolved_cache.youtube_channels}</p>
                 </div>
-                <CheckCircle className="h-8 w-8 text-red-600" />
               </div>
             </div>
           </div>
