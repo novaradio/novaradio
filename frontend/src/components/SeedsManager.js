@@ -320,40 +320,41 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
   );
 
   const renderUploadTab = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header responsivo */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gestión de Seeds</h2>
-          <p className="text-gray-600">Cargar y configurar fuentes de datos</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Gestión de Seeds</h2>
+          <p className="text-sm sm:text-base text-gray-600">Cargar y configurar fuentes de datos</p>
         </div>
       </div>
 
-      {/* Botones de acción rápida */}
-      <div className="flex flex-wrap gap-4">
+      {/* Botones de acción rápida - Optimizados para móvil */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <button
           onClick={loadDefaultSeeds}
           disabled={loading}
-          className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md disabled:opacity-50"
+          className="flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-xl disabled:opacity-50 transition-colors"
         >
-          <Database className="h-4 w-4" />
-          <span>Cargar Seeds Default</span>
+          <Database className="h-5 w-5" />
+          <span className="font-medium">Seeds Default</span>
         </button>
 
         <button
           onClick={bootstrapSeeds}
           disabled={loading}
-          className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md disabled:opacity-50"
+          className="flex items-center justify-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl disabled:opacity-50 transition-colors"
         >
-          <Play className="h-4 w-4" />
-          <span>Bootstrap IDs</span>
+          <Play className="h-5 w-5" />
+          <span className="font-medium">Bootstrap IDs</span>
         </button>
 
         <button
           onClick={exportCSV}
-          className="flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md"
+          className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl transition-colors"
         >
-          <Download className="h-4 w-4" />
-          <span>Exportar CSV</span>
+          <Download className="h-5 w-5" />
+          <span className="font-medium">Exportar CSV</span>
         </button>
       </div>
 
