@@ -18,7 +18,7 @@ const InstagramHashtagsIA = () => {
     max_total: 80
   });
 
-  const BACKEND_URL = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const fetchWithAuth = async (url, options = {}) => {
     const token = localStorage.getItem('dami_token');
