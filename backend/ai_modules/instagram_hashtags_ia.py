@@ -36,15 +36,92 @@ class InstagramHashtagsIA:
         self.llm_max_chars = int(os.getenv("LLM_MAX_CHARS", "300"))
         self.llm_batch_limit = int(os.getenv("LLM_BATCH_LIMIT", "12"))
         
-        # Cache de IDs vistos (simulado)
+        # Cache de IDs vistos (en memoria para simplificar)
         self.seen_ids = set()
         
-        # Datos simulados realistas
+        # Datos simulados como fallback
         self.simulated_users = [
             "posadas_noticias", "misiones_online", "radio_libertad", "ciudadano_misionero",
             "frente_renovador_oficial", "joven_posadeño", "comercio_obera", "turismo_iguazu",
             "vecino_eldorado", "universidad_misiones", "cultura_misiones", "deportes_region"
         ]
+        
+    def _get_instagram_api(self, path: str, params: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Helper para llamadas a Instagram Graph API"""
+        if not self.production_mode:
+            raise Exception("Instagram API no disponible en modo simulación")
+        
+        url = f"{self.graph_url}/{path.lstrip('/')}"
+        params = params or {}
+        params["access_token"] = self.access_token
+        
+        response = requests.get(url, params=params, timeout=30)
+        
+        if response.status_code == 429:
+            print(f"⚠️ Rate limit Instagram API - esperando...")
+            import time
+            time.sleep(60)
+            response = requests.get(url, params=params, timeout=30)
+        
+        if not response.ok:
+            raise Exception(f"Instagram API error {response.status_code}: {response.text}")
+        
+        return response.json()
+
+    def search_hashtag_id_real(self, tag: str) -> str:
+        """Busca el ID de un hashtag en Instagram API real"""
+        try:
+            response = self._get_instagram_api("ig_hashtag_search", {
+                "user_id": self.user_id,
+                "q": tag.lstrip("#")
+            })
+            
+            data = response.get("data", [])
+            if data:
+                return data[0]["id"]
+            else:
+                print(f"⚠️ Hashtag {tag} no encontrado en Instagram")
+                return None
+                
+        except Exception as e:
+            print(f"❌ Error buscando hashtag {tag}: {str(e)}")
+            return None
+
+    def fetch_recent_media_real(self, hashtag_id: str, limit: int) -> List[Dict[str, Any]]:
+        """Obtiene posts recientes de un hashtag desde Instagram API real"""
+        try:
+            fields = "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,comments_count,like_count"
+            
+            response = self._get_instagram_api(f"{hashtag_id}/recent_media", {
+                "user_id": self.user_id,
+                "fields": fields,
+                "limit": min(limit, 50)  # Instagram limita a 50 por request
+            })
+            
+            posts = []
+            for media in response.get("data", []):
+                posts.append({
+                    "platform": "instagram",
+                    "hashtag": f"#{hashtag_id}",  # Se actualizará después
+                    "hashtag_id": hashtag_id,
+                    "ig_id": media.get("id"),
+                    "text": media.get("caption") or "",
+                    "media_type": media.get("media_type"),
+                    "media_url": media.get("media_url") or media.get("thumbnail_url"),
+                    "permalink": media.get("permalink"),
+                    "timestamp": media.get("timestamp"),
+                    "username": media.get("username"),
+                    "metrics": {
+                        "comments_count": media.get("comments_count", 0),
+                        "like_count": media.get("like_count", 0)
+                    }
+                })
+            
+            return posts
+            
+        except Exception as e:
+            print(f"❌ Error obteniendo media para hashtag_id {hashtag_id}: {str(e)}")
+            return []
         
         self.political_keywords = [
             "oscar herrera ahuad", "frente renovador", "gobierno misiones", "obras publicas",
