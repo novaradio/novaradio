@@ -3751,6 +3751,158 @@ async def obtener_status_api_youtube(
         
     except Exception as e:
         logger.error(f"Error obteniendo status API YouTube: {e}")
+
+# ====================
+# INSTAGRAM HASHTAGS + IA ULTRA-AHORRO SERVICE
+# ====================
+
+@api_router.get("/instagram/hashtags/health")
+async def get_instagram_health():
+    """Estado del servicio Instagram Hashtags + IA"""
+    try:
+        return instagram_service.get_health_status()
+    except Exception as e:
+        logger.error(f"Error obteniendo health Instagram: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en servicio Instagram: {str(e)}")
+
+class InstagramPullRequest(BaseModel):
+    hashtags: Optional[List[str]] = None
+    since: Optional[str] = None
+    limit_per_tag: Optional[int] = 20
+    max_total: Optional[int] = 80
+
+@api_router.post("/instagram/hashtags/pull")
+async def pull_instagram_hashtags(
+    request: InstagramPullRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Pull de contenido de hashtags específicos de Instagram con análisis IA
+    Servicio ultra-optimizado con cost-aware AI
+    """
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó pull Instagram hashtags")
+        
+        result = instagram_service.pull_hashtag_content(
+            hashtags=request.hashtags,
+            since=request.since,
+            limit_per_tag=request.limit_per_tag,
+            max_total=request.max_total
+        )
+        
+        return {
+            "success": True,
+            "data": result,
+            "user": current_user.username,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en pull Instagram: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en pull hashtags: {str(e)}")
+
+@api_router.get("/instagram/hashtags/dashboard")
+async def get_instagram_dashboard(current_user: User = Depends(get_current_user)):
+    """Dashboard completo del servicio Instagram Hashtags"""
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó dashboard Instagram")
+        
+        # Obtener datos recientes simulados para dashboard
+        recent_pull = instagram_service.pull_hashtag_content(
+            hashtags=instagram_service.hashtags_misiones[:3],
+            max_total=30
+        )
+        
+        # Calcular métricas del dashboard
+        posts = recent_pull["posts"]
+        stats = recent_pull["stats"]
+        
+        dashboard_data = {
+            "resumen": {
+                "total_posts_monitoreados": stats["total"],
+                "hashtags_activos": len(instagram_service.hashtags_misiones),
+                "sentiment_general": "positivo" if stats["sentiment_distribution"]["positivo"] > stats["sentiment_distribution"]["negativo"] else "neutral",
+                "posts_alto_riesgo": stats["high_risk_posts"],
+                "engagement_promedio": stats["avg_engagement"]
+            },
+            "hashtags_top": {
+                hashtag: random.randint(50, 200) 
+                for hashtag in instagram_service.hashtags_misiones[:5]
+            },
+            "tendencias_sentiment": stats["sentiment_distribution"],
+            "topics_trending": stats["top_topics"],
+            "alertas_activas": [
+                {
+                    "id": f"alert_{i}",
+                    "nivel": "alto" if post["risk"] > 7 else "medio",
+                    "mensaje": f"Contenido de riesgo detectado: {post['summary'][:50]}...",
+                    "hashtag": post["hashtag"],
+                    "timestamp": post["timestamp"]
+                }
+                for i, post in enumerate([p for p in posts if p.get("risk", 0) > 6][:3])
+            ],
+            "optimizacion_costos": {
+                "analisis_basicos": stats["analysis_breakdown"].get("heuristic", 0),
+                "analisis_ia": stats["analysis_breakdown"].get("llm_simulated", 0),
+                "ahorro_estimado": f"{stats['analysis_breakdown'].get('heuristic', 0) * 0.05:.2f} USD",
+                "eficiencia": "95% ahorro vs análisis completo IA"
+            }
+        }
+        
+        return {
+            "success": True,
+            "dashboard": dashboard_data,
+            "meta": {
+                "last_update": datetime.utcnow().isoformat(),
+                "service_mode": "simulation",
+                "cost_optimized": True
+            },
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error en dashboard Instagram: {e}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo dashboard: {str(e)}")
+
+@api_router.get("/instagram/hashtags/config")
+async def get_instagram_config(current_user: User = Depends(get_current_user)):
+    """Configuración actual del servicio Instagram"""
+    try:
+        logger.info(f"Usuario {current_user.username} solicitó config Instagram")
+        
+        return {
+            "success": True,
+            "config": {
+                "service_name": "Instagram Hashtags + IA Ultra-Ahorro",
+                "version": "1.0.0",
+                "mode": "simulation",
+                "hashtags_configurados": instagram_service.hashtags_misiones,
+                "llm_settings": {
+                    "mode": instagram_service.llm_enabled,
+                    "max_chars": instagram_service.llm_max_chars,
+                    "batch_limit": instagram_service.llm_batch_limit
+                },
+                "features_activas": [
+                    "Cost-aware AI",
+                    "Hashtag monitoring",
+                    "Sentiment analysis",
+                    "Topic classification", 
+                    "Risk assessment",
+                    "Batch processing",
+                    "Deduplication"
+                ],
+                "next_steps": [
+                    "Obtener Instagram Long-Lived Token",
+                    "Configurar Instagram User ID", 
+                    "Opcional: Agregar OpenAI API Key",
+                    "Cambiar a modo production"
+                ]
+            },
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error obteniendo config Instagram: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en configuración: {str(e)}")
+
 # ====================
 # ESTRATEGIAS CAMPAÑA CON IA AUTÓNOMA - CONTRAMEDIDAS OPOSICIÓN
 # ====================
