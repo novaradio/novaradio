@@ -21,6 +21,7 @@ import EstrategiasCampanaIA from './EstrategiasCampanaIA';
 import CentroInteligenciaPredictiva from './CentroInteligenciaPredictiva';
 import YouTubeAnalytics from './YouTubeAnalytics';
 import InstagramHashtagsIA from './InstagramHashtagsIA';
+import SeedsManager from './SeedsManager';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
