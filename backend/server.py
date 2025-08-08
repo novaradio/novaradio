@@ -50,6 +50,9 @@ from ai_modules.elecciones_octubre_2025 import elecciones_octubre
 # Import estrategias campaña IA module
 from ai_modules.estrategias_campana_ia import estrategias_campana_ia
 
+# Import Instagram Hashtags + IA module
+from ai_modules.instagram_hashtags_ia import instagram_service
+
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
