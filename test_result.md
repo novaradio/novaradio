@@ -102,6 +102,18 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
+  - task: "Instagram Hashtags + IA Ultra-Ahorro Service - Implementation with Simulated Data"
+    implemented: false
+    working: false
+    file: "backend/ai_modules/instagram_hashtags_ia.py, backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "🚀 INICIANDO IMPLEMENTACIÓN: Servicio Instagram ultra-optimizado con datos simulados. CARACTERÍSTICAS: 1) Cost-Aware AI (solo LLM para contenido crítico), 2) Hashtags Misiones específicos (#Posadas, #Obera, #Eldorado), 3) Deduplicación automática, 4) Batch processing, 5) Push automático a DAMI. Implementando con datos simulados realistas para demostración inmediata, luego será fácil cambiar a tokens reales."
+
 backend:
   - task: "Oscar Herrera Ahuad Corrections - Verification Testing"
     implemented: true
