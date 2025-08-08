@@ -249,55 +249,69 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
             </div>
           </div>
 
-          {/* Estado APIs */}
-          <div className="bg-white p-6 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Estado de APIs</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Estado APIs - Mejorado para móvil */}
+          <div className="bg-white p-4 sm:p-6 rounded-xl border shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <Settings className="h-5 w-5 text-emerald-600 mr-2" />
+              Estado de APIs
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {Object.entries(seedsStatus.api_status).map(([api, status]) => (
-                <div key={api} className="flex items-center space-x-2">
+                <div key={api} className="flex items-center justify-center space-x-2 p-2 bg-gray-50 rounded-lg">
                   <span className="text-lg">{status}</span>
-                  <span className="font-medium capitalize">{api}</span>
+                  <span className="font-medium capitalize text-xs sm:text-sm">{api}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Por fuente */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Por Fuente</h3>
-              <div className="space-y-2">
+          {/* Distribución por categorías - Layout mejorado para móvil */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className="bg-white p-4 sm:p-6 rounded-xl border shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <Database className="h-5 w-5 text-blue-600 mr-2" />
+                Por Fuente
+              </h3>
+              <div className="space-y-3">
                 {Object.entries(seedsStatus.by_source).map(([source, count]) => (
-                  <div key={source} className="flex justify-between">
-                    <span className="font-mono text-sm">{source}</span>
-                    <span className="font-semibold">{count}</span>
+                  <div key={source} className="flex items-center justify-between p-2 bg-blue-50 rounded-lg">
+                    <span className="font-mono text-sm text-blue-800">{source}</span>
+                    <span className="font-bold text-blue-900 bg-blue-200 px-2 py-1 rounded-full text-xs">{count}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Por Alianza</h3>
-              <div className="space-y-2">
+            <div className="bg-white p-4 sm:p-6 rounded-xl border shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <CheckCircle className="h-5 w-5 text-emerald-600 mr-2" />
+                Por Alianza
+              </h3>
+              <div className="space-y-3">
                 {Object.entries(seedsStatus.by_alliance).map(([alliance, count]) => (
-                  <div key={alliance} className="flex justify-between">
-                    <span className="text-sm">{alliance.replace('_', ' ')}</span>
-                    <span className="font-semibold">{count}</span>
+                  <div key={alliance} className="flex items-center justify-between p-2 bg-emerald-50 rounded-lg">
+                    <span className="text-sm text-emerald-800 capitalize">{alliance.replace('_', ' ')}</span>
+                    <span className="font-bold text-emerald-900 bg-emerald-200 px-2 py-1 rounded-full text-xs">{count}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Por Municipio</h3>
-              <div className="space-y-2 max-h-40 overflow-y-auto">
+            <div className="bg-white p-4 sm:p-6 rounded-xl border shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <AlertTriangle className="h-5 w-5 text-purple-600 mr-2" />
+                Por Municipio
+              </h3>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
                 {Object.entries(seedsStatus.by_municipality).map(([municipality, count]) => (
-                  <div key={municipality} className="flex justify-between">
-                    <span className="text-sm">{municipality}</span>
-                    <span className="font-semibold">{count}</span>
+                  <div key={municipality} className="flex items-center justify-between p-2 bg-purple-50 rounded-lg">
+                    <span className="text-sm text-purple-800">{municipality}</span>
+                    <span className="font-bold text-purple-900 bg-purple-200 px-2 py-1 rounded-full text-xs">{count}</span>
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
             </div>
           </div>
         </>
