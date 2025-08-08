@@ -23,7 +23,8 @@ import {
   Target,
   Zap,
   Youtube,
-  Map
+  Map,
+  Instagram
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
