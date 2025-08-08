@@ -534,11 +534,17 @@ class InstagramHashtagsIA:
         }
 
     def get_health_status(self) -> Dict[str, Any]:
-        """Estado del servicio"""
+        """Estado del servicio - MEJORADO con info de tokens reales"""
         return {
             "service": "Instagram Hashtags + IA",
             "status": "operational",
-            "mode": "simulation" if self.simulation_mode else "production",
+            "mode": "production" if self.production_mode else "simulation",
+            "data_source": "instagram_api" if self.production_mode else "simulated_realistic",
+            "tokens_configured": {
+                "access_token": "✅" if self.access_token else "❌",
+                "user_id": "✅" if self.user_id else "❌",
+                "graph_api": self.graph_url
+            },
             "hashtags_configured": len(self.hashtags_misiones),
             "hashtags_list": self.hashtags_misiones,
             "llm_mode": self.llm_enabled,
@@ -550,10 +556,20 @@ class InstagramHashtagsIA:
                 "topic_classification": True,
                 "risk_assessment": True,
                 "batch_processing": True,
-                "deduplication": True
+                "deduplication": True,
+                "real_data_support": self.production_mode,
+                "fallback_simulation": True
             },
-            "ready_for_production": self.simulation_mode,
-            "next_steps": "Configurar Instagram tokens reales para datos en vivo"
+            "production_ready": True,
+            "next_steps": [
+                "Configurar IG_LONG_LIVED_TOKEN si quieres datos reales",
+                "Configurar IG_USER_ID para tu cuenta comercial", 
+                "Opcional: OpenAI API Key para análisis IA avanzado"
+            ] if not self.production_mode else [
+                "✅ Sistema completamente operativo con datos REALES",
+                "Monitorear rate limits de Instagram API",
+                "Renovar long-lived token cada 60 días"
+            ]
         }
 
 # Instancia global
