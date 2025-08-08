@@ -53,6 +53,9 @@ from ai_modules.estrategias_campana_ia import estrategias_campana_ia
 # Import Instagram Hashtags + IA module
 from ai_modules.instagram_hashtags_ia import instagram_service
 
+# Import Seeds Manager module
+from ai_modules.seeds_manager import seeds_manager
+
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
