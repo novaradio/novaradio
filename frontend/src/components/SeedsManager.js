@@ -502,9 +502,10 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
           </div>
         )}
 
-      {/* Contenido según tab activa */}
-      {activeTab === 'status' && renderStatusTab()}
-      {activeTab === 'upload' && renderUploadTab()}
+        {/* Contenido según tab activa */}
+        {activeTab === 'status' && renderStatusTab()}
+        {activeTab === 'upload' && renderUploadTab()}
+      </div>
     </div>
   );
 };
