@@ -129,10 +129,42 @@ class InstagramHashtagsIA:
             "tarifas", "empleo", "juventud", "turismo", "agro", "inundaciones"
         ]
 
-    def generate_realistic_content(self, hashtag: str) -> List[Dict[str, Any]]:
-        """Genera contenido realista para un hashtag específico"""
+    def get_hashtag_content(self, hashtag: str, limit: int = 20) -> List[Dict[str, Any]]:
+        """
+        Obtiene contenido de hashtag - DATOS REALES si hay tokens, SIMULADOS como fallback
+        """
+        if self.production_mode:
+            try:
+                # MODO PRODUCCIÓN - Datos reales de Instagram
+                print(f"🔍 Obteniendo datos REALES para {hashtag}...")
+                
+                hashtag_id = self.search_hashtag_id_real(hashtag)
+                if not hashtag_id:
+                    print(f"⚠️ Hashtag {hashtag} no encontrado, usando datos simulados")
+                    return self.generate_realistic_content(hashtag, limit)
+                
+                posts = self.fetch_recent_media_real(hashtag_id, limit)
+                
+                # Actualizar hashtag real en posts
+                for post in posts:
+                    post["hashtag"] = hashtag
+                
+                print(f"✅ {len(posts)} posts REALES obtenidos para {hashtag}")
+                return posts
+                
+            except Exception as e:
+                print(f"❌ Error API Instagram para {hashtag}: {str(e)}")
+                print(f"🔄 Fallback a datos simulados...")
+                return self.generate_realistic_content(hashtag, limit)
+        else:
+            # MODO SIMULACIÓN - Datos realistas
+            print(f"🎭 Generando datos SIMULADOS para {hashtag}...")
+            return self.generate_realistic_content(hashtag, limit)
+
+    def generate_realistic_content(self, hashtag: str, limit: int = 20) -> List[Dict[str, Any]]:
+        """Genera contenido realista simulado para un hashtag específico"""
         posts = []
-        num_posts = random.randint(5, 15)
+        num_posts = min(limit, random.randint(8, 15))
         
         for i in range(num_posts):
             post_id = f"sim_{hashtag}_{random.randint(100000, 999999)}"
