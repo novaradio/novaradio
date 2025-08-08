@@ -635,7 +635,12 @@ const InstagramHashtagsIA = () => {
         {healthStatus && (
           <div className="flex items-center space-x-4 text-sm">
             {renderHealthBadge(healthStatus.status)}
-            <span className="text-gray-600">Modo: {healthStatus.mode}</span>
+            <span className="text-gray-600">
+              Modo: {healthStatus.mode === 'production' ? '✅ PRODUCCIÓN' : '🎭 SIMULACIÓN'}
+            </span>
+            <span className="text-gray-600">
+              Datos: {healthStatus.mode === 'production' ? 'Instagram API' : 'Simulados realistas'}
+            </span>
             <span className="text-gray-600">LLM: {healthStatus.llm_mode}</span>
             <span className="text-green-600">✅ Cost Optimized</span>
           </div>
