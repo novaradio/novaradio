@@ -66,6 +66,13 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
       icon: Map, 
       path: '/dashboard/mapa-territorial',
       description: 'Análisis territorial en tiempo real'
+    },
+    { 
+      id: 'instagram-hashtags', 
+      label: '📸 Instagram Hashtags + IA', 
+      icon: Instagram, 
+      path: '/dashboard/instagram-hashtags',
+      description: 'Monitoreo hashtags con cost-aware AI'
     }
   ];
 
