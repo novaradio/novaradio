@@ -429,72 +429,78 @@ rss,https://www.elterritorio.com.ar/rss,,,El Territorio,medio`;
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-3 mb-4">
-          <Settings className="h-10 w-10 text-blue-600" />
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Seeds Manager</h1>
-            <p className="text-gray-600">Configuración inteligente de fuentes de datos</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        {/* Header mejorado */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-emerald-100 rounded-xl">
+                <Settings className="h-8 w-8 sm:h-10 sm:w-10 text-emerald-600" />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Seeds Manager</h1>
+                <p className="text-sm sm:text-base text-gray-600">Configuración inteligente de fuentes de datos</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Navegación por tabs */}
-      <div className="mb-8">
-        <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8">
-            {[
-              { id: 'status', label: 'Estado', icon: Database },
-              { id: 'upload', label: 'Gestión CSV', icon: Upload }
-            ].map(tab => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+        {/* Navegación por tabs mejorada para móvil */}
+        <div className="mb-6 sm:mb-8">
+          <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <nav className="flex">
+              {[
+                { id: 'status', label: 'Estado', icon: Database },
+                { id: 'upload', label: 'Gestión CSV', icon: Upload }
+              ].map(tab => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 font-medium text-sm transition-colors ${
+                      activeTab === tab.id
+                        ? 'bg-emerald-500 text-white'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="hidden sm:inline">{tab.label}</span>
+                    <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
         </div>
-      </div>
 
-      {/* Alertas */}
-      {error && (
-        <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md flex items-center">
-          <AlertTriangle className="h-5 w-5 mr-2" />
-          <p>{error}</p>
-          <button 
-            onClick={() => setError(null)}
-            className="ml-auto text-red-500 hover:text-red-700"
-          >
-            ×
-          </button>
-        </div>
-      )}
+        {/* Alertas mejoradas */}
+        {error && (
+          <div className="mb-4 sm:mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center">
+            <AlertTriangle className="h-5 w-5 mr-2 flex-shrink-0" />
+            <p className="flex-1 text-sm sm:text-base">{error}</p>
+            <button 
+              onClick={() => setError(null)}
+              className="ml-2 text-red-500 hover:text-red-700 text-xl"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
-      {success && (
-        <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md flex items-center">
-          <CheckCircle className="h-5 w-5 mr-2" />
-          <p>{success}</p>
-          <button 
-            onClick={() => setSuccess(null)}
-            className="ml-auto text-green-500 hover:text-green-700"
-          >
-            ×
-          </button>
-        </div>
-      )}
+        {success && (
+          <div className="mb-4 sm:mb-6 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl flex items-center">
+            <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+            <p className="flex-1 text-sm sm:text-base">{success}</p>
+            <button 
+              onClick={() => setSuccess(null)}
+              className="ml-2 text-emerald-500 hover:text-emerald-700 text-xl"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
       {/* Contenido según tab activa */}
       {activeTab === 'status' && renderStatusTab()}
