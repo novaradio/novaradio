@@ -1956,6 +1956,11 @@ async def obtener_recomendaciones_estrategicas(current_user: dict = Depends(get_
 # Include the router in the main app
 app.include_router(api_router)
 
+# Root endpoint for testing
+@app.get("/api/")
+async def root():
+    return {"message": "DAMI Intelligence Platform API is running", "version": "1.0.0", "status": "active"}
+
 # ==============================================================================
 # SERVICIO DE ARCHIVOS PARA DESCARGAS
 # ==============================================================================
