@@ -45,8 +45,8 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ.get('DAMI_DB_NAME', 'dami_database')]
 
 # Security
-SECRET_KEY = "dami_secret_key_2025_intelligence_platform"
-ALGORITHM = "HS256"
+SECRET_KEY = os.environ.get('DAMI_SECRET_KEY', 'dami_secret_key_2025_intelligence_platform')
+ALGORITHM = os.environ.get('DAMI_ALGORITHM', 'HS256')
 ACCESS_TOKEN_EXPIRE_MINUTES = 480
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
