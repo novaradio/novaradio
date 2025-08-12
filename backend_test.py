@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 
 class DAMIAPITester:
-    def __init__(self, base_url="https://503cd60f-ae53-46a4-9543-b8a31a457d37.preview.emergentagent.com"):
+    def __init__(self, base_url="https://bd87d086-475b-45fc-b629-7d2f3268cc1b.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None
@@ -320,7 +320,7 @@ class DAMIAPITester:
 def main():
     """Main test execution"""
     print("🎯 DAMI Centro de Monitoreo Político - Test Suite")
-    print("🔗 URL: https://503cd60f-ae53-46a4-9543-b8a31a457d37.preview.emergentagent.com")
+    print("🔗 URL: https://bd87d086-475b-45fc-b629-7d2f3268cc1b.preview.emergentagent.com")
     print("👤 Credenciales: luis/claveDAMI2025")
     print()
     
