@@ -1,0 +1,47 @@
+🧠 CENTRO DAMI - PRESENTACIÓN PARA RAÚL CASTAÑO
+Frente Renovador de la Concordia Social
+
+═══════════════════════════════════════════════════════
+
+📋 CONTENIDO DE ESTE ARCHIVO:
+
+1. 📄 PDF_Presentacion_Ejecutiva.pdf
+   → Presentación completa de 15+ páginas
+   → Ideal para imprimir o enviar por email
+   → Incluye todas las funcionalidades y métricas reales
+
+2. 🌐 Presentacion_Interactiva.html  
+   → DOBLE CLIC para abrir en navegador
+   → Presentación interactiva con animaciones
+   → Funciona sin internet
+   → Se ve perfecto en móvil y computadora
+
+3. 📋 Guia_Acceso_Demo.md
+   → Credenciales de acceso al sistema real
+   → Instrucciones paso a paso
+   → Puntos clave para mostrar
+
+═══════════════════════════════════════════════════════
+
+🚀 PARA VER LA PRESENTACIÓN INTERACTIVA:
+1. Extraer archivos del ZIP
+2. Doble clic en "Presentacion_Interactiva.html"
+3. ¡Se abre automáticamente en tu navegador!
+
+🔐 CREDENCIALES DEMO SISTEMA REAL:
+Usuario: luis
+Contraseña: claveDAMI2025
+
+📊 DATOS REALES INCLUIDOS:
+✅ 872 menciones procesadas en tiempo real
+✅ 78 municipios de Misiones mapeados
+✅ 3 APIs de redes sociales integradas
+✅ 4 partidos políticos monitoreados
+✅ Sistema operativo 24/7
+
+═══════════════════════════════════════════════════════
+
+Este es un sistema REAL funcionando, no una simulación.
+Todos los datos mostrados son verificables y actualizados.
+
+Centro de Monitoreo Inteligente DAMI - 2025

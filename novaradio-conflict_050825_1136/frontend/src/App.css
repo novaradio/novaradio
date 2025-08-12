@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.App {
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  .sidebar-scrollable {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 100vh;
+  }
+  
+  /* Login form mobile optimization */
+  .dami-card {
+    @apply mx-2 px-4 py-6;
+  }
+  
+  /* Reduce font sizes for mobile */
+  h1 {
+    @apply text-2xl;
+  }
+  
+  h2 {
+    @apply text-xl;
+  }
+  
+  /* Better mobile spacing */
+  .mobile-spacing {
+    @apply px-2 py-4;
+  }
+}
+
+/* Smaller screens optimization */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .dami-card {
+    @apply mx-1 px-3 py-4;
+  }
+  
+  /* Even smaller fonts for very small screens */
+  h1 {
+    @apply text-xl;
+  }
+  
+  h2 {
+    @apply text-lg;
+  }
+  
+  /* Compact demo credentials */
+  .demo-credentials {
+    @apply text-xs p-2;
+  }
+  
+  /* Better button sizing */
+  .dami-button {
+    @apply px-4 py-3 text-sm;
+  }
+  
+  /* Mejoras para los marcadores del mapa de Misiones */
+.semaforo-marker {
+  transition: all 0.2s ease-in-out;
+}
+
+.semaforo-marker:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* Optimización para el mapa en móviles */
+@media (max-width: 768px) {
+  .leaflet-container {
+    height: 400px !important;
+  }
+  
+  .semaforo-marker {
+    opacity: 0.9;
+  }
+}
+
+/* Asegurar que el mapa sea responsive */
+.mapa-misiones-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ffc8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00cc9f;
+}
+
+/* DAMI specific styles */
+.dami-card {
+  @apply bg-gray-800 border border-gray-700 rounded-lg p-3 sm:p-6 hover:border-green-400 transition-colors duration-200;
+}
+
+.dami-button {
+  @apply bg-green-400 text-black px-4 py-2 sm:px-6 sm:py-2 rounded-lg font-semibold hover:bg-green-300 transition-colors duration-200 text-sm sm:text-base;
+}
+
+.dami-button-secondary {
+  @apply bg-gray-700 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-lg font-semibold hover:bg-gray-600 border border-gray-600 transition-colors duration-200 text-sm sm:text-base;
+}
+
+.dami-input {
+  @apply bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:outline-none;
+}
+
+.status-roja {
+  @apply bg-red-500 text-white;
+}
+
+.status-naranja {
+  @apply bg-orange-500 text-white;
+}
+
+.status-amarilla {
+  @apply bg-yellow-500 text-black;
+}
+
+.status-verde {
+  @apply bg-green-500 text-black;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pulse-green {
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 200, 0.7); }
+  50% { box-shadow: 0 0 0 10px rgba(0, 255, 200, 0); }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 2px solid #1a1a1a;
+  border-top: 2px solid #00ffc8;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
