@@ -139,7 +139,7 @@ class SituacionAnalyzer:
                 "verificacion": "FALSO - Sin evidencia verificable",
                 "tiempo_deteccion": f"Hace {random.randint(20, 180)} minutos",
                 "plataformas": random.sample(["Facebook", "Twitter", "WhatsApp", "Instagram"], 2),
-                "nivel_credibilidad": round(random.uniform(0.1, 0.4), 1),  # Simplificado: 0.1-0.4 con 1 decimal
+                "nivel_credibilidad": random.uniform(0.1, 0.3),
                 "accion_recomendada": "Desmentir con datos oficiales"
             })
         
@@ -150,8 +150,7 @@ class SituacionAnalyzer:
         # Simular fluctuaciones realistas del sentiment
         base_sentiment = 0.65  # 65% base de apoyo
         fluctuacion = random.uniform(-0.15, 0.15)  # ±15% de fluctuación
-        # Simplificar sentiment para porcentaje claro - Solo 2 decimales max
-        return round(max(0.3, min(0.85, base_sentiment + fluctuacion)), 2)
+        return max(0.3, min(0.85, base_sentiment + fluctuacion))
     
     def _evaluar_amenazas_territoriales(self) -> List[Dict[str, Any]]:
         """Evaluar amenazas en territorios específicos"""

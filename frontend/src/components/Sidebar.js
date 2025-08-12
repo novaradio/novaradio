@@ -21,9 +21,7 @@ import {
   BarChart3,
   FileText,
   Target,
-  Zap,
-  Youtube,
-  Map
+  Zap
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
@@ -32,39 +30,88 @@ const Sidebar = ({ isOpen, onToggle, user, onLogout, currentPath }) => {
 
   const navigationItems = [
     { 
-      id: 'centro-inteligencia', 
-      label: '🧠 Centro Inteligencia', 
-      icon: Brain, 
-      path: '/dashboard/centro-inteligencia',
-      description: 'IA Predictiva + Análisis + Automatización + Estadísticas Completas'
-    },
-    { 
-      id: 'estrategias-campana-ia', 
-      label: '⚔️ Estrategias Campaña IA', 
-      icon: Target, 
-      path: '/dashboard/estrategias-campana-ia',
-      description: 'Contramedidas oposición + Análisis medios + IA autónoma'
-    },
-    { 
       id: 'centro-comando', 
-      label: '⚡ Centro de Comando', 
-      icon: Zap, 
+      label: 'Centro de Comando', 
+      icon: Command, 
       path: '/dashboard/centro-comando',
-      description: 'Situación actual y acciones rápidas'
+      description: 'Situación actual y acciones'
     },
     { 
-      id: 'dashboard-general', 
-      label: '📊 Dashboard General', 
+      id: 'centro-estadistico', 
+      label: 'Centro Estadístico', 
       icon: BarChart3, 
+      path: '/dashboard/centro-estadistico',
+      description: 'Análisis y métricas'
+    },
+    { 
+      id: 'informe-diario', 
+      label: 'Informe Diario', 
+      icon: FileText, 
+      path: '/dashboard/informe-diario',
+      description: 'Reportes diarios'
+    },
+    { 
+      id: 'encuestas-sociales', 
+      label: 'Encuestas Sociales', 
+      icon: Users, 
+      path: '/dashboard/encuestas-sociales',
+      description: 'Humor social predictivo'
+    },
+    { 
+      id: 'mapa-territorial', 
+      label: 'Mapa Territorial', 
+      icon: MapPin, 
+      path: '/dashboard/mapa-territorial',
+      description: '78 municipios en tiempo real'
+    },
+    { 
+      id: 'dashboard-ejecutivo', 
+      label: 'Dashboard Ejecutivo', 
+      icon: Brain, 
+      path: '/dashboard/dashboard-ejecutivo',
+      description: 'Vista unificada IA'
+    },
+    { 
+      id: 'dashboard', 
+      label: 'Dashboard General', 
+      icon: LayoutDashboard, 
       path: '/dashboard',
       description: 'Resumen general'
     },
     { 
-      id: 'mapa-territorial', 
-      label: '🗺️ Mapa Territorial', 
-      icon: Map, 
-      path: '/dashboard/mapa-territorial',
-      description: 'Análisis territorial en tiempo real'
+      id: 'radar', 
+      label: 'Radar', 
+      icon: Radar, 
+      path: '/dashboard/radar',
+      description: 'Actores políticos'
+    },
+    { 
+      id: 'mapa', 
+      label: 'Mapa de Calor', 
+      icon: MapPin, 
+      path: '/dashboard/mapa',
+      description: 'Territorial'
+    },
+    { 
+      id: 'feed', 
+      label: 'Sr. X Feed', 
+      icon: Radio, 
+      path: '/dashboard/feed',
+      description: 'Monitoreo social'
+    },
+    { 
+      id: 'alertas', 
+      label: 'IA y Alertas', 
+      icon: AlertTriangle, 
+      path: '/dashboard/alertas',
+      description: 'Recomendaciones'
+    },
+    { 
+      id: 'analisis-competencia', 
+      label: 'Análisis Competencia', 
+      icon: Target, 
+      path: '/dashboard/analisis-competencia',
+      description: 'Monitoreo político estratégico'
     }
   ];
 

@@ -15,11 +15,6 @@ import MapaMisiones from './MapaMisiones';
 import AnalisisCompetencia from './AnalisisCompetencia';
 import EncuestasSociales from './EncuestasSociales';
 import DashboardEjecutivo from './DashboardEjecutivo';
-import IAPredictiva from './IAPredictiva';
-import AutomatizacionAvanzada from './AutomatizacionAvanzada';
-import EstrategiasCampanaIA from './EstrategiasCampanaIA';
-import CentroInteligenciaPredictiva from './CentroInteligenciaPredictiva';
-import YouTubeAnalytics from './YouTubeAnalytics';
 // AI Modules
 import AIModulesOverview from './AIModules/AIModulesOverview';
 import DeepfakeDetection from './AIModules/DeepfakeDetection';  
@@ -126,11 +121,6 @@ const Dashboard = ({ user, onLogout }) => {
           <Routes>
             <Route path="/" element={<DashboardHome user={user} />} />
             <Route path="/dashboard-ejecutivo" element={<DashboardEjecutivo user={user} />} />
-            <Route path="/ia-predictiva" element={<IAPredictiva user={user} />} />
-            <Route path="/automatizacion" element={<AutomatizacionAvanzada user={user} />} />
-            <Route path="/youtube-analytics" element={<YouTubeAnalytics user={user} />} />
-            <Route path="/estrategias-campana-ia" element={<EstrategiasCampanaIA user={user} />} />
-            <Route path="/centro-inteligencia" element={<CentroInteligenciaPredictiva user={user} />} />
             <Route path="/centro-comando" element={<CentroComando user={user} />} />
             <Route path="/centro-estadistico" element={<CentroEstadistico user={user} />} />
             <Route path="/informe-diario" element={<InformeDiario user={user} />} />
