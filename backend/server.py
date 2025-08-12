@@ -42,7 +42,7 @@ load_dotenv()
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db = client[os.environ.get('DAMI_DB_NAME', 'dami_database')]
 
 # Security
 SECRET_KEY = "dami_secret_key_2025_intelligence_platform"
